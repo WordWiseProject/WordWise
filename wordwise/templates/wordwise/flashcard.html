@@ -8,22 +8,106 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card-flip {
+            perspective: 1000px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+
+        .card-front,
+        .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            transform-origin: center; /* Set transform origin to the center */
+        }
+
+        .card-front {
+            transform: rotateY(0deg);
+        }
+
+        .card-back {
+            transform: rotateY(180.00001deg);
+        }
+
+        .button-container {
+            position: absolute;
+            bottom: 20px; /* Adjust as needed for vertical positioning */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex; /* Add this line */
+            align-items: center; /* Center vertically */
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
   {% include 'wordwise/component/navbar.html' %}
-  <div class="mx-auto max-w-2xl mt-8"> <!-- Keep max-w-2xl to make the card wider -->
-    <div class="bg-white shadow-md rounded-lg p-8 pt-52 pb-12 relative"> <!-- Increase top (pt-52) and bottom (pb-12) padding and add 'relative' class -->
-      <h2 class="text-6xl font-semibold text-black mb-4 text-center absolute top-10 w-full">Adorable</h2>
-      <div class="flex items-center justify-center text-center">
-        <i class='bx bx-volume-full'></i>
-        <p class="text-black ml-1">/əˈdɔːr.ə.bəl/</p> <!-- Add 'ml-2' margin-left for spacing -->
-      </div>
-      <div class="mt-6 flex justify-between">
-        <button class="btn btn-primary">Next</button>
-        <button class="btn btn-error">Show</button>
-      </div>
+  <div class="mx-auto max-w-2xl mt-8">
+    <div class="card-flip">
+        <div class="card-inner" id="card">
+            <div class="card-front bg-white shadow-md rounded-lg p-8 pt-52 pb-12 relative">
+                <h2 class="text-6xl font-semibold text-black mb-4 text-center absolute top-10 w-full">Adorable</h2>
+                <div class="text-container">
+                    <i class='bx bx-volume-full'></i>
+                    <p class="text-black ml-1">/əˈdɔːr.ə.bəl/</p>
+                </div>
+                <div class="button-container">
+                    <button class="btn btn-primary" id="nextButton">Next</button>
+                    <button class="btn btn-error" id="showButton">Show</button>
+                </div>
+            </div>
+            <div class="card-back bg-white shadow-md rounded-lg p-8 pt-52 pb-12 relative">
+                <!-- Add content for the back of the card here -->
+                <div class="text-container">
+                    <p class="text-black ml-1">inspiring great affection; delightful; charming.</p>
+                </div>
+                <div class="button-container">
+                    <button class="btn btn-primary" id="backButton">Next</button>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
+<script>
+    const showButton = document.getElementById("showButton");
+    const backButton = document.getElementById("backButton");
+    const card = document.getElementById("card");
+    let isFlipped = false;
+
+    showButton.addEventListener("click", () => {
+        if (!isFlipped) {
+            card.style.transform = "rotateY(180deg)";
+            isFlipped = true;
+        }
+    });
+
+    backButton.addEventListener("click", () => {
+        if (isFlipped) {
+            card.style.transform = "rotateY(0deg)";
+            isFlipped = false;
+        }
+    });
+</script>
 </body>
 </html>
