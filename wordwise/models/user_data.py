@@ -1,5 +1,7 @@
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
+
+User = get_user_model()
 
 
 class UserData(models.Model):
@@ -19,7 +21,7 @@ class UserData(models.Model):
     """
 
     # pic
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     display_name = models.CharField(max_length=255)
     streak = models.IntegerField(default=0)
     daily_percentage = models.FloatField(default=0)
