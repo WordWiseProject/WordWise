@@ -34,7 +34,7 @@ LANGUAGE_CODE = "en-us"
 #     ('pt-br', _('Portuguese')),
 # ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
-SITE_ID = 1
+SITE_ID = 2
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
@@ -82,6 +82,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 LOCAL_APPS = [
@@ -278,6 +279,21 @@ ACCOUNT_FORMS = {"signup": "wordwise.users.forms.UserSignupForm"}
 SOCIALACCOUNT_ADAPTER = "wordwise.users.adapters.SocialAccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
 SOCIALACCOUNT_FORMS = {"signup": "wordwise.users.forms.UserSocialSignupForm"}
+# https://docs.allauth.org/en/latest/socialaccount/configuration.html
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
 
 
 # Your stuff...
