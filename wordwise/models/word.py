@@ -1,5 +1,6 @@
 from django.db import models
-from collection import Collection
+
+from .collection import Collection
 
 
 class Word(models.Model):
@@ -11,5 +12,6 @@ class Word(models.Model):
     :param collection: Collections that contain this vocabulary
     :type collection: Collection
     """
+
     vocab = models.CharField(max_length=255)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
