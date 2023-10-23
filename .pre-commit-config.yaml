@@ -1,4 +1,4 @@
-exclude: '^docs/|/migrations/'
+exclude: '^docs/|/migrations/|wordwise/models/__init__.py'
 default_stages: [commit]
 
 repos:
