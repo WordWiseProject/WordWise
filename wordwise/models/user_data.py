@@ -1,5 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from wordwise.users.models import User
+
+User = get_user_model()
 
 
 class UserData(models.Model):
@@ -17,10 +19,9 @@ class UserData(models.Model):
     :param daily_total: Number of vocabulary words memorized per day
     :type daily_total: int
     """
+
     # pic
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     display_name = models.CharField(max_length=255)
     streak = models.IntegerField(default=0)
     daily_percentage = models.FloatField(default=0)

@@ -1,5 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from wordwise.users.models import User
+
+User = get_user_model()
 
 
 class Collection(models.Model):
@@ -11,5 +13,6 @@ class Collection(models.Model):
     :param user: Collection's owner
     :type name: User
     """
+
     name = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
