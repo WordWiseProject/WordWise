@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html data-theme="cupcake">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordWise</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  {% include 'wordwise/component/navbar.html' %}
+  <div class="mx-auto max-w-2xl mt-8"> <!-- Keep max-w-2xl to make the card wider -->
+    <div class="bg-white shadow-md rounded-lg p-8 pt-52 pb-12 relative"> <!-- Increase top (pt-52) and bottom (pb-12) padding and add 'relative' class -->
+      <h2 class="text-6xl font-semibold text-black mb-4 text-center absolute top-10 w-full">Adorable</h2>
+      <div class="flex items-center justify-center text-center">
+        <i class='bx bx-volume-full'></i>
+        <p class="text-black ml-1">/əˈdɔːr.ə.bəl/</p> <!-- Add 'ml-2' margin-left for spacing -->
+      </div>
+      <div class="mt-6 flex justify-between">
+        <button class="btn btn-primary">Next</button>
+        <button class="btn btn-error">Show</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
