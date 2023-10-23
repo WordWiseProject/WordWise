@@ -7,14 +7,14 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    # path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
-    # # Django Admin, use {% url 'admin:index' %}
-    # path(settings.ADMIN_URL, admin.site.urls),
-    # # User management
-    # path("users/", include("wordwise.users.urls", namespace="users")),
-    # path("accounts/", include("allauth.urls")),
+    path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
+    # Django Admin, use {% url 'admin:index' %}
+    path(settings.ADMIN_URL, admin.site.urls),
+    # User management
+    path("users/", include("wordwise.users.urls", namespace="users")),
+    path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path('', include('wordwise.urls')),
+    path("", include("wordwise.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
