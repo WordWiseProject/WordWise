@@ -1,5 +1,5 @@
 {% load static %}
-<!doctype html>
+<html data-theme="cupcake">
 <html>
 
 <head>
@@ -15,43 +15,31 @@
 </head>
 
 <body class="font-[Poppins] bg-gradient-to-t from-[#FACBEA] to-[#BEADFA] h-screen">
-    <header class="bg-white">
-        <nav class="flex justify-between items-center w-[92%]  mx-auto">
-            <div>
-                <img class="w-16 cursor-pointer" src="{% static '../../static/images/favicons/Wordwise.png' %}" alt="">
-            </div>
-            <div
-                class="nav-links duration-500 md:static absolute bg-white md:min-h-fit min-h-[60vh] left-0 top-[-100%] md:w-auto  w-full flex items-center px-5">
-                <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
-                    <li>
-                        <a class="hover:text-gray-500" href="#">Home</a>
-                    </li>
-                    <li>
-                        <a class="hover:text-gray-500" href="#">Collection</a>
-                    </li>
-                    <li>
-                        <a class="hover:text-gray-500" href="#">Test</a>
-                    </li>
-                    <li>
-                        <a class="hover:text-gray-500" href="#">Mode</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="flex items-center gap-6">
-                <button class="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]">Sign in</button>
-                <ion-icon onclick="onToggleMenu(this)" name="menu" class="text-3xl cursor-pointer md:hidden"></ion-icon>
-            </div>
-    </header>
-
-
-
-    <script>
-        const navLinks = document.querySelector('.nav-links')
-        function onToggleMenu(e){
-            e.name = e.name === 'menu' ? 'close' : 'menu'
-            navLinks.classList.toggle('top-[9%]')
-        }
-    </script>
+<div class="navbar bg-base-100">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+      </label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+        <li><a>Collection</a></li>
+        <li><a>Test</a></li>
+        <li><a>Mode</a></li>
+      </ul>
+    </div>
+    <a href="{% url 'index' %}" class="btn btn-ghost normal-case text-xl">WordWise</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      <li><a>Collection</a></li>
+      <li><a>Test</a></li>
+      <li><a>Mode</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <button class="btn btn-primary">Sign In</button>
+  </div>
+</div>
 </body>
 
 </html>

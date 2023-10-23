@@ -1,35 +1,86 @@
-<!doctype html>
-<html>
+{% load static %}
+<!DOCTYPE html>
+<html data-theme="cupcake">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <title>WordWise</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     {% include 'wordwise/component/navbar.html' %}
 
-    <div class="flex flex-wrap">
-        <a href="#" class="w-1/3 p-4">
-            <div class="bg-gray-200 h-32 p-4 text-center rounded-lg hover:bg-gray-300 hover:shadow-md">Box 1</div>
-        </a>
-        <a href="#" class="w-1/3 p-4">
-            <div class="bg-gray-200 h-32 p-4 text-center rounded-lg hover:bg-gray-300 hover:shadow-md">Box 2</div>
-        </a>
-        <a href="#" class="w-1/3 p-4">
-            <div class="bg-gray-200 h-32 p-4 text-center rounded-lg hover:bg-gray-300 hover:shadow-md">Box 3</div>
-        </a>
-        <a href="#" class="w-1/3 p-4">
-            <div class="bg-gray-200 h-32 p-4 text-center rounded-lg hover:bg-gray-300 hover:shadow-md">Box 4</div>
-        </a>
-        <a href="#" class="w-1/3 p-4">
-            <div class="bg-gray-200 h-32 p-4 text-center rounded-lg hover:bg-gray-300 hover:shadow-md">Box 5</div>
-        </a>
-        <a href="#" class="w-1/3 p-4">
-            <div class="bg-gray-200 h-32 p-4 text-center rounded-lg hover:bg-gray-300 hover:shadow-md">Box 6</div>
-        </a>
-        <a href="#" class="w-1/3 p-4">
-            <div class="bg-gray-200 h-32 p-4 text-center rounded-lg hover:bg-gray-300 hover:shadow-md">Box 7</div>
-        </a>
+    <div class="flex flex-wrap justify-center">
+        <!-- First Line -->
+        <div class="p-2">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
+                <div class="card-body">
+                    <h2 class="card-title">A word</h2>
+                    <p>This category contains words that start with A.</p>
+                    <div class="card-actions justify-end">
+                        <a href="{% url 'flashcard' %}" class="btn btn-primary">Start</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
+                <div class="card-body">
+                    <h2 class="card-title">Card title 2</h2>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
+                <div class="card-body">
+                    <h2 class="card-title">Card title 3</h2>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Line -->
+        <div class="p-2">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
+                <div class="card-body">
+                    <h2 class="card-title">Card title 4</h2>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
+                <div class="card-body">
+                    <h2 class="card-title">Card title 5</h2>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
+                <div class="card-body">
+                    <h2 class="card-title">Card title 6</h2>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
