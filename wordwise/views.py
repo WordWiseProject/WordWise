@@ -40,6 +40,15 @@ def get_word(word: str):
 
     return word
 
+def get_word_from_type_of(request):
+    url = f"https://wordsapiv1.p.mashape.com/words/{type}/hasTypes"
+    response = requests.get(url, headers=HEADERS)
+    type_json = response.json()
+    for results in type_json["hasTypes"]:
+        get_word(word=results)
+    word_list = list(Definition.objects.filter(type_of=type))
+    return random.choice(word_list)
+
 
 def home(request):
     return render(request, "wordwise/index.html")
@@ -47,3 +56,6 @@ def home(request):
 
 def flashcard_view(request):
     return render(request, "wordwise/flashcard.html")
+
+def jeopardy_view(request):
+    return render(request, "wordwise/jeopardy.html")
