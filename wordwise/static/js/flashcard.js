@@ -1,7 +1,8 @@
 const showButton = document.getElementById("showButton");
-const backButton = document.getElementById("backButton");
+const nextButton = document.getElementById("nextButton");
 const card = document.getElementById("card");
 let isFlipped = false;
+let word = document.getElementById("word");
 
 showButton.addEventListener("click", () => {
     if (!isFlipped) {
@@ -12,7 +13,7 @@ showButton.addEventListener("click", () => {
     }
 });
 
-backButton.addEventListener("click", () => {
+nextButton.addEventListener("click", () => {
     if (isFlipped) {
         card.style.transform = "rotateY(0deg)";
         card.querySelector(".card-front").style.display = "block";

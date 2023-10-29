@@ -13,74 +13,19 @@
 
     <div class="flex flex-wrap justify-center">
         <!-- First Line -->
+      {% for type in type_of %}
         <div class="p-2">
             <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
                 <div class="card-body">
-                    <h2 class="card-title">A word</h2>
-                    <p>This category contains words that start with A.</p>
+                    <h2 class="card-title">{{ type }}</h2>
+                    <p>This category contains words in {{ type }} by random 10 words</p>
                     <div class="card-actions justify-end">
-                        <a href="{% url 'flashcard' %}" class="btn btn-accent">Start</a>
+                        <a href="{% url 'flashcard' type %}" class="btn btn-accent">Start</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="p-2">
-            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
-                <div class="card-body">
-                    <h2 class="card-title">Card title 2</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div class="card-actions justify-end">
-                        <button class="btn btn-accent">Start</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="p-2">
-            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
-                <div class="card-body">
-                    <h2 class="card-title">Card title 3</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div class="card-actions justify-end">
-                        <button class="btn btn-accent">Start</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Second Line -->
-        <div class="p-2">
-            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
-                <div class="card-body">
-                    <h2 class="card-title">Card title 4</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div class="card-actions justify-end">
-                        <button class="btn btn-accent">Start</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="p-2">
-            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
-                <div class="card-body">
-                    <h2 class="card-title">Card title 5</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div class="card-actions justify-end">
-                        <button class="btn btn-accent">Start</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="p-2">
-            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
-                <div class="card-body">
-                    <h2 class="card-title">Card title 6</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div class="card-actions justify-end">
-                        <button class="btn btn-accent">Start</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+      {% endfor %}
     </div>
 </body>
 </html>
