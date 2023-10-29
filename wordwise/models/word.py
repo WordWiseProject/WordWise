@@ -13,5 +13,5 @@ class Word(models.Model):
     :type collection: Collection
     """
 
-    vocab = models.CharField(max_length=255, primary_key=True)
+    vocab = models.CharField(max_length=255)
     collection = models.ManyToManyField(Collection)
