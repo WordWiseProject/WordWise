@@ -1,3 +1,4 @@
+import random
 from pathlib import Path
 
 import environ
@@ -6,13 +7,9 @@ from django.shortcuts import render
 
 from .models import Definition, TypeOf, Word
 
-import random
-
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 env = environ.Env()
-
 env.read_env(str(BASE_DIR / ".env"))
-
 HEADERS = {"X-RapidAPI-Key": env("X_RAPIDAPI_KEY"), "X-RapidAPI-Host": env("X_RAPIDAPI_HOST")}
 
 
@@ -32,14 +29,15 @@ def get_word(word: str):
                 part_of_speech=results["partOfSpeech"],
             )
             defi.save()
-            for type_of in results["typeOf"]:
-                try:
-                    get_type_of = TypeOf.objects.get(type_of=type_of)
-                    defi.type_of.add(get_type_of)
-                except TypeOf.DoesNotExist:
-                    get_type_of = TypeOf(type_of=type_of)
-                    get_type_of.save()
-                    defi.type_of.add(get_type_of)
+            if "TypeOf" in results:
+                for type_of in results["typeOf"]:
+                    try:
+                        get_type_of = TypeOf.objects.get(type_of=type_of)
+                        defi.type_of.add(get_type_of)
+                    except TypeOf.DoesNotExist:
+                        get_type_of = TypeOf(type_of=type_of)
+                        get_type_of.save()
+                        defi.type_of.add(get_type_of)
     return word
 
 
@@ -55,13 +53,13 @@ def get_word_from_type_of(type):
 
 
 def home(request):
-    context = {'type_of': ['business', 'sport', 'technology', 'study']}
+    context = {"type_of": ["business", "sport", "technology", "study"]}
     return render(request, "wordwise/index.html", context)
 
 
 def flashcard_view(request, type_of):
     word_list = get_word_from_type_of(type_of)
-    context = {'word_list': word_list}
+    context = {"word_list": word_list}
     return render(request, "wordwise/flashcard.html", context)
 
 
