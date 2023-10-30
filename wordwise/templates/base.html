@@ -1,45 +1,67 @@
 {% load static %}
-<html data-theme="cupcake">
-<html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html data-theme="cupcake" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
-        rel="stylesheet">
+          rel="stylesheet" />
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
-</head>
+  </head>
+  <body class="font-[Poppins] bg-gradient-to-t from-[#FACBEA] to-[#BEADFA] h-screen">
+    {% load socialaccount %}
 
-<body class="font-[Poppins] bg-gradient-to-t from-[#FACBEA] to-[#BEADFA] h-screen">
-<div class="navbar bg-base-100">
-  <div class="navbar-start">
-    <div class="dropdown">
-      <label tabindex="0" class="btn btn-ghost lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-      </label>
-      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li><a>Collection</a></li>
-        <li><a>Test</a></li>
-        <li><a>Mode</a></li>
-      </ul>
+    <div class="navbar bg-base-100">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+          </label>
+          <ul tabindex="0"
+              class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li>
+              <a>Collection</a>
+            </li>
+            <li>
+              <a>Test</a>
+            </li>
+            <li>
+              <a>Mode</a>
+            </li>
+          </ul>
+        </div>
+        <a href="{% url 'index' %}" class="btn btn-ghost normal-case text-xl">WordWise</a>
+      </div>
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1">
+          <li>
+            <a>Collection</a>
+          </li>
+          <li>
+            <a>Test</a>
+          </li>
+          <li>
+            <a>Mode</a>
+          </li>
+        </ul>
+      </div>
+      <div class="navbar-end">
+        {% if user.is_authenticated %}
+          <a class="btn btn-info" href="{% url 'account_logout' %}">Logout</a>
+        {% else %}
+          <a class="btn btn-info" href="{% provider_login_url 'google' %}">Login</a>
+        {% endif %}
+      </div>
     </div>
-    <a href="{% url 'index' %}" class="btn btn-ghost normal-case text-xl">WordWise</a>
-  </div>
-  <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1">
-      <li><a>Collection</a></li>
-      <li><a>Test</a></li>
-      <li><a>Mode</a></li>
-    </ul>
-  </div>
-  <div class="navbar-end">
-    <button class="btn btn-info">Sign In</button>
-  </div>
-</div>
-</body>
-
+  </body>
 </html>
