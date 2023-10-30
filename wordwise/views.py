@@ -45,11 +45,12 @@ def get_word_from_type_of(type):
     url = f"https://wordsapiv1.p.rapidapi.com/words/{type}/hasTypes"
     response = requests.get(url, headers=HEADERS)
     type_json = response.json()
-    for results in type_json["hasTypes"]:
-        get_word(word=results)
-    word_list = list(Definition.objects.filter(type_of__type_of=type))
-    ran_word_list = random.sample(word_list, 10)
-    return ran_word_list
+    all_word_list = list(type_json["hasTypes"])
+    random_word_list = random.sample(all_word_list, 10)
+    for word in random_word_list:
+        get_word(word=word)
+    word_list = list(Definition.objects.filter(type_of__type_of=type).distinct('word__vocab'))
+    return word_list
 
 
 def home(request):
