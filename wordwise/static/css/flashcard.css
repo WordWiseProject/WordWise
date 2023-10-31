@@ -1,0 +1,51 @@
+.card-flip-container {
+    perspective: 1000px; /* Adjust perspective value */
+    width: 100%;
+    height: 100%;
+}
+
+.card-flip {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease; /* Adjust the transition duration and timing function for smoothness */
+    transform-style: preserve-3d;
+}
+
+.card-front,
+.card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    transform-origin: center;
+    transform-style: preserve-3d; /* Ensure hardware acceleration */
+}
+
+.card-front {
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    transform: rotateY(180.000001deg);
+    display: none; /* Initially, hide the back card */
+}
+
+.button-container {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.text-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    text-align: center;
+}

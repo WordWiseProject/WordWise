@@ -14,4 +14,4 @@ class Word(models.Model):
     """
 
     vocab = models.CharField(max_length=255)
-    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    collection = models.ManyToManyField(Collection)
