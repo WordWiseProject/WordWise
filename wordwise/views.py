@@ -5,7 +5,7 @@ import environ
 import requests
 from django.shortcuts import render
 
-from .models import Definition, TypeOf, Word
+from .models import Definition, Example, TypeOf, Word
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 env = environ.Env()
@@ -29,7 +29,7 @@ def get_word(word: str):
                 part_of_speech=results["partOfSpeech"],
             )
             defi.save()
-            if "TypeOf" in results:
+            if "typeOf" in results:
                 for type_of in results["typeOf"]:
                     try:
                         get_type_of = TypeOf.objects.get(type_of=type_of)
@@ -38,6 +38,11 @@ def get_word(word: str):
                         get_type_of = TypeOf(type_of=type_of)
                         get_type_of.save()
                         defi.type_of.add(get_type_of)
+            if "examples" in results:
+                for example in results["examples"]:
+                    example_sentence = Example(example=example, example_of=defi)
+                    example_sentence.save()
+
     return word
 
 
@@ -49,7 +54,7 @@ def get_word_from_type_of(type):
     random_word_list = random.sample(all_word_list, 10)
     for word in random_word_list:
         get_word(word=word)
-    word_list = list(Definition.objects.filter(type_of__type_of=type).distinct('word__vocab'))
+    word_list = list(Definition.objects.filter(type_of__type_of=type).distinct("word__vocab"))
     return word_list
 
 
