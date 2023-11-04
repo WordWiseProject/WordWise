@@ -6,7 +6,7 @@ from wordwise.models import Definition, Example, TypeOf, Word
 from wordwise.views import get_word
 
 
-class TestAPI(TestCase):
+class APITest(TestCase):
     @patch("wordwise.views.requests.get")
     def setUp(self, mock_api):
         """Set up for testing"""

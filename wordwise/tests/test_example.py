@@ -3,7 +3,7 @@ from django.test import TestCase
 from wordwise.models import Definition, Example, Word
 
 
-class TestAPI(TestCase):
+class ExampleTest(TestCase):
     def test_censor_of_example(self):
         word = Word(vocab="test")
         defi = Definition(word=word, definition="test", part_of_speech="test")
