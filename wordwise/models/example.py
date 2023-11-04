@@ -20,17 +20,23 @@ class Example(models.Model):
 
     def censor(self) -> str:
         """Censor the root word."""
-        if self.example_of.word.vocab[-1] == "e":
+        vocab = self.example_of.word.vocab
+        if vocab[-1] == "e" and (
+            re.search(r"\b" + re.escape(vocab[:-1]) + r"ing\b", self.example)
+            or re.search(r"\b" + re.escape(vocab[:-1]) + r"ed\b", self.example)
+            or re.search(r"\b" + re.escape(vocab[:-1]) + r"le\b", self.example)
+            or re.search(r"\b" + re.escape(vocab[:-1]) + r"able\b", self.example)
+        ):
             censored_sentence = re.sub(
-                re.escape(self.example_of.word.vocab[:-1]),
-                "_" * len(self.example_of.word.vocab[:-1]),
+                re.escape(vocab[:-1]),
+                "_" * len(vocab[:-1]),
                 self.example,
                 flags=re.IGNORECASE,
             )
         else:
             censored_sentence = re.sub(
-                re.escape(self.example_of.word.vocab),
-                "_" * len(self.example_of.word.vocab),
+                re.escape(vocab),
+                "_" * len(vocab),
                 self.example,
                 flags=re.IGNORECASE,
             )

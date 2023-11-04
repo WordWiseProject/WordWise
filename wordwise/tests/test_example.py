@@ -22,3 +22,6 @@ class TestAPI(TestCase):
             example_of=defi2, example="In the classroom, the teacher was exampling a new concept to the students."
         )
         self.assertEqual(exam.censor(), "In the classroom, the teacher was ______ing a new concept to the students.")
+
+        exam = Example(example_of=defi2, example="I profited from his example")
+        self.assertEqual(exam.censor(), "I profited from his _______")
