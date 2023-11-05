@@ -19,11 +19,11 @@
     <div class="mx-auto max-w-2xl mt-8">
       <div class="card-flip-container">
         <div class="card-flip" id="card">
-          <div class="card-front bg-white shadow-md rounded-lg p-8 pt-52 pb-12 relative">
+          <div class="card-front bg-white shadow-md rounded-lg pt-52 pb-12 relative">
             <h2 class="text-4xl font-semibold text-black mb-4 text-center absolute top-10 w-full">Word</h2>
             <!-- Part of Speech-->
             <div class="text-container">
-              <p class="text-black ml-2">Noun</p>
+              <p class="part text-black">Noun</p>
               <!-- Part of Speech-->
             </div>
             <div class="button-container">
@@ -34,7 +34,7 @@
           <div class="card-back bg-white shadow-md rounded-lg p-8 pt-52 pb-12 relative">
             <!-- Add content for the back of the card here -->
             <div class="text-container">
-              <p class="text-black ml-1">Meaning</p>
+              <p class="Meanning text-black">Meaning</p>
               <!--Meaning-->
             </div>
             <div class="button-container ">
@@ -46,20 +46,19 @@
       </div>
     </div>
     <script>
-      const showButton = document.getElementById("showButton");
+      const showButton = document.getElementById("showButton")
       const nextButton = document.getElementById("nextButton");
       const backButton = document.getElementById("backButton");
       const card = document.getElementById("card");
       let isFlipped = false;
       let wordElement = document.querySelector(".text-4xl");
-      let partOfSpeechElement = document.querySelector(".text-black.ml-2")
-      let meaningElement = document.querySelector(".text-black.ml-1")
+      let partOfSpeechElement = document.querySelector(".part.text-black")
+      let meaningElement = document.querySelector(".Meanning.text-black")
       let word = document.getElementById("word");
       let currentIndex = 0;
       let wordData = [
         // Add more word data objects as needed
       ];
-
       {% for word in word_list %}
       wordData.push({
         word: "{{ word.word.vocab.capitalize }}",
