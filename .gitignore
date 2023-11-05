@@ -334,3 +334,4 @@ wordwise/media/
 !.envs/.local/
 
 .idea
+*.drawio

@@ -3,8 +3,11 @@ from pathlib import Path
 
 import environ
 import requests
+from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.views import View
 
+from .forms import TestFrom
 from .models import Definition, Example, TypeOf, Word
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -71,3 +74,23 @@ def flashcard_view(request, type_of):
 
 def jeopardy_view(request):
     return render(request, "wordwise/jeopardy.html")
+
+
+class FillInTheBlank(View):
+    def get(self, request):
+        word_list = sorted(Definition.objects.filter(example__isnull=False), key=lambda x: random.random())
+        p = Paginator(word_list, 1)
+        page = request.GET.get("page")
+        defi = p.get_page(page)
+        return render(request, "wordwise/fill_in_blank.html", {"defi": defi, "form": TestFrom})
+
+    def post(self, request):
+        answer = request.POST.get("answer")
+        defi = request.POST.get("defi")
+        current_defi = Definition.objects.filter(definition=defi).first()
+
+        if answer == current_defi.word.vocab:
+            print("yes")
+            return render(request, "wordwise/fill_pass.html", context={"test2": current_defi.word.vocab})
+        print("no")
+        return render(request, "wordwise/fill_fail.html", context={"test2": current_defi.word.vocab})

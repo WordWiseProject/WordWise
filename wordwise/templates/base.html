@@ -40,7 +40,7 @@
             </li>
           </ul>
         </div>
-        <a href="{% url 'index' %}" class="btn btn-ghost normal-case text-xl">WordWise</a>
+        <a href="{% url "wordwise:index" %}" class="btn btn-ghost normal-case text-xl">WordWise</a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
@@ -52,6 +52,9 @@
           </li>
           <li>
             <a>Mode</a>
+          </li>
+          <li>
+            <a href="{% url "wordwise:fill_in" %}">Fill</a>
           </li>
         </ul>
       </div>

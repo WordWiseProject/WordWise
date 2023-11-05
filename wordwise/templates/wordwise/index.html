@@ -22,7 +22,7 @@
               <h2 class="card-title">{{ type.capitalize }}</h2>
               <p>This category contains words in {{ type }} by random 10 words</p>
               <div class="card-actions justify-end">
-                <a href="{% url 'flashcard' type %}" class="btn btn-accent">Start</a>
+                <a href="{% url "wordwise:flashcard" type %}" class="btn btn-accent">Start</a>
               </div>
             </div>
           </div>

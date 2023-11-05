@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html data-theme="cupcake" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WordWise</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
+          rel="stylesheet"
+          type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
+  </head>
+  <body>
+    {% include "base.html" %}
+    {{ defi.object_list.0.word.vocab }}
+    <br />
+    {{ defi.object_list.0.definition }}
+    <br />
+    Uncensored: {{ defi.object_list.0.example_set.all.0.example }}
+    <br />
+    Censor: {{ defi.object_list.0.example_set.all.0.censor }}
+    <br />
+    <hr />
+    <br />
+    <br />
+    <form>
+      {% csrf_token %}
+      {{ form }}
+      <input type="hidden" name="defi" value="{{ defi.object_list.0.definition }}" />
+      <button hx-post="{% url "wordwise:fill_in" %}"
+              hx-target="#result"
+              hx-swap="innerHTML">test</button>
+    </form>
+    <div id="result"></div>
+    {% if defi.has_previous %}
+      <a href="?page=1">&laquo First</a>
+      <a href="?page={{ defi.previous_page_number }}">Previous</a>
+    {% endif %}
+    Page {{ defi.number }} of {{ defi.paginator.num_pages }}
+    {% if defi.has_next %}
+      <a href="?page={{ defi.next_page_number }}">Next</a>
+      <a href="?page={{ defi.paginator.num_pages }}">Last &raquo</a>
+    {% endif %}
+  </body>
+</html>
