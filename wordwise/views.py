@@ -54,7 +54,7 @@ def get_word_from_type_of(type):
     random_word_list = random.sample(all_word_list, 10)
     for word in random_word_list:
         get_word(word=word)
-    word_list = list(Definition.objects.filter(type_of__type_of=type).distinct("word__vocab"))
+    word_list = list(Definition.objects.filter(word__vocab__in=random_word_list))
     return word_list
 
 
