@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from .definition import Definition
+
 User = get_user_model()
 
 
@@ -26,3 +28,4 @@ class UserData(models.Model):
     streak = models.IntegerField(default=0)
     daily_percentage = models.FloatField(default=0)
     daily_total = models.IntegerField(default=0)
+    favorite = models.ManyToManyField(Definition)
