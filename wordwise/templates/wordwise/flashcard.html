@@ -60,19 +60,13 @@
         // Add more word data objects as needed
       ];
 
-      {
-        %
-        for word in word_list %
-      }
+      {% for word in word_list %}
       wordData.push({
         word: "{{ word.word.vocab.capitalize }}",
         part_of_speech: "({{ word.part_of_speech }}.)",
         meaning: "{{ word.definition }}",
       });
-      {
-        %
-        endfor %
-      }
+      {% endfor %}
 
       wordElement.textContent = wordData[currentIndex].word;
       partOfSpeechElement.textContent = wordData[currentIndex].part_of_speech;

@@ -1,4 +1,4 @@
-exclude: '^docs/|/migrations/|wordwise/models/__init__.py|wordwise/templates/base.html'
+exclude: '^docs/|/migrations/|wordwise/models/__init__.py|wordwise/templates/base.html|wordwise/templates/wordwise/flashcard.html'
 default_stages: [commit]
 
 repos:
