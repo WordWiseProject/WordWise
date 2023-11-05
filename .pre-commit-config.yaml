@@ -43,7 +43,7 @@ repos:
     rev: 6.1.0
     hooks:
       - id: flake8
-        args: ["--ignore", "F401"]
+        args: ["--ignore", "F401,W503"]
 
   - repo: https://github.com/Riverside-Healthcare/djLint
     rev: v1.34.0
