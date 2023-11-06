@@ -20,6 +20,7 @@ def get_word(word: str):
     url = f"https://wordsapiv1.p.rapidapi.com/words/{word}/"
     try:
         word = Word.objects.get(vocab=word)
+        print(word)
     except Word.DoesNotExist:
         response = requests.get(url, headers=HEADERS)
         word_json = response.json()
@@ -49,16 +50,11 @@ def get_word(word: str):
     return word
 
 
-def get_word_from_type_of(type):
+def get_list_word_from_type_of(type):
     url = f"https://wordsapiv1.p.rapidapi.com/words/{type}/hasTypes"
     response = requests.get(url, headers=HEADERS)
     type_json = response.json()
-    all_word_list = list(type_json["hasTypes"])
-    random_word_list = random.sample(all_word_list, 10)
-    for word in random_word_list:
-        get_word(word=word)
-    word_list = list(Definition.objects.filter(word__vocab__in=random_word_list).filter(type_of__type_of=type))
-    return word_list
+    return list(type_json["hasTypes"])
 
 
 def home(request):
@@ -67,7 +63,11 @@ def home(request):
 
 
 def flashcard_view(request, type_of):
-    word_list = get_word_from_type_of(type_of)
+    all_word_list = get_list_word_from_type_of(type_of)
+    random_word_list = random.sample(all_word_list, 10)
+    for word in random_word_list:
+        get_word(word=word)
+    word_list = list(Definition.objects.filter(type_of__type_of=type_of).filter(word__vocab__in=random_word_list))
     context = {"word_list": word_list}
     return render(request, "wordwise/flashcard.html", context)
 
