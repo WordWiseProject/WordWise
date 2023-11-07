@@ -17,7 +17,7 @@
       {% for type in type_of %}
         <div class="p-2">
           <div class="flex flex-col items-center">
-            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 300px;">
               <div class="card-body">
                 <h2 class="card-title">{{ type.capitalize }}</h2>
                 <p>This category contains words in {{ type }} by random 10 words</p>
@@ -29,6 +29,44 @@
           </div>
         </div>
       {% endfor %}
+      <div class="p-2">
+          <div class="flex flex-col items-center">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 300px;">
+              <div class="card-body">
+                <h2 class="card-title">Favorite</h2>
+                <p>Your favorite words collection</p>
+                <div class="card-actions justify-end">
+                  <a class="btn btn-accent">Start</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div>
+        <div class="p-2">
+          <div class="flex flex-col items-center">
+            <div class="card w-96 bg-base-100 shadow-xl" style="height: 300px;">
+              <div class="card-body">
+                <form class="flex flex-col items-center" method="post">
+                    {% csrf_token %}
+                    <h2 class="card-title">Create Your Own Collection</h2>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" id="name" required class="shadow-md rounded-lg relative">
+                        <br>
+                        <label for="desc">Description:</label>
+                        <textarea name="desc" id="desc" required class="shadow-md rounded-lg relative"></textarea>
+                        <br>
+                    <div class="card-actions z-10 absolute bottom-7 right-10">
+                        <button class="btn btn-success" type="button">+</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </body>
 </html>
