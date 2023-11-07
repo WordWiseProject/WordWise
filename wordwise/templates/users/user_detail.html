@@ -1,31 +1,45 @@
-{% extends "base.html" %}
-
 {% load static %}
 
-{% block title %}
-  User:
-  {{ object.username }}
-{% endblock title %}
-{% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <h2>{{ object.username }}</h2>
-        {% if object.name %}<p>{{ object.name }}</p>{% endif %}
+<!DOCTYPE html>
+<html data-theme="cupcake" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WordWise</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
+          rel="stylesheet"
+          type="text/css" />
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+          rel="stylesheet" />
+  </head>
+  <body>
+    {% include "base.html" %}
+    {% block content %}
+      <div class="bg-white rounded-lg shadow-lg p-4 text-center w-80 mx-auto mt-5">
+        <!-- Fixed width of 20rem (80 units) -->
+        <h2 class="text-3xl font-semibold">{{ object.username }}</h2>
+        {% if object.name %}
+          <p class="text-gray-600 text-lg">{{ object.name }}</p>
+          <!-- Fixed text size with text-lg class -->
+        {% endif %}
+        {% if object == request.user %}
+          <!-- Action buttons -->
+          <div class="mt-4">
+            <a class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 text-sm"
+               href="{% url 'users:update' %}"
+               role="button">My Info</a> <!-- Fixed text size with text-sm class -->
+            <a class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 mt-2 text-sm"
+               href="{% url 'account_email' %}"
+               role="button">E-Mail</a> <!-- Fixed text size with text-sm class -->
+            <a class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 mt-2 text-sm"
+               href="{% url 'account_logout' %}"
+               role="button">Log out</a> <!-- Fixed text size with text-sm class -->
+            <!-- Your Stuff: Custom user template URLs -->
+          </div>
+          <!-- End Action buttons -->
+        {% endif %}
       </div>
-    </div>
-    {% if object == request.user %}
-      <!-- Action buttons -->
-      <div class="row">
-        <div class="col-sm-12">
-          <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-          <a class="btn btn-primary"
-             href="{% url 'account_email' %}"
-             role="button">E-Mail</a>
-          <!-- Your Stuff: Custom user template urls -->
-        </div>
-      </div>
-      <!-- End Action buttons -->
-    {% endif %}
-  </div>
-{% endblock content %}
+    {% endblock content %}
+  </body>
+</html>

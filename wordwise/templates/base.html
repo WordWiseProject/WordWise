@@ -12,7 +12,7 @@
           rel="stylesheet" />
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   </head>
-  <body class="font-[Poppins] bg-gradient-to-t from-[#FACBEA] to-[#BEADFA] h-screen">
+  <body class="font-[Poppins] bg-gradient-to-t from-[#FACBEA] to-[#BEADFA] min-h-screen">
     {% load socialaccount %}
 
     <div class="navbar bg-base-100">
@@ -40,7 +40,7 @@
             </li>
           </ul>
         </div>
-        <a href="{% url 'index' %}" class="btn btn-ghost normal-case text-xl">WordWise</a>
+        <a href="{% url "wordwise:index" %}" class="btn btn-ghost normal-case text-xl">WordWise</a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
@@ -53,11 +53,14 @@
           <li>
             <a>Mode</a>
           </li>
+          <li>
+            <a href="{% url "wordwise:fill_in" %}">Fill</a>
+          </li>
         </ul>
       </div>
       <div class="navbar-end">
         {% if user.is_authenticated %}
-          <a class="btn btn-info" href="{% url 'account_logout' %}">Logout</a>
+          <a class="btn btn-info" href="{% url 'users:detail' user.username %}">{{ user.username }}</a>
         {% else %}
           <a class="btn btn-info" href="{% provider_login_url 'google' %}">Login</a>
         {% endif %}

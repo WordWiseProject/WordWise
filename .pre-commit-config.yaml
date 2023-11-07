@@ -1,4 +1,4 @@
-exclude: '^docs/|/migrations/|wordwise/models/__init__.py'
+exclude: '^docs/|/migrations/|wordwise/models/__init__.py|wordwise/templates/base.html|wordwise/templates/wordwise/flashcard.html'
 default_stages: [commit]
 
 repos:
@@ -43,13 +43,14 @@ repos:
     rev: 6.1.0
     hooks:
       - id: flake8
+        args: ["--ignore", "F401,W503"]
 
   - repo: https://github.com/Riverside-Healthcare/djLint
     rev: v1.34.0
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
-        args: ["--ignore", "H021,H030,H031,H016"]
+        args: ["--ignore", "H021,H030,H031,H016,H020"]
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:

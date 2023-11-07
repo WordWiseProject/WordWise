@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html data-theme="cupcake" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WordWise</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
+          rel="stylesheet"
+          type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
+  </head>
+  <body>
+    {% include "base.html" %}
+    <div class="mx-auto max-w-2xl mt-8">
+      <div class="card-front bg-white shadow-md rounded-lg pt-36 pb-12 relative">
+        <h2 class="text-2xl font-semibold text-black mb-4 text-center absolute top-10 w-full px-3">
+          {{ defi.object_list.0.example_set.all.0.censor }}
+        </h2>
+        <form class="flex flex-col items-center">
+          {% csrf_token %}
+          {{ form }}
+          <input type="hidden" name="defi" value="{{ defi.object_list.0.definition }}" />
+          <div class="flex mt-4">
+            <button class="btn btn-success btn-sm"
+                    hx-post="{% url "wordwise:fill_in" %}"
+                    hx-target="#result"
+                    hx-swap="innerHTML"
+                    onclick="disableSubmitButton(this)">Submit</button>
+            <button type="button"
+                    class="btn flex justify-center items-center btn-sm ml-2"
+                    onclick="my_modal_3.showModal()">Hint</button>
+          </div>
+        </form>
+        <dialog id="my_modal_3" class="modal">
+          <div class="modal-box">
+            <form method="dialog">
+              <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="font-bold text-lg">Hint!</h3>
+            <p class="py-4">{{ defi.object_list.0.definition }}</p>
+          </div>
+        </dialog>
+        <div id="result"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    function disableSubmitButton(button) {
+      button.disabled = true;
+    }
+  </script>
+</html>

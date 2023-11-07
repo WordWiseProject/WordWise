@@ -48,6 +48,9 @@ jobs:
     env:
       # postgres://user:password@host:port/database
       DATABASE_URL: 'postgres://postgres:postgres@localhost:5432/postgres'
+      X_RAPIDAPI_KEY: ${{ secrets.X_RAPIDAPI_KEY }}
+      X_RAPIDAPI_HOST: ${{ secrets.X_RAPIDAPI_HOST }}
+
 
     steps:
       - name: Checkout Code Repository
