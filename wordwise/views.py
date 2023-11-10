@@ -7,8 +7,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
 
-from .forms import TestFrom, CollectionForm
-from .models import Definition, Example, TypeOf, Word, Collection
+from .forms import CollectionForm, TestFrom
+from .models import Collection, Definition, Example, TypeOf, Word
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 env = environ.Env()
@@ -59,20 +59,20 @@ def get_list_word_from_type_of(type):
 
 class home(View):
     def get(self, request):
-        context = {"type_of": ["business", "sport", "technology", "study"]}
+        context = {"type_of": ["business", "sport", "technology", "science", "art", "health", "food"]}
         return render(request, "wordwise/index.html", context)
 
-    def post(self, request):
-        name = request.POST.get("name")
-        desc = request.POST.get("desc")
-        try:
-            collection = Collection.objects.get(name=name)
-        except Collection.DoesNotExist:
-            user = request.user
-            collection = Collection(name=name, user=user, desc=desc)
-            # collection.save()
-        form = CollectionForm()
-        return render(request, 'wordwise/index.html', {'form': form})
+    # def post(self, request):
+    #     name = request.POST.get("name")
+    #     desc = request.POST.get("desc")
+    #     try:
+    #         collection = Collection.objects.get(name=name)
+    #     except Collection.DoesNotExist:
+    #         user = request.user
+    #         collection = Collection(name=name, user=user, desc=desc)
+    #         # collection.save()
+    #     form = CollectionForm()
+    #     return render(request, "wordwise/index.html", {"form": form})
 
 
 def flashcard_view(request, type_of):
@@ -109,9 +109,9 @@ class FillInTheBlank(View):
         return render(request, "wordwise/fill_fail.html", context={"test2": current_defi.word.vocab})
 
 
-class Collection(View):
-    def add_word(self):
-        pass
-
-    def delete_word(self):
-        pass
+# class Collection(View):
+#     def add_word(self):
+#         pass
+#
+#     def delete_word(self):
+#         pass
