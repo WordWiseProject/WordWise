@@ -40,26 +40,30 @@
         });
       });
     </script>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for collection in collections %}
+    <div class="overflow-x-auto">
+      <table class="table">
+        <thead>
           <tr>
-            <td>
-              <a href="{% url "wordwise:index" %}">{{ collection.name }}</a>
-            </td>
-            <td>
-              <a href="{% url "wordwise:index" %}">{{ collection.description }}</a>
-            </td>
+            <th></th>
+            <th>Name</th>
+            <th>Description</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for collection in collections %}
+            <tr class="hover">
+              <th>{{ forloop.counter }}</th>
+              <td>
+                <a class="text-xl font-semibold" href="{% url "wordwise:index" %}">{{ collection.name.capitalize }}</a>
+              </td>
+              <td>
+                <a href="{% url "wordwise:index" %}">{{ collection.description }}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </body>
   {% include "footer.html" %}
 </html>
