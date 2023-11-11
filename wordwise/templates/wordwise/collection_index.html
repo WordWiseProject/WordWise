@@ -25,7 +25,7 @@
           <form method="post" action="{% url "wordwise:create_collection" %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Submit" class="btn btn-info" />
+            <input type="submit" value="Submit" class="btn btn-active btn-secondary" />
           </form>
         </div>
       </div>
@@ -61,4 +61,5 @@
       </tbody>
     </table>
   </body>
+  {% include "footer.html" %}
 </html>
