@@ -1,6 +1,6 @@
 {% load static %}
 
-<html data-theme="cupcake" lang="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,11 +10,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
           rel="stylesheet" />
-    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+    <style>
+      :root {
+        --my-color: #FFC436;
+      }
+      [data-theme='dracula'] {
+        --my-color: #232D3F;
+      }
+      body {
+      background-color: var(--my-color);
+    }
+    </style>
   </head>
-  <body class="font-[Poppins] bg-gradient-to-t from-[#FACBEA] to-[#BEADFA] min-h-screen">
+  <body class="font-[Poppins] min-h-screen">
     {% load socialaccount %}
-
     <div class="navbar bg-base-100">
       <div class="navbar-start">
         <div class="dropdown">
@@ -50,9 +61,15 @@
           <li>
             <a href="{% url "wordwise:fill_in" %}">Fill</a>
           </li>
+          <li>
+            <button data-toggle-theme="dracula,winter" data-act-class="ACTIVECLASS">
+              Theme
+            </button>
+          </li>
         </ul>
       </div>
       <div class="navbar-end">
+
         {% if user.is_authenticated %}
           <a class="btn btn-info" href="{% url 'users:detail' user.username %}">{{ user.username }}</a>
         {% else %}

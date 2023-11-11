@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html data-theme="cupcake" lang="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,11 +19,11 @@
     <div class="mx-auto max-w-2xl mt-8">
       <div class="card-flip-container">
         <div class="card-flip" id="card">
-          <div class="card-front bg-white shadow-md rounded-lg pt-52 pb-12 relative">
-            <h2 class="text-4xl font-semibold text-black mb-4 text-center absolute top-10 w-full">Word</h2>
+          <div class="card-front bg-base-100 shadow-md rounded-lg pt-52 pb-12 relative">
+            <h2 class="text-4xl font-semibold mb-4 text-center absolute top-10 w-full">Word</h2>
             <!-- Part of Speech-->
             <div class="text-container">
-              <p class="part text-black">Noun</p>
+              <p class="part">Noun</p>
               <!-- Part of Speech-->
             </div>
             <div class="button-container">
@@ -31,10 +31,10 @@
               <button class="btn btn-primary" id="nextButton">Next</button>
             </div>
           </div>
-          <div class="card-back bg-white shadow-md rounded-lg p-8 pt-52 pb-12 relative">
+          <div class="card-back bg-base-100 shadow-md rounded-lg p-8 pt-52 pb-12 relative">
             <!-- Add content for the back of the card here -->
             <div class="text-container">
-              <p class="Meanning text-black">Meaning</p>
+              <p class="Meanning">Meaning</p>
               <!--Meaning-->
             </div>
             <div class="button-container z-10">
@@ -51,8 +51,8 @@
       const card = document.getElementById("card");
       let isFlipped = false;
       let wordElement = document.querySelector(".text-4xl");
-      let partOfSpeechElement = document.querySelector(".part.text-black")
-      let meaningElement = document.querySelector(".Meanning.text-black")
+      let partOfSpeechElement = document.querySelector(".part")
+      let meaningElement = document.querySelector(".Meanning")
       let word = document.getElementById("word");
       let currentIndex = 0;
       let wordData = [

@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html data-theme="cupcake" lang="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,8 +17,8 @@
   <body>
     {% include "base.html" %}
     <div class="mx-auto max-w-2xl mt-8">
-      <div class="card-front bg-white shadow-md rounded-lg pt-36 pb-12 relative">
-        <h2 class="text-2xl font-semibold text-black mb-4 text-center absolute top-10 w-full px-3">
+      <div class="card-front bg-base-100 shadow-md rounded-lg pt-36 pb-12 relative">
+        <h2 class="text-2xl font-semibold mb-4 text-center absolute top-10 w-full px-3">
           {{ defi.object_list.0.example_set.all.0.censor }}
         </h2>
         <form class="flex flex-col items-center">
@@ -32,7 +32,7 @@
                     hx-swap="innerHTML"
                     onclick="disableSubmitButton(this)">Submit</button>
             <button type="button"
-                    class="btn flex justify-center items-center btn-sm ml-2"
+                    class="btn btn btn-outline btn-info flex justify-center items-center btn-sm ml-2"
                     onclick="my_modal_3.showModal()">Hint</button>
           </div>
         </form>

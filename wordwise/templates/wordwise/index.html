@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html data-theme="cupcake" lang="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +13,7 @@
   </head>
   <body>
     {% include "base.html" %}
-    <div class="flex justify-end mt-3 mr-3">
+    <div class="flex justify-end mt-4 mr-4">
       <!-- The button to open modal -->
       <label for="my_modal_6" class="btn">add</label>
       <!-- Put this part before </body> tag -->
@@ -29,22 +29,22 @@
                  placeholder="Type here"
                  class="input input-bordered input-md w-full max-w-xs mt-2" />
           <div class="modal-action">
-            <label for="my_modal_6" class="btn">Submit</label>
+            <label for="my_modal_6" class="btn btn-">Submit</label>
           </div>
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-1 grid-cols-2 grid-cols-3 mt-3 gap-2">
+    <div class="grid grid-cols-1 grid-cols-2 grid-cols-3 mt-2 gap-2">
       {% for type in type_of %}
-        <div class="p-4 flex items-stretch">
-          <div class="card bg-base-100 shadow-xl w-120">
-            <div class="card-body flex flex-col justify-between">
-              <div>
-                <h2 class="card-title">{{ type.capitalize }}</h2>
-                <p>This category contains words in {{ type }} by random 10 words</p>
-              </div>
-              <div class="card-actions justify-end mt-2">
-                <a href="{% url "wordwise:flashcard" type %}" class="btn btn-accent">Start</a>
+        <div class="p-3">
+          <div class="card w-120 bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h2 class="card-title">{{ type.capitalize }}</h2>
+              <p>This category contains words in {{ type }} by random 10 words</p>
+              <div class="card-actions justify-end">
+                <a href="{% url "wordwise:flashcard" type %}">
+                  <button class="btn btn-info">Start</button>
+                </a>
               </div>
             </div>
           </div>
