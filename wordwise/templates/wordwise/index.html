@@ -13,27 +13,6 @@
   </head>
   <body>
     {% include "base.html" %}
-    <div class="flex justify-end mt-4 mr-4">
-      <!-- The button to open modal -->
-      <label for="my_modal_6" class="btn">add</label>
-      <!-- Put this part before </body> tag -->
-      <input type="checkbox" id="my_modal_6" class="modal-toggle" />
-      <div class="modal flex items-center justify-center min-h-screen">
-        <div class="modal-box">
-          <h3 class="text-lg">Title</h3>
-          <input type="text"
-                 placeholder="Type here"
-                 class="input input-bordered input-md w-full max-w-xs mt-2" />
-          <p class="text-lg mt-3">Description</p>
-          <input type="text"
-                 placeholder="Type here"
-                 class="input input-bordered input-md w-full max-w-xs mt-2" />
-          <div class="modal-action">
-            <label for="my_modal_6" class="btn btn-">Submit</label>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="grid grid-cols-1 grid-cols-2 grid-cols-3 mt-2 gap-2">
       {% for type in type_of %}
         <div class="p-3">

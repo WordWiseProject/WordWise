@@ -3,9 +3,11 @@ from pathlib import Path
 
 import environ
 import requests
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import redirect, render, reverse
 from django.views import View
+from django.views.generic import ListView
 
 from .forms import CollectionForm, TestFrom
 from .models import Collection, Definition, Example, TypeOf, Word
@@ -57,22 +59,10 @@ def get_list_word_from_type_of(type):
     return list(type_json["hasTypes"])
 
 
-class home(View):
+class Home(View):
     def get(self, request):
         context = {"type_of": ["business", "sport", "technology", "science", "art", "health", "food"]}
         return render(request, "wordwise/index.html", context)
-
-    # def post(self, request):
-    #     name = request.POST.get("name")
-    #     desc = request.POST.get("desc")
-    #     try:
-    #         collection = Collection.objects.get(name=name)
-    #     except Collection.DoesNotExist:
-    #         user = request.user
-    #         collection = Collection(name=name, user=user, desc=desc)
-    #         # collection.save()
-    #     form = CollectionForm()
-    #     return render(request, "wordwise/index.html", {"form": form})
 
 
 def flashcard_view(request, type_of):
@@ -109,9 +99,42 @@ class FillInTheBlank(View):
         return render(request, "wordwise/fill_fail.html", context={"test2": current_defi.word.vocab})
 
 
-# class Collection(View):
-#     def add_word(self):
-#         pass
-#
-#     def delete_word(self):
-#         pass
+class CollectionIndexView(ListView):
+    """Class based View for Index."""
+
+    template_name = "wordwise/collection_index.html"
+    context_object_name = "collections"
+
+    def get_queryset(self):
+        """Return all the user's collection"""
+        return Collection.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = CollectionForm()
+        return context
+
+
+# @login_required
+class CollectionCreateView(View):
+    def get(self, request):
+        return redirect("wordwise:collection_index")
+
+    def post(self, request):
+        form = CollectionForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            desc = form.cleaned_data["description"]
+            collection = Collection(name=name, description=desc, user=request.user)
+            collection.save()
+            return redirect("wordwise:collection_index")
+        return redirect("wordwise:collection_index")
+
+    # def get(self, request):
+    #     return (request,)
+    #
+    # def add_word(self):
+    #     pass
+    #
+    # def delete_word(self):
+    #     pass
