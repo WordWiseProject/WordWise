@@ -23,7 +23,7 @@
             <h2 class="text-4xl font-semibold mb-4 text-center absolute top-10 w-full">Word</h2>
             <!-- Part of Speech-->
             <div class="text-container">
-              <p class="part">Noun</p>
+              <p class="part">Part of speech</p>
               <!-- Part of Speech-->
             </div>
             <div class="button-container">
@@ -42,6 +42,17 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="flex justify-left text-center">
+        {% if pk.isdigit %}
+          <a href='{% url "wordwise:deck_detail" pk %}'>
+            <button class="btn btn-warning mt-2 btn-sm">Go Back</button>
+          </a>
+        {% else %}
+          <a href='{% url "wordwise:index" %}'>
+            <button class="btn btn-warning mt-2 btn-sm">Go Back</button>
+          </a>
+        {% endif %}
       </div>
     </div>
     <script>

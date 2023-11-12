@@ -69,7 +69,6 @@ class Home(View):
         type_list = TypeOf.objects.all()
         random_type_list = random.sample(list(type_list), 8)
         context = {"type_of": random_type_list}
-        print(random_type_list)
         return render(request, "wordwise/index.html", context)
 
 
@@ -86,7 +85,7 @@ def flashcard_view(request, pk):
         all_word_list = WordDeck.objects.get(id=pk).definition_set.all()
         word_list = list(all_word_list)
         random.shuffle(word_list)
-    context = {"word_list": word_list}
+    context = {"word_list": word_list, "pk": pk}
     return render(request, "wordwise/flashcard.html", context)
 
 

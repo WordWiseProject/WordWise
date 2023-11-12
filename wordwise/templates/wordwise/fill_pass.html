@@ -1,12 +1,17 @@
 <div class="flex justify-center text-center mt-3 font-bold error ">Correct !</div>
 <div class="flex justify-center text-center font-bold error ">
-  {% if has_next %}
-    <a href="?page={{ next_page }}">
-      <button class="btn btn-outline btn-primary mt-2 btn-sm">Next</button>
-    </a>
-  {% else %}
-    <a href="{% url "wordwise:deck_detail" current_deck %}">
-      <button class="btn btn-outline btn-primary mt-2 btn-sm">Go Back</button>
-    </a>
-  {% endif %}
-</div>
+  <div class="flex justify-center">
+    {% if has_next %}
+      <div class="mt-2">
+        <a href="?page={{ next_page }}">
+          <button class="btn btn-outline btn-primary btn-sm">Next</button>
+        </a>
+      </div>
+    {% else %}
+      <div class="mt-2">
+        <a href="{% url "wordwise:deck_detail" current_deck %}">
+          <button class="btn btn-outline btn-primary btn-sm">Go Back</button>
+        </a>
+      </div>
+    {% endif %}
+  </div>
