@@ -17,4 +17,6 @@ urlpatterns = [
         name="create_collection",
     ),
     path("deck/<int:pk>", views.DeckDetailView.as_view(), name="deck_detail"),
+    path("search_word/<int:pk>", views.SearchWord.as_view(), name="search_word"),
+    path("add_word_deck/<int:pk>", views.AddWordToDeck.as_view(), name="add_word_to_deck"),
 ]

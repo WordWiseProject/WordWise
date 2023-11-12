@@ -9,8 +9,8 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView
 
-from .forms import CollectionForm, TestFrom
-from .models import Definition, Example, TypeOf, Word, WordDeck
+from wordwise.forms import CollectionForm, SelectDefinitionForm, TestFrom
+from wordwise.models import Definition, Example, TypeOf, Word, WordDeck
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 env = environ.Env()
@@ -22,10 +22,14 @@ def get_word(word: str):
     url = f"https://wordsapiv1.p.rapidapi.com/words/{word}/"
     try:
         word = Word.objects.get(vocab=word)
-        print(word)
     except Word.DoesNotExist:
         response = requests.get(url, headers=HEADERS)
+        print(response.status_code)
+        if response.status_code == 404:
+            return None
         word_json = response.json()
+        if "results" not in word_json:
+            return None
         word = Word(vocab=word_json["word"])
         word.save()
         for results in word_json["results"]:
@@ -92,11 +96,8 @@ class FillInTheBlank(View):
         defi = request.POST.get("defi")
         current_defi = Definition.objects.filter(definition=defi).first()
 
-        # TODO: check capitalize
-        if answer == current_defi.word.vocab:
-            print("yes")
+        if answer.lower() == current_defi.word.vocab.lower():
             return render(request, "wordwise/fill_pass.html", context={"test2": current_defi.word.vocab})
-        print("no")
         return render(request, "wordwise/fill_fail.html", context={"test2": current_defi.word.vocab})
 
 
@@ -140,10 +141,24 @@ class DeckDetailView(View):
         return render(request, template_name=template_name, context={"deck": deck})
 
 
-def create_word(request):
-    deck_id = request.POST.get("deck_id")
-    defi_id = request.POST.get("defi_id")
-    deck = WordDeck.objects.get(id=deck_id)
-    defi = Definition.objects.get(id=defi_id)
-    deck.definition_set.add(defi)
-    return redirect("wordwise:deck_index", pk=deck_id)
+class SearchWord(View):
+    def post(self, request, pk):
+        word = request.POST.get("word")
+        print(word)
+        word = get_word(word)
+        if word is None:
+            return render(request, "wordwise/definition_list.html", context={"status": "fail"})
+        form = SelectDefinitionForm(word=word)
+        return render(
+            request, "wordwise/definition_list.html", context={"status": "success", "form": form, "deck_id": pk}
+        )
+
+
+class AddWordToDeck(View):
+    def post(self, request, pk):
+        definition_id = request.POST.get("definition")
+        deck_id = pk
+        definition = Definition.objects.get(id=definition_id)
+        deck = WordDeck.objects.get(id=deck_id)
+        deck.definition_set.add(definition)
+        return redirect("wordwise:deck_detail", pk=pk)

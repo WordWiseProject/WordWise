@@ -33,23 +33,58 @@
               <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
                 <td>{{ forloop.counter }}</td>
                 <td>
-                  <p class="text-xl font-semibold flex">{{ word.word.vocab }}</p>
+                  <p class="text-xl font-semibold text-center">{{ word.word.vocab }}</p>
                 </td>
                 <td>
-                  <p class="text-xl font-semibold flex">{{ word.definition }}</p>
+                  <p class="text-xl font-semibold text-center">{{ word.definition }}</p>
                 </td>
                 <td>
                   <a class="link link-accent">delete</a>
                 </td>
               </tr>
             {% endfor %}
-            <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
-              <td colspan="4" class="link link-accent">Add Word</td>
-            </tr>
           </tbody>
         </table>
       </div>
     </div>
+    {% if user == deck.user %}
+      <div class="mt-4 mx-4">
+        <label for="my_modal_6" class="btn">add</label>
+        <input type="checkbox" id="my_modal_6" class="modal-toggle" />
+        <div class="modal flex items-center justify-center min-h-screen">
+          <div class="modal-box">
+            <button id="closeButton"
+                    class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            <div class="flex items-center">
+              <form class="flex">
+                {% csrf_token %}
+                <input type="text"
+                       name="word"
+                       placeholder="Type here"
+                       class="input input-bordered input-info w-full max-w-xs" />
+                <button class="btn btn-circle text-xl ml-3 justify-center"
+                        hx-post="{% url "wordwise:search_word" deck.id %}"
+                        hx-target="#definition_list"
+                        hx-swap="innerHTML">
+                  <i class="bx bx-search bx-flashing"></i>
+                </button>
+              </form>
+              <div id="definition_list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        modalToggle = document.getElementById('my_modal_6');
+        var closeButton = document.getElementById('closeButton');
+
+        closeButton.addEventListener('click', function() {
+          modalToggle.checked = false; // Uncheck the checkbox to close the modal
+        });
+      });
+    </script>
   </body>
   {% include "footer.html" %}
 </html>

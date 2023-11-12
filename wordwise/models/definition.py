@@ -28,4 +28,4 @@ class Definition(models.Model):
     collection = models.ManyToManyField(WordDeck)
 
     def __str__(self):
-        return self.word.vocab
+        return self.definition
