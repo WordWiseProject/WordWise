@@ -77,22 +77,23 @@
             <div id="definition_list"></div>
           </div>
         </div>
-        <button class="btn btn-error">
-          <a href="#">Fill in the blank</a>
-        </button>
-        <button class="btn btn-success">
-          <a href="#">Flash card</a>
-        </button>
-      {% endif %}
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          modalToggle = document.getElementById('my_modal_6');
-          var closeButton = document.getElementById('closeButton');
+      </div>
+      <button class="btn btn-error">
+        <a href="#">Fill in the blank</a>
+      </button>
+      <button class="btn btn-success">
+        <a href="#">Flash card</a>
+      </button>
+    {% endif %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        modalToggle = document.getElementById('my_modal_6');
+        var closeButton = document.getElementById('closeButton');
 
-          closeButton.addEventListener('click', function() {
-            modalToggle.checked = false; // Uncheck the checkbox to close the modal
-          });
+        closeButton.addEventListener('click', function() {
+          modalToggle.checked = false; // Uncheck the checkbox to close the modal
         });
-      </script>
-    </body>
-  </html>
+      });
+    </script>
+  </body>
+</html>
