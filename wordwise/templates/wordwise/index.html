@@ -18,7 +18,7 @@
         <div class="p-3">
           <div class="card w-120 bg-base-100 shadow-xl">
             <div class="card-body">
-              <h1 class="card-title">{{ type.capitalize }}</h1>
+              <h1 class="card-title">{{ type.type_of.capitalize }}</h1>
               <p>Explore the {{ type }} domain with these random 10 vocabulary words.</p>
               <div class="card-actions justify-end">
                 <a href="{% url "wordwise:flashcard" type %}">

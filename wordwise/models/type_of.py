@@ -10,3 +10,6 @@ class TypeOf(models.Model):
     """
 
     type_of = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.type_of

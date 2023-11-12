@@ -66,7 +66,10 @@ def get_list_word_from_type_of(type):
 
 class Home(View):
     def get(self, request):
-        context = {"type_of": ["business", "sport", "technology", "science", "art", "health", "food"]}
+        type_list = TypeOf.objects.all()
+        random_type_list = random.sample(list(type_list), 7)
+        context = {"type_of": random_type_list}
+        print(random_type_list)
         return render(request, "wordwise/index.html", context)
 
 
