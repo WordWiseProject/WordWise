@@ -19,39 +19,9 @@
       <h2 class="text-left text-xl mt-4 mx-5 text-xl font-semibold">{{ deck.name }}</h2>
       <p class="text-left mt-4 mx-5 overflow-hidden max-h-40">{{ deck.description }}</p>
     </div>
-    <div class="flex justify-center items-center mt-5">
-      <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Number</th>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Definition</th>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center"></th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            {% for word in deck.definition_set.all %}
-              <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
-                <td>{{ forloop.counter }}</td>
-                <td>
-                  <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
-                </td>
-                <td>
-                  <p class="text-l text-center">{{ word.definition }}</p>
-                </td>
-                <td>
-                  <a class="link link-accent">delete</a>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
     {% if user == deck.user %}
-      <div class="mt-4 mx-4">
-        <label for="my_modal_6" class="btn">add</label>
+      <div class="flex justify-end mx-5">
+        <label for="my_modal_6" class="btn btn-accent">add</label>
         <input type="checkbox" id="my_modal_6" class="modal-toggle" />
         <div class="modal flex items-center justify-center min-h-screen">
           <div class="modal-box">
@@ -72,19 +42,53 @@
                     <i class="bx bx-search"></i>
                   </button>
                 </div>
-              </form>
-            </div>
-            <div id="definition_list"></div>
+              {% endif %}
+            </form>
           </div>
+          <div id="definition_list"></div>
         </div>
       </div>
+    </div>
+    <div class="flex justify-center items-center mt-5">
+      <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
+        <div class="table-container max-h-96 overflow-y-auto rounded-lg">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Number</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-left">Definition</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center"></th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              {% for word in deck.definition_set.all %}
+                <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
+                  </td>
+                  <td>
+                    <p class="text-l text-left">{{ word.definition }}</p>
+                  </td>
+                  <td>
+                    {% if user == deck.user %}<a class="link link-accent">delete</a>{% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3 mx-3">
       <button class="btn btn-error">
         <a href="#">Fill in the blank</a>
       </button>
       <button class="btn btn-success">
         <a href="#">Flash card</a>
       </button>
-    {% endif %}
+    </div>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         modalToggle = document.getElementById('my_modal_6');
@@ -95,5 +99,6 @@
         });
       });
     </script>
+    <p>ㅤ</p>
   </body>
 </html>

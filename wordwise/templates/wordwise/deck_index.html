@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Collection</title>
+    <title>Deck</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
           rel="stylesheet"
           type="text/css" />
@@ -30,73 +30,77 @@
         </div>
       </div>
     </div>
-    {# My collection #}
+    <!-- My collection -->
     <div class="bg-white p-2 rounded-lg mt-2 mx-5 w-32">
       <p class="text-left text-xl font-semibold text-center">My Deck</p>
     </div>
     <div class="flex justify-center items-center mt-2 mb-3">
       <div class="overflow-x-auto card w-full mx-5 bg-base-100 shadow-xl">
-        <table class="table" style="table-layout: fixed; width: 100%;">
-          <thead>
-            <tr>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Name</th>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Description</th>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            {% for user_collection in collections %}
-              <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
-                <td>
-                  <a class="text-xl font-semibold"
-                     href="{% url "wordwise:deck_detail" user_collection.id %}">{{ user_collection.name.capitalize }}</a>
-                </td>
-                <td>
-                  <a href="{% url "wordwise:deck_detail" user_collection.id %}">{{ user_collection.description }}</a>
-                </td>
-                <td>
-                  <a class="link link-accent">edit</a>
-                </td>
+        <div class="table-container max-h-96 overflow-y-auto">
+          <table class="table" style="table-layout: fixed; width: 100%;">
+            <thead>
+              <tr>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Name</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Description</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Action</th>
               </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="text-center">
+              {% for user_collection in collections %}
+                <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                  <td>
+                    <a class="text-xl font-semibold"
+                       href="{% url "wordwise:deck_detail" user_collection.id %}">{{ user_collection.name }}</a>
+                  </td>
+                  <td>
+                    <a href="{% url "wordwise:deck_detail" user_collection.id %}">{{ user_collection.description }}</a>
+                  </td>
+                  <td>
+                    <a class="link link-accent">edit</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    {# Other collection #}
+    <!-- Other collection -->
     <div class="bg-white p-2 rounded-lg mt-6 mx-5 w-36">
       <p class="text-left text-xl font-semibold text-center">Other Deck</p>
     </div>
     <div class="flex justify-center items-center my-2">
       <div class="overflow-x-auto card w-full mx-5 bg-base-100 shadow-xl">
-        <table class="table" style="table-layout: fixed; width: 100%;">
-          <thead>
-            <tr>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Name</th>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Description</th>
-              <th class="p-3 text-sm font-semibold tracking-wide text-center">Owner</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            {% for other_collection in others %}
-              <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
-                <td>
-                  <a class="text-xl font-semibold"
-                     href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.name.capitalize }}</a>
-                </td>
-                <td>
-                  <a href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.description }}</a>
-                </td>
-                <td>
-                  <a class="link link-accent">{{ other_collection.user }}</a>
-                </td>
+        <div class="table-container max-h-96 overflow-y-auto">
+          <table class="table" style="table-layout: fixed; width: 100%;">
+            <thead>
+              <tr>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Name</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Description</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Owner</th>
               </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="text-center">
+              {% for other_collection in others %}
+                <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                  <td>
+                    <a class="text-xl font-semibold"
+                       href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.name.capitalize }}</a>
+                  </td>
+                  <td>
+                    <a href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.description }}</a>
+                  </td>
+                  <td>
+                    <a class="link link-accent">{{ other_collection.user }}</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    {#    don't delete tag p below!!#}
+    <!-- Placeholder p tag (don't delete) -->
     <p>ㅤ</p>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
