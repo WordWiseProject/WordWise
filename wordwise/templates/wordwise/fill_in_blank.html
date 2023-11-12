@@ -20,11 +20,20 @@
       <div class="card-front bg-base-100 shadow-md rounded-lg pt-36 pb-12 relative">
         <h2 class="text-2xl font-semibold mb-4 text-center absolute top-10 w-full px-3">
           {{ defi.object_list.0.example_set.all.0.censor }}
+          <br />
         </h2>
         <form class="flex flex-col items-center">
           {% csrf_token %}
           {{ form }}
           <input type="hidden" name="defi" value="{{ defi.object_list.0.definition }}" />
+          <input type="hidden" name="has_next" value="{{ defi.has_next }}" />
+          {% if defi.has_next %}
+            <input type="hidden"
+                   name="next_page_number"
+                   value="{{ defi.next_page_number }}" />
+          {% else %}
+            <input type="hidden" name="next_page_number" value=0 />
+          {% endif %}
           <div class="flex mt-4">
             <button class="btn btn-success btn-sm"
                     hx-post="{% url "wordwise:fill_in" %}"
@@ -35,6 +44,7 @@
                     class="btn btn-outline btn-error flex justify-center items-center btn-sm ml-2"
                     onclick="my_modal_3.showModal()">Hint</button>
           </div>
+          <p>{{ defi.number }} / {{ defi.paginator.num_pages }}</p>
         </form>
         <dialog id="my_modal_3" class="modal">
           <div class="modal-box">

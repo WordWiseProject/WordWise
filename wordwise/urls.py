@@ -10,6 +10,7 @@ urlpatterns = [
     # path("jeopardy.html", views.jeopardy_view, name="jeopardy"),
     path("flashcard/<pk>", views.flashcard_view, name="flashcard"),
     path("fill", views.FillInTheBlank.as_view(), name="fill_in"),
+    path("fill/<int:pk>", views.FillInTheBlankDeck.as_view(), name="fill_in_deck"),
     path("deck_index", views.DeckIndexView.as_view(), name="collection_index"),
     path(
         "deck_collection",

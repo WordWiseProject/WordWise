@@ -83,7 +83,7 @@
     </div>
     <div class="mt-3 mx-3">
       <button class="btn btn-error">
-        <a href="#">Fill in the blank</a>
+        <a href="{% url "wordwise:fill_in_deck" deck.id %}">Fill in the blank</a>
       </button>
       <button class="btn btn-success">
         <a href={% url "wordwise:flashcard" deck.id %}>Flash card</a>

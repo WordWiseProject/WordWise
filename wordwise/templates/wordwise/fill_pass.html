@@ -1,6 +1,12 @@
 <div class="flex justify-center text-center mt-3 font-bold error ">Correct !</div>
 <div class="flex justify-center text-center font-bold error ">
-  <a href="?page={{ defi.next_page_number }}">
-    <button class="btn btn-outline btn-primary mt-2 btn-sm">Next</button>
-  </a>
+  {% if has_next %}
+    <a href="?page={{ next_page }}">
+      <button class="btn btn-outline btn-primary mt-2 btn-sm">Next</button>
+    </a>
+  {% else %}
+    <a href="{% url "wordwise:deck_detail" current_deck %}">
+      <button class="btn btn-outline btn-primary mt-2 btn-sm">Go Back</button>
+    </a>
+  {% endif %}
 </div>

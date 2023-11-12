@@ -1,4 +1,5 @@
 import random
+from distutils.util import strtobool
 from pathlib import Path
 
 import environ
@@ -90,6 +91,25 @@ def jeopardy_view(request):
     return render(request, "wordwise/jeopardy.html")
 
 
+def check_fill_in_the_blank_answer(request):
+    answer = request.POST.get("answer")
+    defi = request.POST.get("defi")
+    next_page = int(request.POST.get("next_page_number"))
+    has_next = bool(strtobool(request.POST.get("has_next")))
+    current_deck = request.session.get("current_deck")
+    current_defi = Definition.objects.filter(definition=defi).first()
+    vocab = current_defi.word.vocab
+
+    contexts = {"next_page": next_page, "has_next": has_next, "test2": vocab, "current_deck": current_deck}
+    current_defi = Definition.objects.filter(definition=defi).first()
+
+    if not has_next:
+        request.session.pop("random_seed")
+    if answer.lower() == current_defi.word.vocab.lower():
+        return render(request, "wordwise/fill_pass.html", context=contexts)
+    return render(request, "wordwise/fill_fail.html", context=contexts)
+
+
 class FillInTheBlank(View):
     def get(self, request):
         word_list = sorted(Definition.objects.filter(example__isnull=False), key=lambda x: random.random())
@@ -99,13 +119,25 @@ class FillInTheBlank(View):
         return render(request, "wordwise/fill_in_blank.html", {"defi": defi, "form": TestFrom})
 
     def post(self, request):
-        answer = request.POST.get("answer")
-        defi = request.POST.get("defi")
-        current_defi = Definition.objects.filter(definition=defi).first()
+        return check_fill_in_the_blank_answer(request)
 
-        if answer.lower() == current_defi.word.vocab.lower():
-            return render(request, "wordwise/fill_pass.html", context={"test2": current_defi.word.vocab})
-        return render(request, "wordwise/fill_fail.html", context={"test2": current_defi.word.vocab})
+
+class FillInTheBlankDeck(View):
+    def get(self, request, pk):
+        if not request.session.get("random_seed", False):
+            request.session["random_seed"] = random.randint(1, 10000)
+        if request.session.get("current_deck") != pk:
+            request.session["current_deck"] = pk
+        word_list = list(Definition.objects.filter(collection__id=pk).exclude(example__isnull=True))
+        random.seed(request.session.get("random_seed"))
+        random.shuffle(word_list)
+        p = Paginator(word_list, 1)
+        page = request.GET.get("page")
+        defi = p.get_page(page)
+        return render(request, "wordwise/fill_in_blank.html", {"defi": defi, "form": TestFrom})
+
+    def post(self, request):
+        return check_fill_in_the_blank_answer(request)
 
 
 class DeckIndexView(ListView):
@@ -143,6 +175,7 @@ class DeckCreateView(View):
 
 class DeckDetailView(View):
     def get(self, request, pk):
+        request.session["current_deck"] = pk
         template_name = "wordwise/deck_detail.html"
         deck = WordDeck.objects.get(pk=pk)
         return render(request, template_name=template_name, context={"deck": deck})
