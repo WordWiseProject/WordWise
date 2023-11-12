@@ -81,6 +81,7 @@ def flashcard_view(request, pk):
     else:
         all_word_list = WordDeck.objects.get(id=pk).definition_set.all()
         word_list = list(all_word_list)
+        random.shuffle(word_list)
     context = {"word_list": word_list}
     return render(request, "wordwise/flashcard.html", context)
 
