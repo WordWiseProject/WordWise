@@ -10,7 +10,7 @@ from django.views import View
 from django.views.generic import ListView
 
 from wordwise.forms import CollectionForm, SelectDefinitionForm, TestFrom
-from wordwise.models import Definition, Example, TypeOf, Word, WordDeck
+from wordwise.models import Definition, Example, TypeOf, UserData, Word, WordDeck
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 env = environ.Env()
@@ -69,12 +69,18 @@ class Home(View):
         return render(request, "wordwise/index.html", context)
 
 
-def flashcard_view(request, type_of):
-    all_word_list = get_list_word_from_type_of(type_of)
-    random_word_list = random.sample(all_word_list, 10)
-    for word in random_word_list:
-        get_word(word=word)
-    word_list = list(Definition.objects.filter(type_of__type_of=type_of).filter(word__vocab__in=random_word_list))
+def flashcard_view(request, pk):
+    try:
+        int(pk)
+    except ValueError:
+        all_word_list = get_list_word_from_type_of(pk)
+        random_word_list = random.sample(all_word_list, 10)
+        for word in random_word_list:
+            get_word(word=word)
+        word_list = list(Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list))
+    else:
+        all_word_list = WordDeck.objects.get(id=pk).definition_set.all()
+        word_list = list(all_word_list)
     context = {"word_list": word_list}
     return render(request, "wordwise/flashcard.html", context)
 
