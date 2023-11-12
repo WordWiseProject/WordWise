@@ -32,51 +32,42 @@
           <ul tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-              <div class="tooltip tooltip-bottom" data-tip="Home">
-                <a href="{% url "wordwise:index" %}"><i class='bx bxs-home text-2xl '></i></a>
-              </div>
+                <a class="tooltip tooltip-bottom" data-tip="Home"
+                 href="{% url "wordwise:index" %}"><i class='bx bxs-home text-2xl '></i></a>
             </li>
             <li>
-              <div class="tooltip tooltip-bottom" data-tip="Deck">
-              <a href="{% url "wordwise:collection_index" %}"><i class='bx bxs-collection text-2xl' ></i></a>
-              </div>
+              <a class="tooltip tooltip-bottom" data-tip="Deck"
+                 href="{% url "wordwise:collection_index" %}"><i class='bx bxs-collection text-2xl' ></i></a>
             </li>
             <li>
-              <div class="tooltip tooltip-bottom" data-tip="Test">
-              <a href="#"><i class='bx bxs-edit-alt text-2xl'></i></a>
-              </div>
+              <a class="tooltip tooltip-bottom" data-tip="Test"
+                 href="#"><i class='bx bxs-edit-alt text-2xl'></i></a>
             </li>
             <li>
-              <div class="tooltip tooltip-bottom" data-tip="Fill in the blank">
-              <a href="{% url "wordwise:fill_in" %}"><i class='bx bxs-keyboard text-2xl'></i></a>
-              </div>
+              <a class="tooltip tooltip-bottom" data-tip="Fill in the blank"
+                 href="{% url "wordwise:fill_in" %}"><i class='bx bxs-keyboard text-2xl'></i></a>
             </li>
           </ul>
         </div>
         <a href="{% url "wordwise:index" %}" class="btn btn-ghost normal-case text-xl">WordWise</a>
-      <ul class="menu menu-horizontal px-1">
-        </ul></div>
+      <ul class="menu menu-horizontal px-1"></ul>
+      </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
           <li>
-            <div class="tooltip tooltip-bottom" data-tip="Home">
-                <a href="{% url "wordwise:index" %}"><i class='bx bxs-home text-2xl '></i></a>
-            </div>
+                <a class="tooltip tooltip-bottom" data-tip="Home"
+                   href="{% url "wordwise:index" %}"><i class='bx bxs-home text-2xl '></i></a>
           </li>
           <li>
-            <div class="tooltip tooltip-bottom" data-tip="Deck">
-            <a href="{% url "wordwise:collection_index" %}"><i class='bx bxs-collection text-2xl' ></i></a>
-            </div>
+            <a class="tooltip tooltip-bottom" data-tip="Deck"
+               href="{% url "wordwise:collection_index" %}"><i class='bx bxs-collection text-2xl' ></i></a>
           </li>
           <li>
-            <div class="tooltip tooltip-bottom" data-tip="Test">
-            <a href="#"><i class='bx bxs-edit-alt text-2xl'></i></a>
-            </div>
+            <a class="tooltip tooltip-bottom" data-tip="Test" href="#"><i class='bx bxs-edit-alt text-2xl'></i></a>
           </li>
           <li>
-            <div class="tooltip tooltip-bottom" data-tip="Fill in the blank">
-            <a href="{% url "wordwise:fill_in" %}"><i class='bx bxs-keyboard text-2xl'></i></a>
-            </div>
+            <a class="tooltip tooltip-bottom" data-tip="Fill in the blank"
+               href="{% url "wordwise:fill_in" %}"><i class='bx bxs-keyboard text-2xl'></i></a>
           </li>
         </ul>
       </div>

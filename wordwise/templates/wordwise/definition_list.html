@@ -1,11 +1,11 @@
 {% if status == "fail" %}
-  <p>Word Does Not Exist</p>
+  <p class="mt-2 text-center">Word Does Not Exist</p>
 {% else %}
   <br />
   <p>{{ word.vocab }}</p>
   <form method="post" action="{% url "wordwise:add_word_to_deck" deck_id %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="Submit" class="btn btn-info">Add</button>
+    <button type="Submit" class="btn btn-error mt-2">Add</button>
   </form>
 {% endif %}

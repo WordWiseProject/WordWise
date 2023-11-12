@@ -15,9 +15,9 @@
   </head>
   <body>
     {% include "base.html" %}
-    <div class="bg-white p-2 rounded-lg mt-2 mx-5 w-80">
+    <div class="bg-white p-2 rounded-lg mt-5 mx-5 w-80">
       <h2 class="text-left text-xl mt-4 mx-5 text-xl font-semibold">{{ deck.name.capitalize }}</h2>
-      <p class="text-left mt-4 mx-5 overflow-hidden max-h-40">{{ deck.description }}</p>
+      <p class="text-left mt-4 mx-5 overflow-hidden max-h-40 mb-4">{{ deck.description }}</p>
     </div>
     <div class="flex justify-center items-center mt-5">
       <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
@@ -51,22 +51,22 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-start mt-2 mx-5">
-      <button class="btn btn-warning">
-        <a href="{% url "wordwise:fill_in_deck" deck.id %}">Fill in the blank</a>
-      </button>
-      <button class="btn btn-success mx-2">
-        <a href={% url "wordwise:flashcard" deck.id %}>Flash card</a>
-      </button>
-      {% if user == deck.user %}
-        <div class="mx-auto">
-          <label for="my_modal_6" class="btn flex justify-end">add</label>
+    <div class="flex justify-between mt-2 mx-5">
+      <div>
+        <a class="btn btn-warning"
+           href="{% url "wordwise:fill_in_deck" deck.id %}">Fill in the blank</a>
+        <a class="btn btn-success mx-2"
+           href="{% url "wordwise:flashcard" deck.id %}">Flash card</a>
+      </div>
+      <div>
+        {% if user == deck.user %}
+          <label for="my_modal_6" class="btn flex justify-start">add</label>
           <input type="checkbox" id="my_modal_6" class="modal-toggle" />
           <div class="modal flex items-center justify-center min-h-screen">
             <div class="modal-box">
               <button id="closeButton"
                       class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-              <div class="flex items-center">
+              <div class="flex justify-center items-center">
                 <form class="flex">
                   {% csrf_token %}
                   <div class="flex items-center justify-center">
