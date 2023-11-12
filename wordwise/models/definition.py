@@ -26,3 +26,6 @@ class Definition(models.Model):
     part_of_speech = models.CharField(max_length=255, null=True)
     type_of = models.ManyToManyField(TypeOf)
     collection = models.ManyToManyField(WordDeck)
+
+    def __str__(self):
+        return self.word.vocab

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
+          rel="stylesheet"
+          type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+          rel='stylesheet' />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
+  </head>
+  <body>
+    {% include "base.html" %}
+    {#    add new collection #}
+    <div class="flex justify-end mt-4 mr-4">
+      <label for="my_modal_6" class="btn">add</label>
+      <input type="checkbox" id="my_modal_6" class="modal-toggle" />
+      <div class="modal flex items-center justify-center min-h-screen">
+        <div class="modal-box">
+          <button id="closeButton"
+                  class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          <form method="post" action="{% url "wordwise:create_collection" %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" class="btn btn-active btn-secondary" />
+          </form>
+        </div>
+      </div>
+    </div>
+    {#my collection#}
+    <p class="text-left text-xl mt-4 mx-5">ของกู</p>
+    <div class="flex justify-center items-center mt-5">
+      <div class="overflow-x-auto card w-full mx-5 h-80 bg-base-100 shadow-xl">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Name</th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Description</th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            {% for user_collection in collections %}
+              <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                <td>
+                  <a class="text-xl font-semibold"
+                     href="{% url "wordwise:deck_detail" user_collection.id %}">{{ user_collection.name.capitalize }}</a>
+                </td>
+                <td>
+                  <a href="{% url "wordwise:deck_detail" user_collection.id %}">{{ user_collection.description }}</a>
+                </td>
+                <td>
+                  <a class="link link-accent">edit</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {# Other collection #}
+    <p class="text-left text-xl mt-4 mx-5">ของคนอื่น</p>
+    <div class="flex justify-center items-center mt-3">
+      <div class="overflow-x-auto card w-full mx-5 h-80 bg-base-100 shadow-xl">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Name</th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Description</th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Owner</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            {% for other_collection in others %}
+              <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                <td>
+                  <a class="text-xl font-semibold"
+                     href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.name.capitalize }}</a>
+                </td>
+                <td>
+                  <a href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.description }}</a>
+                </td>
+                <td>
+                  <a class="link link-accent">{{ other_collection.user }}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        modalToggle = document.getElementById('my_modal_6');
+        var closeButton = document.getElementById('closeButton');
+
+        closeButton.addEventListener('click', function() {
+          modalToggle.checked = false; // Uncheck the checkbox to close the modal
+        });
+      });
+    </script>
+  </body>
+  {% include "footer.html" %}
+</html>

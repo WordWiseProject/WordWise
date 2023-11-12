@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
+          rel="stylesheet"
+          type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+          rel='stylesheet' />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
+  </head>
+  <body>
+    {% include "base.html" %}
+    <h2 class="text-left text-xl mt-4 mx-5">{{ deck.name }}</h2>
+    <p class="text-left mt-4 mx-5">{{ deck.description }}</p>
+    <div class="flex justify-center items-center mt-5">
+      <div class="overflow-x-auto card w-full mx-5 bg-base-100 shadow-xl">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Number</th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">Definition</th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center"></th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            {% for word in deck.definition_set.all %}
+              <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  <p class="text-xl font-semibold flex">{{ word.word.vocab }}</p>
+                </td>
+                <td>
+                  <p class="text-xl font-semibold flex">{{ word.definition }}</p>
+                </td>
+                <td>
+                  <a class="link link-accent">delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+            <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+              <td colspan="4" class="link link-accent">Add Word</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+  {% include "footer.html" %}
+</html>

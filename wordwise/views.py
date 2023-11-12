@@ -100,26 +100,25 @@ class FillInTheBlank(View):
         return render(request, "wordwise/fill_fail.html", context={"test2": current_defi.word.vocab})
 
 
-class CollectionIndexView(ListView):
+class DeckIndexView(ListView):
     """Class based View for Index."""
 
-    template_name = "wordwise/collection_index.html"
+    template_name = "wordwise/deck_index.html"
     context_object_name = "collections"
 
     def get_queryset(self):
         """Return all the user's collection"""
         return WordDeck.objects.filter(user=self.request.user.id)  # user's collection
-        # return Collection.objects.filter(~Q(user=self.request.user.id)) # other's collection
-        # return Collection.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["others"] = WordDeck.objects.filter(~Q(user=self.request.user.id))  # other's collection
         context["form"] = CollectionForm()
         return context
 
 
 # @login_required
-class CollectionCreateView(View):
+class DeckCreateView(View):
     def get(self, request):
         return redirect("wordwise:collection_index")
 
@@ -132,3 +131,19 @@ class CollectionCreateView(View):
             collection.save()
             return redirect("wordwise:collection_index")
         return redirect("wordwise:collection_index")
+
+
+class DeckDetailView(View):
+    def get(self, request, pk):
+        template_name = "wordwise/deck_detail.html"
+        deck = WordDeck.objects.get(pk=pk)
+        return render(request, template_name=template_name, context={"deck": deck})
+
+
+def create_word(request):
+    deck_id = request.POST.get("deck_id")
+    defi_id = request.POST.get("defi_id")
+    deck = WordDeck.objects.get(id=deck_id)
+    defi = Definition.objects.get(id=defi_id)
+    deck.definition_set.add(defi)
+    return redirect("wordwise:deck_index", pk=deck_id)
