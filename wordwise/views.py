@@ -129,6 +129,8 @@ class FillInTheBlankDeck(View):
         if request.session.get("current_deck") != pk:
             request.session["current_deck"] = pk
         word_list = list(Definition.objects.filter(collection__id=pk).exclude(example__isnull=True))
+        if len(word_list) == 0:
+            return redirect("wordwise:deck_detail", pk=pk)
         random.seed(request.session.get("random_seed"))
         random.shuffle(word_list)
         p = Paginator(word_list, 1)
