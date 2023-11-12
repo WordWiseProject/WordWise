@@ -3,14 +3,14 @@ from pathlib import Path
 
 import environ
 import requests
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render, reverse
+from django.db.models import Q
+from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView
 
 from .forms import CollectionForm, TestFrom
-from .models import Collection, Definition, Example, TypeOf, Word
+from .models import Definition, Example, TypeOf, Word, WordDeck
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 env = environ.Env()
@@ -92,6 +92,7 @@ class FillInTheBlank(View):
         defi = request.POST.get("defi")
         current_defi = Definition.objects.filter(definition=defi).first()
 
+        # TODO: check capitalize
         if answer == current_defi.word.vocab:
             print("yes")
             return render(request, "wordwise/fill_pass.html", context={"test2": current_defi.word.vocab})
@@ -107,7 +108,9 @@ class CollectionIndexView(ListView):
 
     def get_queryset(self):
         """Return all the user's collection"""
-        return Collection.objects.all()
+        return WordDeck.objects.filter(user=self.request.user.id)  # user's collection
+        # return Collection.objects.filter(~Q(user=self.request.user.id)) # other's collection
+        # return Collection.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -125,16 +128,7 @@ class CollectionCreateView(View):
         if form.is_valid():
             name = form.cleaned_data["name"]
             desc = form.cleaned_data["description"]
-            collection = Collection(name=name, description=desc, user=request.user)
+            collection = WordDeck(name=name, description=desc, user=request.user)
             collection.save()
             return redirect("wordwise:collection_index")
         return redirect("wordwise:collection_index")
-
-    # def get(self, request):
-    #     return (request,)
-    #
-    # def add_word(self):
-    #     pass
-    #
-    # def delete_word(self):
-    #     pass

@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from wordwise.models.collection import Collection
+from wordwise.models import WordDeck
 
-admin.site.register(Collection)
+admin.site.register(WordDeck)

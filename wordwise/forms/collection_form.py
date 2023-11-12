@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 
-from wordwise.models import Collection
+from wordwise.models import WordDeck
 
 
 # input input-bordered input-md w-full max-w-xs mt-2
