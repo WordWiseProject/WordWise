@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
-  </head>
-  <body>
-    {% if status == "fail" %}
-      <p>Word Does Not Exist</p>
-    {% else %}
-      <br />
-      <p>{{ word.vocab }}</p>
-      <form method="post" action="{% url "wordwise:add_word_to_deck" deck_id %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="Submit" class="btn btn-info">Add</button>
-      </form>
-    {% endif %}
-  </body>
-</html>
+{% if status == "fail" %}
+  <p>Word Does Not Exist</p>
+{% else %}
+  <br />
+  <p>{{ word.vocab }}</p>
+  <form method="post" action="{% url "wordwise:add_word_to_deck" deck_id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="Submit" class="btn btn-info">Add</button>
+  </form>
+{% endif %}

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Collection</title>
+    <title>Deck</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
           rel="stylesheet"
           type="text/css" />
@@ -15,10 +15,12 @@
   </head>
   <body>
     {% include "base.html" %}
-    <h2 class="text-left text-xl mt-4 mx-5">{{ deck.name }}</h2>
-    <p class="text-left mt-4 mx-5">{{ deck.description }}</p>
+    <div class="bg-white p-2 rounded-lg mt-2 mx-5 w-80">
+      <h2 class="text-left text-xl mt-4 mx-5 text-xl font-semibold">{{ deck.name }}</h2>
+      <p class="text-left mt-4 mx-5 overflow-hidden max-h-40">{{ deck.description }}</p>
+    </div>
     <div class="flex justify-center items-center mt-5">
-      <div class="overflow-x-auto card w-full mx-5 bg-base-100 shadow-xl">
+      <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
         <table class="table">
           <thead>
             <tr>
@@ -33,10 +35,10 @@
               <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
                 <td>{{ forloop.counter }}</td>
                 <td>
-                  <p class="text-xl font-semibold text-center">{{ word.word.vocab }}</p>
+                  <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
                 </td>
                 <td>
-                  <p class="text-xl font-semibold text-center">{{ word.definition }}</p>
+                  <p class="text-l text-center">{{ word.definition }}</p>
                 </td>
                 <td>
                   <a class="link link-accent">delete</a>
@@ -58,33 +60,39 @@
             <div class="flex items-center">
               <form class="flex">
                 {% csrf_token %}
-                <input type="text"
-                       name="word"
-                       placeholder="Type here"
-                       class="input input-bordered input-info w-full max-w-xs" />
-                <button class="btn btn-circle text-xl ml-3 justify-center"
-                        hx-post="{% url "wordwise:search_word" deck.id %}"
-                        hx-target="#definition_list"
-                        hx-swap="innerHTML">
-                  <i class="bx bx-search bx-flashing"></i>
-                </button>
+                <div class="flex items-center justify-center">
+                  <input type="text"
+                         name="word"
+                         placeholder="Type here"
+                         class="input input-bordered input-info w-full max-w-xs" />
+                  <button class="btn btn-circle text-xl ml-3 justify-center"
+                          hx-post="{% url "wordwise:search_word" deck.id %}"
+                          hx-target="#definition_list"
+                          hx-swap="innerHTML">
+                    <i class="bx bx-search"></i>
+                  </button>
+                </div>
               </form>
-              <div id="definition_list"></div>
             </div>
+            <div id="definition_list"></div>
           </div>
         </div>
-      </div>
-    {% endif %}
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        modalToggle = document.getElementById('my_modal_6');
-        var closeButton = document.getElementById('closeButton');
+        <button class="btn btn-error">
+          <a href="#">Fill in the blank</a>
+        </button>
+        <button class="btn btn-success">
+          <a href="#">Flash card</a>
+        </button>
+      {% endif %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          modalToggle = document.getElementById('my_modal_6');
+          var closeButton = document.getElementById('closeButton');
 
-        closeButton.addEventListener('click', function() {
-          modalToggle.checked = false; // Uncheck the checkbox to close the modal
+          closeButton.addEventListener('click', function() {
+            modalToggle.checked = false; // Uncheck the checkbox to close the modal
+          });
         });
-      });
-    </script>
-  </body>
-  {% include "footer.html" %}
-</html>
+      </script>
+    </body>
+  </html>
