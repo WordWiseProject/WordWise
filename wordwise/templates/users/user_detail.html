@@ -15,23 +15,40 @@
   <body>
     {% include "base.html" %}
     {% block content %}
-      <div class="card w-96 bg-base-100 shadow-xl shadow-lg p-4 text-center mx-auto mt-3">
-        <h2 class="text-3xl font-semibold">{{ object.username }}</h2>
-        {% if object.name %}<p class="text-lg">{{ object.name }}</p>{% endif %}
+      <div class="card w-5/12 bg-base-100 shadow-xl p-4 mx-auto mt-3">
+        <h2 class="text-3xl font-semibold text-center">{{ object.username }}</h2>
+        {% if object.name %}<p class="text-lg text-center">{{ object.name }}</p>{% endif %}
         {% if object == request.user %}
-          <div class="mt-4">
+          <div class="mt-4 text-center">
             <a class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 text-sm"
                href="{% url 'users:update' %}"
-               role="button">My Info</a> <!-- Fixed text size with text-sm class -->
+               role="button">My Info</a>
             <a class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 mt-2 text-sm"
                href="{% url 'account_email' %}"
-               role="button">E-Mail</a> <!-- Fixed text size with text-sm class -->
+               role="button">E-Mail</a>
             <a class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 mt-2 text-sm"
                href="{% url 'account_logout' %}"
-               role="button">Log out</a> <!-- Fixed text size with text-sm class -->
-            <!-- Your Stuff: Custom user template URLs -->
+               role="button">Log out</a>
           </div>
-          <!-- End Action buttons -->
+          <div class="flex justify-between mt-5">
+            <!-- First Stat -->
+            <div class="ml-6">
+              <div class="stat-title">Favorite</div>
+              <div class="stat-value text-error">278 Words</div>
+            </div>
+            <!-- Second Stat -->
+            <div>
+              <div class="radial-progress text-accent"
+                   style="--value:75"
+                   role="progressbar">75%</div>
+              <div class="stat-title text-center">Remember</div>
+            </div>
+            <!-- Third Stat -->
+            <div class="mr-6">
+              <div class="stat-title text-center">Day Streak</div>
+              <div class="stat-value text-primary text-orange-600">3 Days</div>
+            </div>
+          </div>
         {% endif %}
       </div>
     {% endblock content %}
