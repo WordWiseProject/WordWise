@@ -40,13 +40,16 @@
                     <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
                   </td>
                   <td>
-                    <p class="text-l text-center">{{ word.part_of_speech }}.</p>
+                    <p class="text-l text-center">{{ word.part_of_speech }}</p>
                   </td>
                   <td>
                     <p class="text-l text-left">{{ word.definition }}</p>
                   </td>
                   <td>
-                    {% if user == deck.user %}<a class="link link-accent">delete</a>{% endif %}
+                    {% if user == deck.user %}
+                      <a href='{% url "wordwise:delete_word" deck.id word.id %}'
+                         class="link link-accent">delete</a>
+                    {% endif %}
                   </td>
                 </tr>
               {% endfor %}

@@ -175,6 +175,12 @@ class DeckIndexView(ListView):
         context["form"] = CollectionForm()
         return context
 
+    def delete_deck(self, pk):
+        deck_id = pk
+        deck = WordDeck.objects.get(id=deck_id)
+        deck.delete()
+        return redirect("wordwise:deck_index")
+
 
 # @login_required
 class DeckCreateView(View):
@@ -200,6 +206,13 @@ class DeckDetailView(View):
         template_name = "wordwise/deck_detail.html"
         deck = WordDeck.objects.get(pk=pk)
         return render(request, template_name=template_name, context={"deck": deck})
+
+    def delete_word(self, pk, word_id):
+        deck_id = pk
+        deck = WordDeck.objects.get(id=deck_id)
+        definition = Definition.objects.get(id=word_id)
+        deck.definition_set.remove(definition)
+        return redirect("wordwise:deck_detail", pk=pk)
 
 
 class SearchWord(View):

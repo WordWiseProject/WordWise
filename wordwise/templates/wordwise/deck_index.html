@@ -56,7 +56,8 @@
                     <a href="{% url "wordwise:deck_detail" user_collection.id %}">{{ user_collection.description }}</a>
                   </td>
                   <td>
-                    <a class="link link-accent">edit</a>
+                    <a href="{% url "wordwise:delete_deck" user_collection.id %}"
+                       class="link link-accent">delete</a>
                   </td>
                 </tr>
               {% endfor %}
