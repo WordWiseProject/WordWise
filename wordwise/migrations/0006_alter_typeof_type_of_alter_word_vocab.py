@@ -47,8 +47,12 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunSQL('SET CONSTRAINTS ALL IMMEDIATE;'),
         migrations.RunPython(remove_duplicates),
+        migrations.RunSQL('SET CONSTRAINTS ALL DEFERRED;'),
+        migrations.RunSQL('SET CONSTRAINTS ALL IMMEDIATE;'),
         migrations.RunPython(remove_duplicates_type),
+        migrations.RunSQL('SET CONSTRAINTS ALL DEFERRED;'),
         migrations.AlterField(
             model_name="typeof",
             name="type_of",
