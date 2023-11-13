@@ -77,7 +77,10 @@ def flashcard_view(request, pk):
         int(pk)
     except ValueError:
         all_word_list = get_list_word_from_type_of(pk)
-        random_word_list = random.sample(all_word_list, 10)
+        try:
+            random_word_list = random.sample(all_word_list, 10)
+        except ValueError:
+            random_word_list = random.sample(all_word_list, len(all_word_list))
         for word in random_word_list:
             get_word(word=word)
         word_list = list(Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list))
