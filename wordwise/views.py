@@ -22,7 +22,7 @@ HEADERS = {"X-RapidAPI-Key": env("X_RAPIDAPI_KEY"), "X-RapidAPI-Host": env("X_RA
 def get_word(word: str):
     url = f"https://wordsapiv1.p.rapidapi.com/words/{word}/"
     try:
-        word = Word.objects.get(vocab=word)
+        word = Word.objects.get(vocab=word.lower())
     except Word.DoesNotExist:
         response = requests.get(url, headers=HEADERS)
         print(response.status_code)
@@ -31,7 +31,7 @@ def get_word(word: str):
         word_json = response.json()
         if "results" not in word_json:
             return None
-        word = Word(vocab=word_json["word"])
+        word = Word(vocab=word_json["word"].lower())
         word.save()
         for results in word_json["results"]:
             defi = Definition(
