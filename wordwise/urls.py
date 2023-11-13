@@ -22,4 +22,5 @@ urlpatterns = [
     path("add_word_deck/<int:pk>", views.AddWordToDeck.as_view(), name="add_word_to_deck"),
     path("test_deck/<int:pk>", views.DeckTestMode.as_view(), name="test_deck"),
     path("test_deck", views.DeckTestMode.as_view(), name="submit_test_deck"),
+    path("quick_test_deck", views.QuickTestMode.as_view(), name="quick_test_deck"),
 ]
