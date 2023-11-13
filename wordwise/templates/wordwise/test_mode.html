@@ -54,7 +54,7 @@
       </div>
     </div>
     {#    {{ defi.object_list.0.definition }}#}
-    <div class="card w-8/12 bg-base-100 shadow-xl mx-auto mt-2">
+    <div class="card w-8/12 bg-base-100 shadow-xl mx-auto mt-4">
       <div class="card-body">
         <form hx-post="{% url "wordwise:submit_test_deck" %}"
               hx-target="#result"
@@ -62,7 +62,7 @@
               onsubmit="disableSubmitButton()">
           {% csrf_token %}
           <div class="grid grid-cols-2 gap-4">
-            {% for one_form in form.definition %}<label class="btn">{{ one_form }}</label>{% endfor %}
+            {% for one_form in form.definition %}<div class="btn lowercase">{{ one_form }}</div>{% endfor %}
           </div>
           {{ form.current }}
           <input type="hidden" name="has_next" value="{{ defi.has_next }}" />
@@ -75,7 +75,7 @@
           {% endif %}
           <button id="submitBtn"
                   class="btn btn-active btn-secondary mt-2 flex justify-center"
-                  type="submit">go</button>
+                  type="submit">Submit</button>
         </form>
         <div id="result"></div>
         <div id="result"></div>
