@@ -62,7 +62,7 @@
               onsubmit="disableSubmitButton()">
           {% csrf_token %}
           <div class="grid grid-cols-2 gap-4">
-            {% for one_form in form.definition %}<div class="btn lowercase">{{ one_form }}</div>{% endfor %}
+            {% for one_form in form.definition %}<label class="btn lowercase">{{ one_form }}</label>{% endfor %}
           </div>
           {{ form.current }}
           <input type="hidden" name="has_next" value="{{ defi.has_next }}" />
