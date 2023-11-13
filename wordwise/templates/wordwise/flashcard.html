@@ -46,11 +46,11 @@
       <div class="flex justify-left text-center">
         {% if pk.isdigit %}
           <a href='{% url "wordwise:deck_detail" pk %}'>
-            <button class="btn btn-warning mt-2 btn-sm">Go Back</button>
+            <button class="btn btn-warning mt-2 btn-sm"><i class='bx bx-arrow-back' ></i></button>
           </a>
         {% else %}
           <a href='{% url "wordwise:index" %}'>
-            <button class="btn btn-warning mt-2 btn-sm">Go Back</button>
+            <button class="btn btn-warning mt-2 btn-sm"><i class='bx bx-arrow-back' ></i></button>
           </a>
         {% endif %}
       </div>
