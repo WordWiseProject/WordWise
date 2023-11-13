@@ -58,7 +58,7 @@
         <div id="result"></div>
       </div>
       <div class="flex justify-left text-center">
-        {% if in_deck %}
+        {% if current_deck != 0 %}
           <a href='{% url "wordwise:deck_detail" current_deck %}'>
             <button class="btn btn-warning mt-2 btn-sm">
               <i class="bx bx-arrow-back"></i>
