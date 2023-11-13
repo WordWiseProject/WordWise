@@ -83,7 +83,9 @@ def flashcard_view(request, pk):
             random_word_list = random.sample(all_word_list, len(all_word_list))
         for word in random_word_list:
             get_word(word=word)
-        word_list = list(Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list))
+        word_list = list(
+            Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list).distinct()
+        )
     else:
         all_word_list = WordDeck.objects.get(id=pk).definition_set.all()
         word_list = list(all_word_list)
