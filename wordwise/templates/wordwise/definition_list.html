@@ -5,7 +5,11 @@
   <p>{{ word.vocab }}</p>
   <form method="post" action="{% url "wordwise:add_word_to_deck" deck_id %}">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% for one_form in form %}
+      <tr>
+        <td>{{ one_form.form }}</td>
+      </tr>
+    {% endfor %}
     <button type="Submit" class="btn btn-error mt-2">Add</button>
   </form>
 {% endif %}
