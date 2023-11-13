@@ -27,6 +27,7 @@
               <tr>
                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Number</th>
                 <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Part of speech</th>
                 <th class="p-3 text-sm font-semibold tracking-wide text-left">Definition</th>
                 <th class="p-3 text-sm font-semibold tracking-wide text-center"></th>
               </tr>
@@ -37,6 +38,9 @@
                   <td>{{ forloop.counter }}</td>
                   <td>
                     <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
+                  </td>
+                  <td>
+                    <p class="text-l text-center">{{ word.part_of_speech }}.</p>
                   </td>
                   <td>
                     <p class="text-l text-left">{{ word.definition }}</p>
@@ -53,7 +57,7 @@
     </div>
     <div class="flex justify-between mt-2 mx-5">
       <div>
-        <a class="btn btn-warning"
+        <a class="btn btn-error"
            href="{% url "wordwise:fill_in_deck" deck.id %}">Fill in the blank</a>
         <a class="btn btn-success mx-2"
            href="{% url "wordwise:flashcard" deck.id %}">Flash card</a>
@@ -88,6 +92,13 @@
           </div>
         </div>
       {% endif %}
+    </div>
+    <div class="flex justify-between mx-5">
+      <a href='{% url "wordwise:deck_index" %}'>
+        <button class="btn btn-warning mt-2 btn-sm">
+          <i class="bx bx-arrow-back"></i>
+        </button>
+      </a>
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', function() {

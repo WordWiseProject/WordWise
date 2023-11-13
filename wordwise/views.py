@@ -169,7 +169,7 @@ class DeckIndexView(ListView):
 # @login_required
 class DeckCreateView(View):
     def get(self, request):
-        return redirect("wordwise:collection_index")
+        return redirect("wordwise:deck_index")
 
     def post(self, request):
         form = CollectionForm(request.POST)
@@ -178,8 +178,8 @@ class DeckCreateView(View):
             desc = form.cleaned_data["description"]
             collection = WordDeck(name=name, description=desc, user=request.user)
             collection.save()
-            return redirect("wordwise:collection_index")
-        return redirect("wordwise:collection_index")
+            return redirect("wordwise:deck_index")
+        return redirect("wordwise:deck_index")
 
 
 class DeckDetailView(View):
