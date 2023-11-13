@@ -3,12 +3,52 @@
 from django.db import migrations, models
 
 
+def remove_duplicates(apps, schema_editor):
+    ExampleModel = apps.get_model("wordwise", "word")
+    db_alias = schema_editor.connection.alias
+
+    # Get the unique values for the "example_field"
+    unique_value_list = ExampleModel.objects.using(db_alias).values_list('vocab', flat=True).distinct()
+
+    for unique_value in unique_value_list:
+        # Get ids for a specific value except the first one
+        pks = (
+            ExampleModel.objects.using(db_alias)
+            .filter(vocab=unique_value)
+            .values_list('id', flat=True)[1:]
+        )
+
+        # Remove selected ids
+        ExampleModel.objects.using(db_alias).filter(id__in=pks).delete()
+
+
+def remove_duplicates_type(apps, schema_editor):
+    ExampleModel = apps.get_model("wordwise", "typeof")
+    db_alias = schema_editor.connection.alias
+
+    # Get the unique values for the "example_field"
+    unique_value_list = ExampleModel.objects.using(db_alias).values_list('type_of', flat=True).distinct()
+
+    for unique_value in unique_value_list:
+        # Get ids for a specific value except the first one
+        pks = (
+            ExampleModel.objects.using(db_alias)
+            .filter(type_of=unique_value)
+            .values_list('id', flat=True)[1:]
+        )
+
+        # Remove selected ids
+        ExampleModel.objects.using(db_alias).filter(id__in=pks).delete()
+
+
 class Migration(migrations.Migration):
     dependencies = [
         ("wordwise", "0005_rename_collection_worddeck"),
     ]
 
     operations = [
+        migrations.RunPython(remove_duplicates),
+        migrations.RunPython(remove_duplicates_type),
         migrations.AlterField(
             model_name="typeof",
             name="type_of",
