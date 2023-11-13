@@ -15,9 +15,26 @@
   </head>
   <body>
     {% include "base.html" %}
-    <div class="bg-white p-2 rounded-lg mt-5 mx-5 w-80">
-      <h2 class="text-left text-xl mt-4 mx-5 text-xl font-semibold">{{ deck.name.upper }}</h2>
-      <p class="text-left mt-4 mx-5 overflow-hidden max-h-40 mb-4">{{ deck.description }}</p>
+    <div class="flex justify-between mt-2">
+      <div class="bg-white hover:bg-zinc-100 p-2 rounded-lg mt-5 mx-5 w-80">
+        <a href='{% url "wordwise:deck_index" %}'>
+          <h2 class="text-left text-xl mt-4 mx-5 text-xl font-semibold">{{ deck.name.upper }}</h2>
+          <p class="text-left mt-4 mx-5 overflow-hidden max-h-40 mb-4">{{ deck.description }}</p>
+        </a>
+      </div>
+      {% if user == deck.user %}
+        <div class="bg-white p-2 rounded-lg mt-5 mx-5 w-24 h-12 flex justify-center items-center">
+          <div class="form-control w-20">
+            <label class="cursor-pointer label">
+              <i id="lockIcon" class="bx bxs-lock-alt"></i>
+              <input id="toggleCheckbox"
+                     type="checkbox"
+                     class="toggle toggle-info"
+                     checked />
+            </label>
+          </div>
+        </div>
+      {% endif %}
     </div>
     <div class="flex justify-center items-center mt-5">
       <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
@@ -97,13 +114,6 @@
         </div>
       {% endif %}
     </div>
-    <div class="flex justify-between mx-5">
-      <a href='{% url "wordwise:deck_index" %}'>
-        <button class="btn btn-warning mt-2 btn-sm">
-          <i class="bx bx-arrow-back"></i>
-        </button>
-      </a>
-    </div>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         modalToggle = document.getElementById('my_modal_4');
@@ -111,6 +121,22 @@
 
         closeButton.addEventListener('click', function() {
           modalToggle.checked = false; // Uncheck the checkbox to close the modal
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var toggleCheckbox = document.getElementById('toggleCheckbox');
+        var lockIcon = document.getElementById('lockIcon');
+
+        toggleCheckbox.addEventListener('change', function() {
+          // Check if the toggle is checked
+          if (toggleCheckbox.checked) {
+            // Change to open lock icon
+            lockIcon.className = 'bx bxs-lock-open-alt';
+          } else {
+            // Change to closed lock icon
+            lockIcon.className = 'bx bxs-lock-alt';
+          }
         });
       });
     </script>

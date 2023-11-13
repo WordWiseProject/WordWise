@@ -16,6 +16,35 @@
     <script src="https://unpkg.com/htmx.org@1.9.7"
             integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
             crossorigin="anonymous"></script>
+    <style>
+      /* Remove bullet points from radio buttons */
+      .grid input[type="radio"] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        display: inline-block;
+        vertical-align: middle;
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+      }
+
+      .grid input[type="radio"]::before {
+        content: "";
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background-color: white;
+        border: 2px solid #718096;
+        border-radius: 50%;
+        margin-right: 0.5em;
+        transition: background 0.3s;
+      }
+
+      .grid input[type="radio"]:checked::before {
+        background-color: #4299e1;
+        border-color: #4299e1;
+      }
+    </style>
   </head>
   <body>
     {% include "base.html" %}
@@ -25,20 +54,17 @@
       </div>
     </div>
     {#    {{ defi.object_list.0.definition }}#}
-    <div class="card w-11/12 bg-base-100 shadow-xl mx-auto mt-2">
+    <div class="card w-8/12 bg-base-100 shadow-xl mx-auto mt-2">
       <div class="card-body">
         <form hx-post="{% url "wordwise:submit_test_deck" %}"
               hx-target="#result"
-              hx-swap="innerHTML">
+              hx-swap="innerHTML"
+              onsubmit="disableSubmitButton()">
           {% csrf_token %}
-          {% for one_form in form.definition %}
-            <tr>
-              <td>
-                <p>ㅤ</p>
-              </td>
-              <td>{{ one_form }}</td>
-            </tr>
-          {% endfor %}
+          <div class="grid grid-cols-2 gap-4">
+            {% for one_form in form.definition %}<div class="btn">{{ one_form }}</div>{% endfor %}
+          </div>
+          {{ form.current }}
           <input type="hidden" name="has_next" value="{{ defi.has_next }}" />
           {% if defi.has_next %}
             <input type="hidden"
@@ -47,11 +73,19 @@
           {% else %}
             <input type="hidden" name="next_page_number" value="0" />
           {% endif %}
-          <button class="btn btn-active btn-secondary mt-2 flex justify-center"
+          <button id="submitBtn"
+                  class="btn btn-active btn-secondary mt-2 flex justify-center"
                   type="submit">go</button>
         </form>
+        <div id="result"></div>
         <div id="result"></div>
       </div>
     </div>
   </body>
+  <script>
+    // Function to disable the submit button
+    function disableSubmitButton() {
+      document.getElementById("submitBtn").disabled = true;
+    }
+  </script>
 </html>
