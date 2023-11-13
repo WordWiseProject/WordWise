@@ -58,8 +58,8 @@
         <div id="result"></div>
       </div>
       <div class="flex justify-left text-center">
-        {% if pk.isdigit %}
-          <a href='{% url "wordwise:deck_detail" pk %}'>
+        {% if in_deck %}
+          <a href='{% url "wordwise:deck_detail" current_deck %}'>
             <button class="btn btn-warning mt-2 btn-sm">
               <i class="bx bx-arrow-back"></i>
             </button>
