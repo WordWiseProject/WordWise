@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test Mode</title>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
+  </head>
+  <body>
+    {{ defi.object_list.0.word.vocab }}
+    <br />
+    {{ defi.object_list.0.definition }}
+    <br />
+    <form hx-post="{% url "wordwise:submit_test_deck" %}"
+          hx-target="#result"
+          hx-swap="innerHTML">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="hidden" name="has_next" value="{{ defi.has_next }}" />
+      {% if defi.has_next %}
+        <input type="hidden"
+               name="next_page_number"
+               value="{{ defi.next_page_number }}" />
+      {% else %}
+        <input type="hidden" name="next_page_number" value="0" />
+      {% endif %}
+      <button type="submit">go</button>
+    </form>
+    <div id="result"></div>
+  </body>
+</html>

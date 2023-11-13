@@ -61,6 +61,8 @@
            href="{% url "wordwise:fill_in_deck" deck.id %}">Fill in the blank</a>
         <a class="btn btn-success mx-2"
            href="{% url "wordwise:flashcard" deck.id %}">Flash card</a>
+        <a class="btn btn-success mx-2"
+           href="{% url "wordwise:test_deck" deck.id %}">Test Mode</a>
       </div>
       <div>
         {% if user == deck.user %}

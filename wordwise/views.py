@@ -10,7 +10,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView
 
-from wordwise.forms import CollectionForm, SelectDefinitionForm, TestFrom
+from wordwise.forms import CollectionForm, FillInTheBlankForm, SelectDefinitionForm, TestForm
 from wordwise.models import Definition, Example, TypeOf, UserData, Word, WordDeck
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -123,7 +123,7 @@ class FillInTheBlank(View):
         p = Paginator(word_list, 1)
         page = request.GET.get("page")
         defi = p.get_page(page)
-        return render(request, "wordwise/fill_in_blank.html", {"defi": defi, "form": TestFrom})
+        return render(request, "wordwise/fill_in_blank.html", {"defi": defi, "form": FillInTheBlankForm})
 
     def post(self, request):
         return check_fill_in_the_blank_answer(request)
@@ -143,7 +143,7 @@ class FillInTheBlankDeck(View):
         p = Paginator(word_list, 1)
         page = request.GET.get("page")
         defi = p.get_page(page)
-        return render(request, "wordwise/fill_in_blank.html", {"defi": defi, "form": TestFrom})
+        return render(request, "wordwise/fill_in_blank.html", {"defi": defi, "form": FillInTheBlankForm})
 
     def post(self, request):
         return check_fill_in_the_blank_answer(request)
@@ -185,6 +185,8 @@ class DeckCreateView(View):
 class DeckDetailView(View):
     def get(self, request, pk):
         request.session["current_deck"] = pk
+        if request.session.get("random_seed"):
+            request.session.pop("random_seed")
         template_name = "wordwise/deck_detail.html"
         deck = WordDeck.objects.get(pk=pk)
         return render(request, template_name=template_name, context={"deck": deck})
@@ -211,3 +213,42 @@ class AddWordToDeck(View):
         deck = WordDeck.objects.get(id=deck_id)
         deck.definition_set.add(definition)
         return redirect("wordwise:deck_detail", pk=pk)
+
+
+class DeckTestMode(View):
+    def get(self, request, pk):
+        if not request.session.get("random_seed", False):
+            request.session["random_seed"] = random.randint(1, 10000)
+        if request.session.get("current_deck") != pk:
+            request.session["current_deck"] = pk
+        word_list = list(Definition.objects.filter(collection__id=pk))
+        random.seed(request.session.get("random_seed"))
+        random_definition_list = list(Definition.objects.all().order_by("?")[:3])
+        random.shuffle(word_list)
+        p = Paginator(word_list, 1)
+        page = request.GET.get("page")
+        defi = p.get_page(page)
+        current_defi = defi.object_list[0]
+        random_definition_list.append(current_defi)
+        random.shuffle(random_definition_list)
+        form = TestForm(definition=random_definition_list, current=current_defi.id)
+        return render(request, "wordwise/test_mode.html", {"defi": defi, "current_deck": pk, "form": form})
+
+    def post(self, request):
+        answer = request.POST.get("definition")
+        correct_defi = request.POST.get("current")
+        next_page = int(request.POST.get("next_page_number"))
+        has_next = bool(strtobool(request.POST.get("has_next")))
+        current_deck = request.session.get("current_deck")
+        current_defi = Definition.objects.get(id=correct_defi)
+        contexts = {
+            "next_page": next_page,
+            "has_next": has_next,
+            "correct_defi": current_defi,
+            "current_deck": current_deck,
+        }
+        if not has_next:
+            request.session.pop("random_seed")
+        if answer == correct_defi:
+            return render(request, "wordwise/test_pass.html", context=contexts)
+        return render(request, "wordwise/test_fail.html", context=contexts)

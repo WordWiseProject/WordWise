@@ -20,4 +20,6 @@ urlpatterns = [
     path("deck/<int:pk>", views.DeckDetailView.as_view(), name="deck_detail"),
     path("search_word/<int:pk>", views.SearchWord.as_view(), name="search_word"),
     path("add_word_deck/<int:pk>", views.AddWordToDeck.as_view(), name="add_word_to_deck"),
+    path("test_deck/<int:pk>", views.DeckTestMode.as_view(), name="test_deck"),
+    path("test_deck", views.DeckTestMode.as_view(), name="submit_test_deck"),
 ]
