@@ -9,4 +9,4 @@ class Word(models.Model):
     :type vocab: str
     """
 
-    vocab = models.CharField(max_length=255)
+    vocab = models.CharField(max_length=255, unique=True)
