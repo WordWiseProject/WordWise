@@ -247,6 +247,8 @@ class DeckTestMode(View):
         if request.session.get("current_deck") != pk:
             request.session["current_deck"] = pk
         word_list = list(Definition.objects.filter(collection__id=pk))
+        if len(word_list) == 0:
+            return redirect("wordwise:deck_detail", pk=pk)
         random.seed(request.session.get("random_seed"))
         random_definition_list = list(Definition.objects.all().order_by("?")[:3])
         random.shuffle(word_list)
