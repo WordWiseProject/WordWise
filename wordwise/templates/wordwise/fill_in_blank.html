@@ -57,16 +57,16 @@
         </dialog>
         <div id="result"></div>
       </div>
-      <div class="flex justify-left text-center">
+      <div class="flex justify-left text-center mt-3">
         {% if current_deck != 0 %}
           <a href='{% url "wordwise:deck_detail" current_deck %}'>
-            <button class="btn btn-warning mt-2 btn-sm">
+            <button class="btn btn-warning text-xl">
               <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
             </button>
           </a>
         {% else %}
           <a href='{% url "wordwise:index" %}'>
-            <button class="btn btn-warning mt-2 btn-sm">
+            <button class="btn btn-warning text-xl">
               <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
             </button>
           </a>
