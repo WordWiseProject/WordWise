@@ -221,7 +221,7 @@ class SearchWord(View):
     def post(self, request, pk):
         word = request.POST.get("word")
         print(word)
-        word = get_word(word)
+        word = get_word(word.strip())
         if word is None:
             return render(request, "wordwise/definition_list.html", context={"status": "fail"})
         form = SelectDefinitionForm(word=word)
