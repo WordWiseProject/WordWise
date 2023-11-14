@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Deck</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
+          rel="stylesheet"
+          type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+          rel='stylesheet' />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
+  </head>
+  <body>
+    {% include "base.html" %}
+    <div class="flex justify-between mt-2">
+      <div class="bg-white hover:bg-zinc-100 p-2 rounded-lg mt-5 mx-5 w-80">
+        <a href='{% url "wordwise:deck_index" %}'>
+          <h2 class="text-left text-xl mt-4 mx-5 text-xl font-semibold">{{ deck.name.upper }}</h2>
+          <p class="text-left mt-4 mx-5 overflow-hidden max-h-40 mb-4">{{ deck.description }}</p>
+        </a>
+      </div>
+      {% if user == deck.user %}
+        <div class="bg-white p-2 rounded-lg mt-5 mx-5 w-24 h-12 flex justify-center items-center">
+          <div class="form-control w-20">
+            <label class="cursor-pointer label">
+              <i id="lockIcon" class="bx bxs-lock-alt"></i>
+              <input id="toggleCheckbox"
+                     type="checkbox"
+                     class="toggle toggle-info"
+                     checked />
+            </label>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <div class="flex justify-center items-center mt-5">
+      <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
+        <div class="table-container max-h-96 overflow-y-auto rounded-lg">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Number</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Part of speech</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-left">Definition</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center"></th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              {% for word in deck.definition_set.all %}
+                <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
+                  </td>
+                  <td>
+                    <p class="text-l text-center">{{ word.part_of_speech }}</p>
+                  </td>
+                  <td>
+                    <p class="text-l text-left">{{ word.definition }}</p>
+                  </td>
+                  <td>
+                    {% if user == deck.user %}
+                      <a href='{% url "wordwise:delete_word" deck.id word.id %}'
+                         class="link link-accent">delete</a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between mt-2 mx-5">
+      <div>
+        <a class="btn btn-success" href="{% url "wordwise:flashcard" deck.id %}">Flash card</a>
+        <a class="btn btn-error mx-2"
+           href="{% url "wordwise:fill_in_deck" deck.id %}">Fill in the blank</a>
+        <a class="btn btn-warning" href="{% url "wordwise:test_deck" deck.id %}">Test Mode</a>
+      </div>
+      <div>
+        {% if user == deck.user %}
+          <a class="btn btn-success mx-2" href="#">Favorite</a>
+          <label for="my_modal_4" class="btn">add</label>
+          <input type="checkbox" id="my_modal_4" class="modal-toggle" />
+          <div class="modal flex items-center justify-center min-h-screen">
+            <div class="modal-box w-11/12 max-w-5xl">
+              <button id="closeButton"
+                      class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+              <div class="flex justify-center items-center">
+                <form class="flex">
+                  {% csrf_token %}
+                  <div class="flex items-center justify-center">
+                    <input type="text"
+                           name="word"
+                           placeholder="Type here"
+                           class="input input-bordered input-info w-96 max-w-xs" />
+                    <button class="btn btn-circle text-xl ml-3 justify-center"
+                            hx-post="{% url "wordwise:search_word" deck.id %}"
+                            hx-target="#definition_list"
+                            hx-swap="innerHTML">
+                      <i class="bx bx-search"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div id="definition_list"></div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        modalToggle = document.getElementById('my_modal_4');
+        var closeButton = document.getElementById('closeButton');
+
+        closeButton.addEventListener('click', function() {
+          modalToggle.checked = false; // Uncheck the checkbox to close the modal
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var toggleCheckbox = document.getElementById('toggleCheckbox');
+        var lockIcon = document.getElementById('lockIcon');
+
+        toggleCheckbox.addEventListener('change', function() {
+          // Check if the toggle is checked
+          if (toggleCheckbox.checked) {
+            // Change to open lock icon
+            lockIcon.className = 'bx bxs-lock-open-alt';
+          } else {
+            // Change to closed lock icon
+            lockIcon.className = 'bx bxs-lock-alt';
+          }
+        });
+      });
+    </script>
+    <p>ㅤ</p>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-from .collection import Collection
+from .worddeck import WordDeck
 from .definition import Definition
 from .user_data import UserData
 from .word import Word

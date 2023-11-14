@@ -1,8 +1,8 @@
 from django.db import models
 
-from .collection import Collection
 from .type_of import TypeOf
 from .word import Word
+from .worddeck import WordDeck
 
 
 class Definition(models.Model):
@@ -18,11 +18,14 @@ class Definition(models.Model):
     :param type_of: Category of the vocabulary
     :type type_of: str
     :param collection: Collections that contain this vocabulary
-    :type collection: Collection
+    :type collection: WordDeck
     """
 
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
     definition = models.CharField(max_length=255)
     part_of_speech = models.CharField(max_length=255, null=True)
     type_of = models.ManyToManyField(TypeOf)
-    collection = models.ManyToManyField(Collection)
+    collection = models.ManyToManyField(WordDeck)
+
+    def __str__(self):
+        return self.definition

@@ -1,7 +1,7 @@
 from django import forms
 
 
-class TestFrom(forms.Form):
+class FillInTheBlankForm(forms.Form):
     answer = forms.CharField(
         max_length=100,
         label="Answer",

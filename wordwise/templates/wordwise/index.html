@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html data-theme="cupcake" lang="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,17 +13,17 @@
   </head>
   <body>
     {% include "base.html" %}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-3 gap-x-0">
+    <div class="grid grid-cols-1 grid-cols-2 grid-cols-3 mt-2 gap-2">
       {% for type in type_of %}
-        <div class="p-2">
-          <div class="flex flex-col items-center">
-            <div class="card w-96 bg-base-100 shadow-xl" style="height: 250px;">
-              <div class="card-body">
-                <h2 class="card-title">{{ type.capitalize }}</h2>
-                <p>This category contains words in {{ type }} by random 10 words</p>
-                <div class="card-actions justify-end">
-                  <a href="{% url "wordwise:flashcard" type %}" class="btn btn-accent">Start</a>
-                </div>
+        <div class="p-3">
+          <div class="card w-120 bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h1 class="card-title">{{ type.type_of.capitalize }}</h1>
+              <p>Explore the {{ type }} domain with these random vocabulary words.</p>
+              <div class="card-actions justify-end">
+                <a href="{% url "wordwise:flashcard" type %}">
+                  <button class="btn btn-info">Start</button>
+                </a>
               </div>
             </div>
           </div>

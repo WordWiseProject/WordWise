@@ -1,6 +1,6 @@
 {% load static %}
 
-<html data-theme="cupcake" lang="en">
+<html data-theme="winter" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,11 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
           rel="stylesheet" />
-    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script><style>
+    </style>
   </head>
-  <body class="font-[Poppins] bg-gradient-to-t from-[#FACBEA] to-[#BEADFA] min-h-screen">
+    <body class="font-[Poppins] bg-gradient-to-t from-[#EC8F5E] to-[#F3B664] min-h-screen">
     {% load socialaccount %}
-
     <div class="navbar bg-base-100">
       <div class="navbar-start">
         <div class="dropdown">
@@ -30,13 +32,20 @@
           <ul tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-              <a>Collection</a>
+                <a class="tooltip tooltip-bottom" data-tip="Home"
+                 href="{% url "wordwise:index" %}"><i class='bx bxs-home text-2xl '></i></a>
             </li>
             <li>
-              <a>Test</a>
+              <a class="tooltip tooltip-bottom" data-tip="Deck"
+                 href="{% url "wordwise:deck_index" %}"><i class='bx bxs-collection text-2xl' ></i></a>
             </li>
             <li>
-              <a>Mode</a>
+              <a class="tooltip tooltip-bottom" data-tip="Test"
+                 href="#"><i class='bx bxs-edit-alt text-2xl'></i></a>
+            </li>
+            <li>
+              <a class="tooltip tooltip-bottom" data-tip="Fill in the blank"
+                 href="{% url "wordwise:fill_in" %}"><i class='bx bxs-keyboard text-2xl'></i></a>
             </li>
           </ul>
         </div>
@@ -45,24 +54,27 @@
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
           <li>
-            <a>Collection</a>
+                <a class="tooltip tooltip-bottom" data-tip="Home"
+                   href="{% url "wordwise:index" %}"><i class='bx bxs-home text-2xl '></i></a>
           </li>
           <li>
-            <a>Test</a>
+            <a class="tooltip tooltip-bottom" data-tip="Deck"
+               href="{% url "wordwise:deck_index" %}"><i class='bx bxs-collection text-2xl' ></i></a>
           </li>
           <li>
-            <a>Mode</a>
+            <a class="tooltip tooltip-bottom" data-tip="Test" href="{% url "wordwise:quick_test_deck" %}"><i class='bx bxs-edit-alt text-2xl'></i></a>
           </li>
           <li>
-            <a href="{% url "wordwise:fill_in" %}">Fill</a>
+            <a class="tooltip tooltip-bottom" data-tip="Fill in the blank"
+               href="{% url "wordwise:fill_in" %}"><i class='bx bxs-keyboard text-2xl'></i></a>
           </li>
         </ul>
       </div>
       <div class="navbar-end">
         {% if user.is_authenticated %}
-          <a class="btn btn-info" href="{% url 'users:detail' user.username %}">{{ user.username }}</a>
+          <a class="btn btn-accent" href="{% url 'users:detail' user.username %}">{{ user.username }}</a>
         {% else %}
-          <a class="btn btn-info" href="{% provider_login_url 'google' %}">Login</a>
+          <a class="btn btn-accent" href="{% provider_login_url 'google' %}">Log in</a>
         {% endif %}
       </div>
     </div>
