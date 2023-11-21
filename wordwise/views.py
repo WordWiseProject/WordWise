@@ -177,11 +177,14 @@ class DeckIndexView(ListView):
         context["form"] = CollectionForm()
         return context
 
-    def delete_deck(self, pk):
-        deck_id = pk
-        deck = WordDeck.objects.get(id=deck_id)
-        deck.delete()
+
+def delete_deck(request, pk):
+    deck_id = pk
+    deck = WordDeck.objects.get(id=deck_id)
+    if request.user != deck.user:
         return redirect("wordwise:deck_index")
+    deck.delete()
+    return redirect("wordwise:deck_index")
 
 
 # @login_required
