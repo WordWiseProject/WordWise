@@ -25,6 +25,7 @@
             <div class="text-container">
               <p class="part">Part of speech</p>
               <!-- Part of Speech-->
+              <p class="id">id</p>
               <!-- Current Index-->
             </div>
               <div class="text-center" id="displayIndexContainer">
@@ -70,12 +71,14 @@
       let partOfSpeechElement = document.querySelector(".part")
       let meaningElement = document.querySelector(".Meanning")
       let word = document.getElementById("word");
+      let idElement = document.querySelector(".id")
       let currentIndex = 0;
       let wordData = [
         // Add more word data objects as needed
       ];
       {% for word in word_list %}
       wordData.push({
+        id: "{{ word.id }}",
         word: "{{ word.word.vocab.capitalize }}",
         part_of_speech: "({{ word.part_of_speech }}.)",
         meaning: "{{ word.definition }}",
@@ -93,6 +96,7 @@
       wordElement.textContent = wordData[currentIndex].word;
       partOfSpeechElement.textContent = wordData[currentIndex].part_of_speech;
       meaningElement.textContent = wordData[currentIndex].meaning;
+      idElement.textContent = wordData[currentIndex].id;
 
       showButton.addEventListener("click", () => {
         if (!isFlipped) {
@@ -106,6 +110,7 @@
       nextButton.addEventListener("click", () => {
         currentIndex = (currentIndex + 1) % wordData.length;
         const word = wordData[currentIndex];
+        idElement.textContent = word.id;
         wordElement.textContent = word.word;
         partOfSpeechElement.textContent = word.part_of_speech;
         meaningElement.textContent = `${word.meaning}`;
