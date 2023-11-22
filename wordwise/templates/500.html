@@ -18,10 +18,10 @@
             crossorigin="anonymous"></script>
   </head>
   {% block title %}
+    {% include "base.html" %}
     Server Error
   {% endblock title %}
   {% block content %}
-    {% include "base.html" %}
     <h1>Ooops!!! 500</h1>
     <h3>Looks like something went wrong!</h3>
     <p>

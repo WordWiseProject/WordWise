@@ -18,10 +18,10 @@
             crossorigin="anonymous"></script>
   </head>
   {% block title %}
+    {% include "base.html" %}
     Page not found
   {% endblock title %}
   {% block content %}
-    {% include "base.html" %}
     <h1>Page not found</h1>
     <p>
       {% if exception %}

@@ -18,10 +18,10 @@
             crossorigin="anonymous"></script>
   </head>
   {% block title %}
+    {% include "base.html" %}
     Forbidden (403)
   {% endblock title %}
   {% block content %}
-    {% include "base.html" %}
     <h1>Forbidden (403)</h1>
     <p>
       {% if exception %}
