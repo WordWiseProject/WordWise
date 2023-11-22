@@ -222,8 +222,9 @@ class DeckDetailView(View):
         return render(request, template_name=template_name, context={"deck": deck})
 
     def delete_word(self, pk, word_id):
-        deck_id = pk
-        deck = WordDeck.objects.get(id=deck_id)
+        deck = WordDeck.objects.get(id=pk)
+        if deck.user != self.request.user:
+            return redirect("wordwise:deck_detail", pk=pk)
         definition = Definition.objects.get(id=word_id)
         deck.definition_set.remove(definition)
         return redirect("wordwise:deck_detail", pk=pk)
