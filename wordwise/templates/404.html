@@ -1,15 +1,31 @@
-{% extends "base.html" %}
-
-{% block title %}
-  Page not found
-{% endblock title %}
-{% block content %}
-  <h1>Page not found</h1>
-  <p>
-    {% if exception %}
-      {{ exception }}
-    {% else %}
-      This is not the page you were looking for.
-    {% endif %}
-  </p>
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WordWise</title>
+    <link rel="stylesheet" href="{% static 'css/flashcard.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
+          rel="stylesheet"
+          type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+          rel='stylesheet' />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
+  </head>
+  {% block title %}
+    Page not found
+  {% endblock title %}
+  {% block content %}
+    {% include "base.html" %}
+    <h1>Page not found</h1>
+    <p>
+      {% if exception %}
+        {{ exception }}
+      {% else %}
+        This is not the page you were looking for.
+      {% endif %}
+    </p>
+  {% endblock content %}
