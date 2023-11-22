@@ -21,9 +21,6 @@
         {% if object == request.user %}
           <div class="mt-4 text-center">
             <a class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 mt-2 text-sm"
-               href="{% url 'account_email' %}"
-               role="button">E-Mail</a>
-            <a class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 mt-2 text-sm"
                href="{% url 'account_logout' %}"
                role="button">Log out</a>
           </div>
