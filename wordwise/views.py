@@ -79,15 +79,18 @@ class QuickFlashcardMode(View):
             request.session["random_seed"] = random.randint(1, 10000)
         word_list = get_list_word_from_type_of(pk)
         random.seed(request.session.get("random_seed"))
+
         try:
             random_word_list = random.sample(word_list, 10)
         except ValueError:
             random_word_list = random.sample(get_list_word_from_type_of(pk), len(word_list))
         for word in random_word_list:
             get_word(word=word)
+
         defi_list = list(
             Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list).distinct("word")
         )
+
         p = Paginator(defi_list, 1)
         page = request.GET.get("page")
         defi = p.get_page(page)
@@ -223,7 +226,7 @@ class DeckDetailView(View):
 
     def delete_word(self, pk, word_id):
         deck = WordDeck.objects.get(id=pk)
-        if deck.user != self.request.user:
+        if deck.user != self.user:
             return redirect("wordwise:deck_detail", pk=pk)
         definition = Definition.objects.get(id=word_id)
         deck.definition_set.remove(definition)
