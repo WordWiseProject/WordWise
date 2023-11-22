@@ -61,7 +61,8 @@ def get_list_word_from_type_of(type):
     url = f"https://wordsapiv1.p.rapidapi.com/words/{type}/hasTypes"
     response = requests.get(url, headers=HEADERS)
     type_json = response.json()
-    return list(type_json["hasTypes"])
+    word_list = list(type_json["hasTypes"])
+    return word_list
 
 
 class Home(View):
@@ -72,32 +73,40 @@ class Home(View):
         return render(request, "wordwise/index.html", context)
 
 
-def flashcard_view(request, pk):
-    try:
-        int(pk)
-    except ValueError:
-        all_word_list = get_list_word_from_type_of(pk)
+class QuickFlashcardMode(View):
+    def get(self, request, pk):
+        if not request.session.get("random_seed", False):
+            request.session["random_seed"] = random.randint(1, 10000)
+        word_list = get_list_word_from_type_of(pk)
+        random.seed(request.session.get("random_seed"))
         try:
-            random_word_list = random.sample(all_word_list, 10)
+            random_word_list = random.sample(word_list, 10)
         except ValueError:
-            random_word_list = random.sample(all_word_list, len(all_word_list))
+            random_word_list = random.sample(get_list_word_from_type_of(pk), len(word_list))
         for word in random_word_list:
             get_word(word=word)
-        word_list = list(
+        defi_list = list(
             Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list).distinct("word")
         )
-    else:
-        all_word_list = WordDeck.objects.get(id=pk).definition_set.all()
-        word_list = list(all_word_list)
+        p = Paginator(defi_list, 1)
+        page = request.GET.get("page")
+        defi = p.get_page(page)
+        return render(request, "wordwise/flashcard.html", {"defi": defi})
+
+
+class DeckFlashcardMode(View):
+    def get(self, request, pk):
+        if not request.session.get("random_seed", False):
+            request.session["random_seed"] = random.randint(1, 10000)
+        word_list = list(Definition.objects.filter(collection__id=pk))
         if len(word_list) == 0:
             return redirect("wordwise:deck_detail", pk=pk)
+        random.seed(request.session.get("random_seed"))
         random.shuffle(word_list)
-    context = {"word_list": word_list, "pk": pk}
-    return render(request, "wordwise/flashcard.html", context)
-
-
-def jeopardy_view(request):
-    return render(request, "wordwise/jeopardy.html")
+        p = Paginator(word_list, 1)
+        page = request.GET.get("page")
+        defi = p.get_page(page)
+        return render(request, "wordwise/flashcard.html", {"defi": defi, "pk": pk})
 
 
 def check_fill_in_the_blank_answer(request):
@@ -177,11 +186,14 @@ class DeckIndexView(ListView):
         context["form"] = CollectionForm()
         return context
 
-    def delete_deck(self, pk):
-        deck_id = pk
-        deck = WordDeck.objects.get(id=deck_id)
-        deck.delete()
+
+def delete_deck(request, pk):
+    deck_id = pk
+    deck = WordDeck.objects.get(id=deck_id)
+    if request.user != deck.user:
         return redirect("wordwise:deck_index")
+    deck.delete()
+    return redirect("wordwise:deck_index")
 
 
 # @login_required
@@ -210,8 +222,9 @@ class DeckDetailView(View):
         return render(request, template_name=template_name, context={"deck": deck})
 
     def delete_word(self, pk, word_id):
-        deck_id = pk
-        deck = WordDeck.objects.get(id=deck_id)
+        deck = WordDeck.objects.get(id=pk)
+        if deck.user != self.request.user:
+            return redirect("wordwise:deck_detail", pk=pk)
         definition = Definition.objects.get(id=word_id)
         deck.definition_set.remove(definition)
         return redirect("wordwise:deck_detail", pk=pk)

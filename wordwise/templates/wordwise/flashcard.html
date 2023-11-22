@@ -13,6 +13,9 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
           rel='stylesheet' />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
   </head>
   <body>
     {% include "base.html" %}
@@ -20,25 +23,36 @@
       <div class="card-flip-container">
         <div class="card-flip" id="card">
           <div class="card-front bg-base-100 shadow-md rounded-lg pt-52 pb-12 relative">
-            <h2 class="text-4xl font-semibold mb-4 text-center absolute top-10 w-full">Word</h2>
+            <h2 class="text-4xl font-semibold mb-4 text-center absolute top-10 w-full">{{ defi.object_list.0.word.vocab.capitalize }}</h2>
             <!-- Part of Speech-->
             <div class="text-container">
-              <p class="part">Part of speech</p>
-              <!-- Part of Speech-->
+              <p>{{ defi.object_list.0.part_of_speech }}</p>
               <!-- Current Index-->
             </div>
-              <div class="text-center" id="displayIndexContainer">
-                <p class="mt-2"></p>
+              <div class="text-center">
+                <p class="mt-2">{{ defi.number }} / {{ defi.paginator.num_pages }}</p>
               </div>
             <div class="button-container">
               <button class="btn btn-error" id="showButton">Show</button>
-              <button class="btn btn-primary" id="nextButton">Next</button>
+              {% if defi.has_next %}
+                <div class="mt-2">
+                  <a href="?page={{ defi.next_page_number }}">
+                    <button class="btn btn-primary">Next</button>
+                  </a>
+                </div>
+              {% else %}
+                <div class="mt-2">
+                  <a href="?page=1">
+                    <button class="btn btn-primary">Next</button>
+                  </a>
+                </div>
+              {% endif %}
             </div>
           </div>
           <div class="card-back bg-base-100 shadow-md rounded-lg p-8 pt-52 pb-12 relative">
             <!-- Add content for the back of the card here -->
             <div class="text-container">
-              <p class="Meanning">Meaning</p>
+              <p>{{ defi.object_list.0.definition }}</p>
               <!--Meaning-->
             </div>
             <div class="button-container z-10">
@@ -61,38 +75,9 @@
     </div>
     <script>
       const showButton = document.getElementById("showButton")
-      const nextButton = document.getElementById("nextButton");
       const backButton = document.getElementById("backButton");
-      const displayIndexContainer = document.getElementById("displayIndexContainer");
       const card = document.getElementById("card");
       let isFlipped = false;
-      let wordElement = document.querySelector(".text-4xl");
-      let partOfSpeechElement = document.querySelector(".part")
-      let meaningElement = document.querySelector(".Meanning")
-      let word = document.getElementById("word");
-      let currentIndex = 0;
-      let wordData = [
-        // Add more word data objects as needed
-      ];
-      {% for word in word_list %}
-      wordData.push({
-        word: "{{ word.word.vocab.capitalize }}",
-        part_of_speech: "({{ word.part_of_speech }}.)",
-        meaning: "{{ word.definition }}",
-      });
-      {% endfor %}
-
-      const updateDisplayIndex = () => {
-      const displayIndex = currentIndex + 1;
-      const length = {{ word_list|length }};
-      displayIndexContainer.innerHTML = `<p class="mt-2">${displayIndex} / ${length}</p>`;
-      };
-
-      updateDisplayIndex();
-
-      wordElement.textContent = wordData[currentIndex].word;
-      partOfSpeechElement.textContent = wordData[currentIndex].part_of_speech;
-      meaningElement.textContent = wordData[currentIndex].meaning;
 
       showButton.addEventListener("click", () => {
         if (!isFlipped) {
@@ -100,21 +85,6 @@
           card.querySelector(".card-front").style.display = "none";
           card.querySelector(".card-back").style.display = "block";
           isFlipped = true;
-        }
-      });
-
-      nextButton.addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % wordData.length;
-        const word = wordData[currentIndex];
-        wordElement.textContent = word.word;
-        partOfSpeechElement.textContent = word.part_of_speech;
-        meaningElement.textContent = `${word.meaning}`;
-        updateDisplayIndex();
-        if (isFlipped) {
-          card.style.transform = "rotateY(0deg)";
-          card.querySelector(".card-front").style.display = "block";
-          card.querySelector(".card-back").style.display = "none";
-          isFlipped = false;
         }
       });
 
