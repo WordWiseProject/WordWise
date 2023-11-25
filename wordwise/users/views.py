@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 
+from wordwise.models import UserData
+
 User = get_user_model()
 
 
@@ -12,6 +14,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     slug_field = "username"
     slug_url_kwarg = "username"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["fav_list"] = UserData.objects.get(user=self.request.user.id).favorite.all()
+        return context
 
 
 user_detail_view = UserDetailView.as_view()
