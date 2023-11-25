@@ -358,4 +358,19 @@ class AddToFavorite(View):
         else:
             user_data.favorite.add(definition)
             print("added", definition)
-        return redirect("wordwise:index")
+        print(user_data.favorite.all())
+        return render(request, "wordwise/delete_to_fav.html", context={"defi": definition})
+
+
+class DeleteInFavorite(View):
+    def get(self, request, pk):
+        definition = Definition.objects.get(pk=pk)
+        user_data = UserData.objects.get(user=request.user.id)
+        if definition in user_data.favorite.all():
+            user_data.favorite.remove(definition)
+            print("remove")
+            pass
+        else:
+            print("added", definition)
+        print(user_data.favorite.all())
+        return render(request, "wordwise/add_to_fav.html", context={"defi": definition})
