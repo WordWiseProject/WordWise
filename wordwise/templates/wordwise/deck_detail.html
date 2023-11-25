@@ -173,20 +173,16 @@
         });
       });
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var toggleCheckbox = document.getElementById('toggleCheckbox');
+      document.getElementById('toggleCheckbox').addEventListener('change', function() {
         var lockIcon = document.getElementById('lockIcon');
-
-        toggleCheckbox.addEventListener('change', function() {
-          // Check if the toggle is checked
-          if (toggleCheckbox.checked) {
-            // Change to open lock icon
-            lockIcon.className = 'bx bxs-lock-open-alt';
-          } else {
-            // Change to closed lock icon
-            lockIcon.className = 'bx bxs-lock-alt';
-          }
-        });
+        if (this.checked) {
+          // Checkbox is checked
+          lockIcon.className = 'bx bxs-lock-alt';
+        } else {
+          // Checkbox is not checked
+          // Change this to the icon class you want to use when unlocked
+          lockIcon.className = 'bx bxs-lock-open-alt';
+        }
       });
     </script>
     <p>ㅤ</p>
