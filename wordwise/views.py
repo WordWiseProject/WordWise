@@ -96,10 +96,12 @@ class QuickFlashcardMode(View):
             Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list).distinct("word")
         )
 
+        fav_list = UserData.objects.get(user=request.user.id).favorite.all()
+
         p = Paginator(defi_list, 1)
         page = request.GET.get("page")
         defi = p.get_page(page)
-        return render(request, "wordwise/flashcard.html", {"defi": defi})
+        return render(request, "wordwise/flashcard.html", {"defi": defi, "fav_list": fav_list})
 
 
 class DeckFlashcardMode(View):
@@ -111,10 +113,11 @@ class DeckFlashcardMode(View):
             return redirect("wordwise:deck_detail", pk=pk)
         random.seed(request.session.get("random_seed"))
         random.shuffle(word_list)
+        fav_list = UserData.objects.get(user=request.user.id).favorite.all()
         p = Paginator(word_list, 1)
         page = request.GET.get("page")
         defi = p.get_page(page)
-        return render(request, "wordwise/flashcard.html", {"defi": defi, "pk": pk})
+        return render(request, "wordwise/flashcard.html", {"defi": defi, "pk": pk, "fav_list": fav_list})
 
 
 def check_fill_in_the_blank_answer(request):
@@ -343,3 +346,16 @@ class QuickTestMode(View):
         if answer == correct_defi:
             return render(request, "wordwise/test_pass.html", context=contexts)
         return render(request, "wordwise/test_fail.html", context=contexts)
+
+
+class AddToFavorite(View):
+    def get(self, request, pk):
+        definition = Definition.objects.get(pk=pk)
+        user_data = UserData.objects.get(user=request.user.id)
+        if definition in user_data.favorite.all():
+            print("exist")
+            pass
+        else:
+            user_data.favorite.add(definition)
+            print("added", definition)
+        return redirect("wordwise:index")

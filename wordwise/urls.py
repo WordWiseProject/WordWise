@@ -24,4 +24,5 @@ urlpatterns = [
     path("test_deck", views.DeckTestMode.as_view(), name="submit_test_deck"),
     path("quick_test_deck", views.QuickTestMode.as_view(), name="quick_test_deck"),
     path("delete_word_deck/<int:pk>/<int:word_id>", views.DeckDetailView.delete_word, name="delete_word"),
+    path("add_to_fav/<int:pk>", views.AddToFavorite.as_view(), name="add_to_fav"),
 ]

@@ -30,6 +30,11 @@
               <!-- Current Index-->
             </div>
               <div class="text-center">
+                {% if defi.object_list.0 in fav_list %}
+                  Remove from favorite
+                {% else %}
+                  <a href="{% url "wordwise:add_to_fav" defi.object_list.0.id %}">Add To Favorite</a>
+                {% endif %}
                 <p class="mt-2">{{ defi.number }} / {{ defi.paginator.num_pages }}</p>
               </div>
             <div class="button-container">

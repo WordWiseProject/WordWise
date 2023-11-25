@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.signals import user_logged_in
 from django.db import models
+from django.dispatch import receiver
 
 from .definition import Definition
 
@@ -29,3 +31,13 @@ class UserData(models.Model):
     daily_percentage = models.FloatField(default=0)
     daily_total = models.IntegerField(default=0)
     favorite = models.ManyToManyField(Definition)
+
+
+@receiver(user_logged_in)
+def post_login(sender, user, request, **kwargs):
+    try:
+        UserData.objects.get(user=user)
+        print("exist")
+    except UserData.DoesNotExist:
+        UserData.objects.create(user=user)
+        print("not_exist")
