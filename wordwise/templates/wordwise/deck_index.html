@@ -56,8 +56,29 @@
                     <a href="{% url "wordwise:deck_detail" user_collection.id %}">{{ user_collection.description }}</a>
                   </td>
                   <td>
-                    <a href="{% url "wordwise:delete_deck" user_collection.id %}"
-                       class="link link-accent">delete</a>
+                    <a>
+                      <button class="link link-error" onclick="toggleModal('my_modal_1')">Delete</button>
+                      <input type="checkbox" id="my_modal_6" class="modal-toggle" />
+                      <div class="modal flex items-center justify-center min-h-screen">
+                        <div class="modal-box">
+                          <a></a>
+                        </div>
+                      </div>
+                      <dialog id="my_modal_1" class="modal">
+                        <div class="modal-box">
+                          <h3 class="font-bold text-lg">Confirm Deletion</h3>
+                          <p class="py-4">
+                            Are you sure you want to delete this deck?
+                            <br />
+                            (Press ESC to cancel)
+                          </p>
+                          <div class="modal-action justify-center">
+                            <a href="{% url 'wordwise:delete_deck' user_collection.id %}"
+                               class="btn btn-error">Delete</a>
+                          </div>
+                        </div>
+                      </dialog>
+                    </a>
                   </td>
                 </tr>
               {% endfor %}
@@ -110,6 +131,25 @@
 
         closeButton.addEventListener('click', function() {
           modalToggle.checked = false; // Uncheck the checkbox to close the modal
+        });
+      });
+
+
+      function toggleModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+          modal.showModal ? modal.showModal() : modal.style.display = 'block';
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // Close button event listeners for each modal
+        // You can loop through all modals and assign this
+        var closeButton = document.getElementById('closeButton');
+        closeButton.addEventListener('click', function() {
+          // Find the parent modal and close it
+          var modal = this.closest('dialog');
+          modal.close ? modal.close() : modal.style.display = 'none';
         });
       });
     </script>
