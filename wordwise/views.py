@@ -10,7 +10,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView
 
-from wordwise.forms import CollectionForm, FillInTheBlankForm, SelectDefinitionForm, TestForm
+from wordwise.forms import CollectionForm, FillInTheBlankForm, RandomFavoriteForm, SelectDefinitionForm, TestForm
 from wordwise.models import Definition, Example, TypeOf, UserData, Word, WordDeck
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -396,3 +396,10 @@ class DeleteFromFavoriteProfile(View):
             print("added", definition)
         print(user_data.favorite.all())
         return redirect("users:detail", username=request.user.username)
+
+
+class GetRandomFavorite(View):
+    def get(self, request, pk):
+        user_data = UserData.objects.get(user=request.user.id).favorite.all()
+        form = RandomFavoriteForm(fav_list=user_data)
+        return render(request, "wordwise/fav_list.html", context={"fav_list": user_data, "form": form, "deck_id": pk})
