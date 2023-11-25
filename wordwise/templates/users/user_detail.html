@@ -45,6 +45,56 @@
           </div>
         </div>
       </div>
+      <div class="flex justify-center items-center mt-5">
+        <div class="overflow-x-24 card w-9/12 mx-5 bg-base-100 shadow-xl">
+          <div class="table-container max-h-96 overflow-y-auto rounded-lg">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
+                  <th class="p-3 text-sm font-semibold tracking-wide text-center">Part of speech</th>
+                  <th class="p-3 text-sm font-semibold tracking-wide text-left">Definition</th>
+                  <th class="p-3 text-sm font-semibold tracking-wide text-center"></th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                {% for word in deck.definition_set.all %}
+                  <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                    <td>
+                      <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
+                    </td>
+                    <td>
+                      <p class="text-l text-center">{{ word.part_of_speech }}</p>
+                    </td>
+                    <td>
+                      <p class="text-l text-left">{{ word.definition }}</p>
+                    </td>
+                    <td>
+                      {% if user == deck.user %}
+                        <!-- The button to open modal -->
+                        <label for="my_modal_7" class="link link-error">delete</label>
+                        <!-- Put this part before </body> tag -->
+                        <input type="checkbox" id="my_modal_7" class="modal-toggle" />
+                        <div class="modal" role="dialog">
+                          <div class="modal-box">
+                            <h3 class="text-lg font-bold">Confirm Deletion</h3>
+                            <p class="py-4">Are you sure you want to delete this deck?</p>
+                            (Press outside this box to cancel)
+                            <br />
+                            <a href='{% url "wordwise:delete_word" deck.id word.id %}'
+                               class="btn btn-error mt-3">delete</a>
+                          </div>
+                          <label class="modal-backdrop" for="my_modal_7">Close</label>
+                        </div>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     {% endblock content %}
   </body>
 </html>
