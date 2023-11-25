@@ -96,7 +96,10 @@ class QuickFlashcardMode(View):
             Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list).distinct("word")
         )
 
-        fav_list = UserData.objects.get(user=request.user.id).favorite.all()
+        if request.user.is_authenticated:
+            fav_list = UserData.objects.get(user=request.user.id).favorite.all()
+        else:
+            fav_list = None
 
         p = Paginator(defi_list, 1)
         page = request.GET.get("page")
@@ -113,7 +116,12 @@ class DeckFlashcardMode(View):
             return redirect("wordwise:deck_detail", pk=pk)
         random.seed(request.session.get("random_seed"))
         random.shuffle(word_list)
-        fav_list = UserData.objects.get(user=request.user.id).favorite.all()
+
+        if request.user.is_authenticated:
+            fav_list = UserData.objects.get(user=request.user.id).favorite.all()
+        else:
+            fav_list = None
+
         p = Paginator(word_list, 1)
         page = request.GET.get("page")
         defi = p.get_page(page)
