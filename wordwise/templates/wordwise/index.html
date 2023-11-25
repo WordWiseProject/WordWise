@@ -33,11 +33,12 @@
         <div class="card w-120 bg-base-100 shadow-xl">
           <div class="card-body">
             <input type="text"
+                   id="own_category"
                    placeholder="Type here"
                    class="input input-bordered input-secondary w-full max-w-xs " />
             <p>Try your own category of words.</p>
             <div class="card-actions justify-end">
-              <a href="#">
+              <a href="" id="startLink">
                 <button class="btn btn-info">Start</button>
               </a>
             </div>
@@ -47,3 +48,16 @@
     </div>
   </body>
 </html>
+<script>
+  var inputElement = document.getElementById('own_category');
+  var startLink = document.getElementById('startLink');
+
+  startLink.addEventListener('click', function(event) {
+    event.preventDefault();
+    var inputValue = inputElement.value;
+    var urlTemplate = '{% url "wordwise:flashcard" "placeholder" %}';
+    var url = urlTemplate.replace('placeholder', inputValue);
+    startLink.setAttribute('href', url);
+    window.location.href = url;
+  });
+</script>

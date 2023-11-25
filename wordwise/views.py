@@ -77,7 +77,10 @@ class QuickFlashcardMode(View):
     def get(self, request, pk):
         if not request.session.get("random_seed", False):
             request.session["random_seed"] = random.randint(1, 10000)
-        word_list = get_list_word_from_type_of(pk)
+        try:
+            word_list = get_list_word_from_type_of(pk)
+        except KeyError:
+            return redirect("wordwise:index")
         random.seed(request.session.get("random_seed"))
 
         try:
