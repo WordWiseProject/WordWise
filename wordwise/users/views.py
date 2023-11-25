@@ -18,12 +18,9 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            context["fav_list"] = UserData.objects.get(user=self.request.user.id).favorite.all()
+            context["fav_list"] = UserData.objects.get(user=self.object).favorite.all()
         except UserData.DoesNotExist:
-            if self.request.user.is_authenticated:
-                UserData.objects.create(user=self.request.user)
-            else:
-                pass
+            UserData.objects.create(user=self.object)
         return context
 
 
