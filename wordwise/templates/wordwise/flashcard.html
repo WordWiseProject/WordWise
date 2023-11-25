@@ -34,11 +34,11 @@
                 {% if defi.object_list.0 in fav_list %}
                   <a hx-get="{% url "wordwise:delete_to_fav" defi.object_list.0.id %}"
                      hx-target="this"
-                     hx-swap="outerHTML">Remove From Favorite</a>
+                     hx-swap="outerHTML"><i class="bx bxs-bookmark text-2xl" ></i></a>
                 {% else %}
                   <a hx-get="{% url "wordwise:add_to_fav" defi.object_list.0.id %}"
                      hx-target="this"
-                     hx-swap="outerHTML">Add To Favorite</a>
+                     hx-swap="outerHTML"><i class="bx bx-bookmark text-2xl"></i></a>
                 {% endif %}
               {% endif %}
                 <p class="mt-2">{{ defi.number }} / {{ defi.paginator.num_pages }}</p>
