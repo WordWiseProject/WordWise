@@ -26,4 +26,5 @@ urlpatterns = [
     path("delete_word_deck/<int:pk>/<int:word_id>", views.DeckDetailView.delete_word, name="delete_word"),
     path("add_to_fav/<int:pk>", views.AddToFavorite.as_view(), name="add_to_fav"),
     path("delete_to_fav/<int:pk>", views.DeleteInFavorite.as_view(), name="delete_to_fav"),
+    path("delete_to_fav_profile/<int:pk>", views.DeleteFromFavoriteProfile.as_view(), name="delete_from_fave_profile"),
 ]

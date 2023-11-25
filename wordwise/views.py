@@ -382,3 +382,17 @@ class DeleteInFavorite(View):
             print("added", definition)
         print(user_data.favorite.all())
         return render(request, "wordwise/add_to_fav.html", context={"defi": definition})
+
+
+class DeleteFromFavoriteProfile(View):
+    def get(self, request, pk):
+        definition = Definition.objects.get(pk=pk)
+        user_data = UserData.objects.get(user=request.user.id)
+        if definition in user_data.favorite.all():
+            user_data.favorite.remove(definition)
+            print("remove")
+            pass
+        else:
+            print("added", definition)
+        print(user_data.favorite.all())
+        return redirect("users:detail", username=request.user.username)

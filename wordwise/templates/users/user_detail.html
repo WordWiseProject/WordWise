@@ -58,7 +58,7 @@
                 </tr>
               </thead>
               <tbody class="text-center">
-                {% for word in deck.definition_set.all %}
+                {% for word in fav_list %}
                   <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
                     <td>
                       <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
@@ -70,7 +70,7 @@
                       <p class="text-l text-left">{{ word.definition }}</p>
                     </td>
                     <td>
-                      {% if user == deck.user %}
+                      {% if object == request.user %}
                         <!-- The button to open modal -->
                         <label for="my_modal_7" class="link link-error">delete</label>
                         <!-- Put this part before </body> tag -->
@@ -81,7 +81,7 @@
                             <p class="py-4">Are you sure you want to delete this deck?</p>
                             (Press outside this box to cancel)
                             <br />
-                            <a href='{% url "wordwise:delete_word" deck.id word.id %}'
+                            <a href='{% url "wordwise:delete_from_fave_profile" word.id %}'
                                class="btn btn-error mt-3">delete</a>
                           </div>
                           <label class="modal-backdrop" for="my_modal_7">Close</label>
