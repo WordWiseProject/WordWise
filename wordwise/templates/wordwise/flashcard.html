@@ -32,13 +32,13 @@
               <div class="text-center">
               {% if user.is_authenticated %}
                 {% if defi.object_list.0 in fav_list %}
-                  <a hx-get="{% url "wordwise:delete_to_fav" defi.object_list.0.id %}"
+                  <button hx-get="{% url "wordwise:delete_to_fav" defi.object_list.0.id %}"
                      hx-target="this"
-                     hx-swap="outerHTML"><i class="bx bxs-bookmark text-2xl" ></i></a>
+                     hx-swap="outerHTML"><i class="bx bxs-heart text-2xl" style="color:#ff8f8f"></i></button>
                 {% else %}
-                  <a hx-get="{% url "wordwise:add_to_fav" defi.object_list.0.id %}"
+                  <button hx-get="{% url "wordwise:add_to_fav" defi.object_list.0.id %}"
                      hx-target="this"
-                     hx-swap="outerHTML"><i class="bx bx-bookmark text-2xl"></i></a>
+                     hx-swap="outerHTML"><i class="bx bx-heart text-2xl" style="color:#ff8f8f"></i></button>
                 {% endif %}
               {% endif %}
                 <p class="mt-2">{{ defi.number }} / {{ defi.paginator.num_pages }}</p>

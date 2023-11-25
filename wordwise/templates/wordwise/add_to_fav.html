@@ -1,3 +1,5 @@
-<a hx-get="{% url "wordwise:add_to_fav" defi.id %}"
-   hx-target="this"
-   hx-swap="outerHTML"><i class="bx bx-bookmark text-2xl"></i></a>
+<button hx-get="{% url "wordwise:add_to_fav" defi.id %}"
+        hx-target="this"
+        hx-swap="outerHTML">
+  <i class="bx bx-heart text-2xl" style="color:#ff8f8f"></i>
+</button>
