@@ -30,7 +30,7 @@
               <!-- Current Index-->
             </div>
               <div class="text-center">
-              {% if fav_list %}
+              {% if user.is_authenticated %}
                 {% if defi.object_list.0 in fav_list %}
                   <a hx-get="{% url "wordwise:delete_to_fav" defi.object_list.0.id %}"
                      hx-target="this"
@@ -41,8 +41,8 @@
                      hx-swap="outerHTML">Add To Favorite</a>
                 {% endif %}
                 <p class="mt-2">{{ defi.number }} / {{ defi.paginator.num_pages }}</p>
+              {% endif %}
               </div>
-          {% endif %}
             <div class="button-container">
               <button class="btn btn-error" id="showButton">Show</button>
               {% if defi.has_next %}
