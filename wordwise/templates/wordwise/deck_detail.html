@@ -98,8 +98,45 @@
       </div>
       <div>
         {% if user == deck.user %}
-          <a class="btn btn-success mx-2" href="#">Favorite</a>
-          <label for="my_modal_4" class="btn">add</label>
+          <!-- Open the modal using ID.showModal() method -->
+          <!-- The button to open modal -->
+          <a href="#my_modal_8" class="btn btn-info">Favorite</a>
+          <!-- Put this part before </body> tag -->
+          <div class="modal" role="dialog" id="my_modal_8">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">Search it!</h3>
+              <form class="flex">
+                {% csrf_token %}
+                <div class="flex items-center justify-center">
+                  <input type="text"
+                         name="word"
+                         placeholder="Type here"
+                         class="input input-bordered input-info w-96 max-w-xs" />
+                  <button class="btn btn-circle text-xl ml-3 justify-center"
+                          hx-post="{% url "wordwise:search_word" deck.id %}"
+                          hx-target="#definition_list"
+                          hx-swap="innerHTML">
+                    <i class="bx bx-search"></i>
+                  </button>
+                </div>
+              </form>
+              <div id="definition_list"></div>
+              <div class="modal-action">
+                <a href="#" class="btn">Close</a>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-success" onclick="my_modal_2.showModal()">Random from favorite</button>
+          <dialog id="my_modal_2" class="modal">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">EIEI</h3>
+              <p class="py-4">Press ESC key or click outside to close</p>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
+          <label for="my_modal_4" class="btn btn-error">add</label>
           <input type="checkbox" id="my_modal_4" class="modal-toggle" />
           <div class="modal flex items-center justify-center min-h-screen">
             <div class="modal-box w-11/12 max-w-5xl">
