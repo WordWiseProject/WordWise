@@ -81,6 +81,8 @@ class QuickFlashcardMode(View):
             word_list = get_list_word_from_type_of(pk)
         except KeyError:
             return redirect("wordwise:index")
+        if len(word_list) == 0:
+            return redirect("wordwise:index")
         random.seed(request.session.get("random_seed"))
 
         try:
