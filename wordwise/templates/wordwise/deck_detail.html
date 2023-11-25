@@ -126,68 +126,69 @@
                       </div>
                     </form>
                   </div>
-                  <div id="fav_list"></div>
-                </div>
+                </form>
               </div>
-              <form method="dialog" class="modal-backdrop">
-                <button>close</button>
-              </form>
-            </dialog>
-            <label for="my_modal_4" class="btn btn-error">add</label>
-            <input type="checkbox" id="my_modal_4" class="modal-toggle" />
-            <div class="modal flex items-center justify-center min-h-screen">
-              <div class="modal-box w-11/12 max-w-5xl">
-                <button id="closeButton"
-                        class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                <div class="flex justify-center items-center">
-                  <form class="flex">
-                    {% csrf_token %}
-                    <div class="flex items-center justify-center">
-                      <input type="text"
-                             name="word"
-                             placeholder="Type here"
-                             class="input input-bordered input-info w-96 max-w-xs" />
-                      <button class="btn btn-circle text-xl ml-3 justify-center"
-                              hx-post="{% url "wordwise:search_word" deck.id %}"
-                              hx-target="#definition_list"
-                              hx-swap="innerHTML">
-                        <i class="bx bx-search"></i>
-                      </button>
-                    </div>
-                  </form>
-                </div>
-                <div id="definition_list"></div>
+              <div id="fav_list"></div>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
+          <label for="my_modal_4" class="btn btn-error">add</label>
+          <input type="checkbox" id="my_modal_4" class="modal-toggle" />
+          <div class="modal flex items-center justify-center min-h-screen">
+            <div class="modal-box w-11/12 max-w-5xl">
+              <button id="closeButton"
+                      class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+              <div class="flex justify-center items-center">
+                <form class="flex">
+                  {% csrf_token %}
+                  <div class="flex items-center justify-center">
+                    <input type="text"
+                           name="word"
+                           placeholder="Type here"
+                           class="input input-bordered input-info w-96 max-w-xs" />
+                    <button class="btn btn-circle text-xl ml-3 justify-center"
+                            hx-post="{% url "wordwise:search_word" deck.id %}"
+                            hx-target="#definition_list"
+                            hx-swap="innerHTML">
+                      <i class="bx bx-search"></i>
+                    </button>
+                  </div>
+                </form>
               </div>
+              <div id="definition_list"></div>
             </div>
           </div>
-        {% endif %}
-      </div>
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          modalToggle = document.getElementById('my_modal_4');
-          var closeButton = document.getElementById('closeButton');
+        </div>
+      {% endif %}
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        modalToggle = document.getElementById('my_modal_4');
+        var closeButton = document.getElementById('closeButton');
 
-          closeButton.addEventListener('click', function() {
-            modalToggle.checked = false; // Uncheck the checkbox to close the modal
-          });
+        closeButton.addEventListener('click', function() {
+          modalToggle.checked = false; // Uncheck the checkbox to close the modal
         });
+      });
 
-        document.addEventListener('DOMContentLoaded', function() {
-          var toggleCheckbox = document.getElementById('toggleCheckbox');
-          var lockIcon = document.getElementById('lockIcon');
+      document.addEventListener('DOMContentLoaded', function() {
+        var toggleCheckbox = document.getElementById('toggleCheckbox');
+        var lockIcon = document.getElementById('lockIcon');
 
-          toggleCheckbox.addEventListener('change', function() {
-            // Check if the toggle is checked
-            if (toggleCheckbox.checked) {
-              // Change to open lock icon
-              lockIcon.className = 'bx bxs-lock-open-alt';
-            } else {
-              // Change to closed lock icon
-              lockIcon.className = 'bx bxs-lock-alt';
-            }
-          });
+        toggleCheckbox.addEventListener('change', function() {
+          // Check if the toggle is checked
+          if (toggleCheckbox.checked) {
+            // Change to open lock icon
+            lockIcon.className = 'bx bxs-lock-open-alt';
+          } else {
+            // Change to closed lock icon
+            lockIcon.className = 'bx bxs-lock-alt';
+          }
         });
-      </script>
-      <p>ㅤ</p>
-    </body>
-  </html>
+      });
+    </script>
+    <p>ㅤ</p>
+  </body>
+</html>
