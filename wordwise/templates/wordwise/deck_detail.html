@@ -23,13 +23,12 @@
         </a>
       </div>
       {% if user == deck.user %}
-        <div class="bg-white p-2 rounded-lg mt-5 mx-5 w-24 h-12 flex justify-center items-center">
-          <div class="form-control w-20">
+        <div class="bg-white rounded-lg mt-5 mx-5 w-24 h-12 flex justify-center items-center">
+          <div class="form-control flex justify-between">
             <label class="cursor-pointer label">
-              <i id="lockIcon" class="bx bxs-lock-alt"></i>
               {% if deck.private %}
                 <input id="toggleCheckbox"
-                       hx-get="{% url "wordwise:unlock_deck" deck.id %}"
+                       hx-get="{% url 'wordwise:unlock_deck' deck.id %}"
                        hx-target="this"
                        hx-swap="outerHTML"
                        type="checkbox"
@@ -37,12 +36,13 @@
                        checked />
               {% else %}
                 <input id="toggleCheckbox"
-                       hx-get="{% url "wordwise:lock_deck" deck.id %}"
+                       hx-get="{% url 'wordwise:lock_deck' deck.id %}"
                        hx-target="this"
                        hx-swap="outerHTML"
                        type="checkbox"
                        class="toggle toggle-info" />
               {% endif %}
+              <i class="bx bxs-lock-alt ml-1"></i>
             </label>
           </div>
         </div>
@@ -183,18 +183,6 @@
         closeButton.addEventListener('click', function() {
           modalToggle.checked = false; // Uncheck the checkbox to close the modal
         });
-      });
-
-      document.getElementById('toggleCheckbox').addEventListener('change', function() {
-        var lockIcon = document.getElementById('lockIcon');
-        if (this.checked) {
-          // Checkbox is checked
-          lockIcon.className = 'bx bxs-lock-alt';
-        } else {
-          // Checkbox is not checked
-          // Change this to the icon class you want to use when unlocked
-          lockIcon.className = 'bx bxs-lock-open-alt';
-        }
       });
     </script>
     <p>ㅤ</p>
