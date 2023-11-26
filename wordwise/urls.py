@@ -28,4 +28,5 @@ urlpatterns = [
     path("delete_to_fav/<int:pk>", views.DeleteInFavorite.as_view(), name="delete_to_fav"),
     path("delete_to_fav_profile/<int:pk>", views.DeleteFromFavoriteProfile.as_view(), name="delete_from_fave_profile"),
     path("ran_fav/<int:pk>", views.GetRandomFavorite.as_view(), name="ran_fav"),
+    path("search_fav/<int:pk>", views.GetSearchFavorite.as_view(), name="search_fav"),
 ]

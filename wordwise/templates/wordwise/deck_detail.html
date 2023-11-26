@@ -118,7 +118,7 @@
                                placeholder="Type here"
                                class="input input-bordered input-info w-96 max-w-xs" />
                         <button class="btn btn-circle text-xl ml-3 justify-center"
-                                hx-post="{% url "wordwise:ran_fav" deck.id %}"
+                                hx-post="{% url "wordwise:search_fav" deck.id %}"
                                 hx-target="#fav_list"
                                 hx-swap="innerHTML">
                           <i class="bx bx-search"></i>

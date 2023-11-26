@@ -402,4 +402,14 @@ class GetRandomFavorite(View):
     def get(self, request, pk):
         user_data = UserData.objects.get(user=request.user.id).favorite.all()
         form = RandomFavoriteForm(fav_list=user_data)
-        return render(request, "wordwise/fav_list.html", context={"fav_list": user_data, "form": form, "deck_id": pk})
+        return render(request, "wordwise/fav_list.html", context={"form": form, "deck_id": pk})
+
+
+class GetSearchFavorite(View):
+    def post(self, request, pk):
+        word = request.POST.get("word")
+        def_list = Definition.objects.filter(userdata__user=request.user.id).filter(word__vocab__icontains=word)
+        if not def_list:
+            return render(request, "wordwise/definition_list.html", context={"status": "fail"})
+        form = RandomFavoriteForm(fav_list=def_list)
+        return render(request, "wordwise/fav_list.html", {"form": form, "deck_id": pk})
