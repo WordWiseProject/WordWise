@@ -27,10 +27,22 @@
           <div class="form-control w-20">
             <label class="cursor-pointer label">
               <i id="lockIcon" class="bx bxs-lock-alt"></i>
-              <input id="toggleCheckbox"
-                     type="checkbox"
-                     class="toggle toggle-info"
-                     checked />
+              {% if deck.private %}
+                <input id="toggleCheckbox"
+                       hx-get="{% url "wordwise:unlock_deck" deck.id %}"
+                       hx-target="this"
+                       hx-swap="outerHTML"
+                       type="checkbox"
+                       class="toggle toggle-info"
+                       checked />
+              {% else %}
+                <input id="toggleCheckbox"
+                       hx-get="{% url "wordwise:lock_deck" deck.id %}"
+                       hx-target="this"
+                       hx-swap="outerHTML"
+                       type="checkbox"
+                       class="toggle toggle-info" />
+              {% endif %}
             </label>
           </div>
         </div>

@@ -238,6 +238,11 @@ class DeckDetailView(View):
             request.session.pop("random_seed")
         template_name = "wordwise/deck_detail.html"
         deck = WordDeck.objects.get(pk=pk)
+        print("is private", deck.private)
+
+        if deck.private and deck.user != request.user:
+            return redirect("wordwise:deck_index")
+
         return render(request, template_name=template_name, context={"deck": deck})
 
     def delete_word(self, pk, word_id):
@@ -247,6 +252,34 @@ class DeckDetailView(View):
         definition = Definition.objects.get(id=word_id)
         deck.definition_set.remove(definition)
         return redirect("wordwise:deck_detail", pk=pk)
+
+
+class PrivateDeck(View):
+    def get(self, request, pk):
+        deck = WordDeck.objects.get(pk=pk)
+        if deck.user != request.user:
+            return redirect("wordwise:deck_index")
+        context = {"deck_id": pk}
+        if deck.private:
+            return render(request, "wordwise/lock_deck.html", context)
+        deck.private = True
+        deck.save()
+        print(deck.private)
+        return render(request, "wordwise/lock_deck.html", context)
+
+
+class UnPrivateDeck(View):
+    def get(self, request, pk):
+        deck = WordDeck.objects.get(pk=pk)
+        if deck.user != request.user:
+            return redirect("wordwise:deck_index")
+        context = {"deck_id": pk}
+        if not deck.private:
+            return render(request, "wordwise/unlock_deck.html", context)
+        deck.private = False
+        deck.save()
+        print(deck.private)
+        return render(request, "wordwise/unlock_deck.html", context)
 
 
 class SearchWord(View):

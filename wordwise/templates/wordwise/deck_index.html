@@ -95,18 +95,20 @@
             </thead>
             <tbody class="text-center">
               {% for other_collection in others %}
-                <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
-                  <td>
-                    <a class="text-xl font-semibold"
-                       href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.name.capitalize }}</a>
-                  </td>
-                  <td>
-                    <a href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.description }}</a>
-                  </td>
-                  <td>
-                    <a class="link link-accent">{{ other_collection.user }}</a>
-                  </td>
-                </tr>
+                {% if not other_collection.private %}
+                  <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                    <td>
+                      <a class="text-xl font-semibold"
+                         href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.name.capitalize }}</a>
+                    </td>
+                    <td>
+                      <a href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.description }}</a>
+                    </td>
+                    <td>
+                      <a class="link link-accent">{{ other_collection.user }}</a>
+                    </td>
+                  </tr>
+                {% endif %}
               {% endfor %}
             </tbody>
           </table>

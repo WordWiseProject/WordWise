@@ -15,6 +15,7 @@ class WordDeck(models.Model):
     name = models.CharField(max_length=255)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, null=True)
+    private = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
