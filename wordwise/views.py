@@ -225,7 +225,7 @@ class DeckCreateView(View):
         if form.is_valid():
             name = form.cleaned_data["name"]
             desc = form.cleaned_data["description"]
-            collection = WordDeck(name=name, description=desc, user=request.user, private=False)
+            collection = WordDeck(name=name, description=desc, user=request.user, private=True)
             collection.save()
             return redirect("wordwise:deck_index")
         return redirect("wordwise:deck_index")
