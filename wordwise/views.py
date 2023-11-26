@@ -260,8 +260,19 @@ class DeckDetailView(View):
             status = MemoriseStatus.objects.get(user=request.user, deck=deck)
         except MemoriseStatus.DoesNotExist:
             status = MemoriseStatus.objects.create(user=request.user, deck=deck)
-
-        return render(request, template_name=template_name, context={"deck": deck, "status": status})
+        memorise_status = MemoriseStatus.objects.get(user=request.user.id, deck__id=pk)
+        memorised_definitions = memorise_status.memorise.all()
+        not_memorised_definitions = memorise_status.not_memorise.all()
+        return render(
+            request,
+            template_name=template_name,
+            context={
+                "deck": deck,
+                "status": status,
+                "memorised": memorised_definitions,
+                "not_memorised": not_memorised_definitions,
+            },
+        )
 
     def delete_word(self, pk, word_id):
         deck = WordDeck.objects.get(id=pk)
