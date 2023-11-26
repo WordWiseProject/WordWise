@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import ListView
 
 from wordwise.forms import CollectionForm, FillInTheBlankForm, RandomFavoriteForm, SelectDefinitionForm, TestForm
-from wordwise.models import Definition, Example, TypeOf, UserData, Word, WordDeck
+from wordwise.models import Definition, Example, MemoriseStatus, TypeOf, UserData, Word, WordDeck
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 env = environ.Env()
@@ -128,7 +128,7 @@ class DeckFlashcardMode(View):
         return render(request, "wordwise/flashcard.html", {"defi": defi, "pk": pk, "fav_list": fav_list})
 
 
-def check_fill_in_the_blank_answer(request):
+def check_fill_in_the_blank_answer(request, quick: bool):
     answer = request.POST.get("answer")
     defi = request.POST.get("defi")
     next_page = int(request.POST.get("next_page_number"))
@@ -140,10 +140,22 @@ def check_fill_in_the_blank_answer(request):
     contexts = {"next_page": next_page, "has_next": has_next, "test2": vocab, "current_deck": current_deck}
     current_defi = Definition.objects.filter(definition=defi).first()
 
+    if quick:
+        status = MemoriseStatus.objects.get(user=request.user.id, deck__isnull=True)
+    else:
+        status = MemoriseStatus.objects.get(user=request.user.id, deck=current_deck)
+
     if not has_next:
         request.session.pop("random_seed")
+
     if answer.lower() == current_defi.word.vocab.lower():
+        if current_defi in status.not_memorise.all():
+            status.not_memorise.remvoe(current_defi)
+        status.memorise.add(current_defi)
         return render(request, "wordwise/fill_pass.html", context=contexts)
+    if current_defi in status.memorise.all():
+        status.memorise.remove(current_defi)
+    status.not_memorise.add(current_defi)
     return render(request, "wordwise/fill_fail.html", context=contexts)
 
 
@@ -155,14 +167,15 @@ class FillInTheBlank(View):
         p = Paginator(word_list, 1)
         page = request.GET.get("page")
         defi = p.get_page(page)
+
         return render(
             request,
-            "wordwise/fill_in_blank.html",
+            "wordwise/quick_fill_in.html",
             {"defi": defi, "form": FillInTheBlankForm, "current_deck": request.session.get("current_deck")},
         )
 
     def post(self, request):
-        return check_fill_in_the_blank_answer(request)
+        return check_fill_in_the_blank_answer(request, quick=True)
 
 
 class FillInTheBlankDeck(View):
@@ -186,7 +199,7 @@ class FillInTheBlankDeck(View):
         )
 
     def post(self, request):
-        return check_fill_in_the_blank_answer(request)
+        return check_fill_in_the_blank_answer(request, quick=False)
 
 
 class DeckIndexView(ListView):
@@ -243,7 +256,12 @@ class DeckDetailView(View):
         if deck.private and deck.user != request.user:
             return redirect("wordwise:deck_index")
 
-        return render(request, template_name=template_name, context={"deck": deck})
+        try:
+            status = MemoriseStatus.objects.get(user=request.user, deck=deck)
+        except MemoriseStatus.DoesNotExist:
+            status = MemoriseStatus.objects.create(user=request.user, deck=deck)
+
+        return render(request, template_name=template_name, context={"deck": deck, "status": status})
 
     def delete_word(self, pk, word_id):
         deck = WordDeck.objects.get(id=pk)
@@ -339,10 +357,17 @@ class DeckTestMode(View):
             "correct_defi": current_defi,
             "current_deck": current_deck,
         }
+        status = MemoriseStatus.objects.get(user=request.user.id, deck__id=int(current_deck))
         if not has_next:
             request.session.pop("random_seed")
         if answer == correct_defi:
+            if current_defi in status.not_memorise.all():
+                status.not_memorise.remove(current_defi)
+            status.memorise.add(current_defi)
             return render(request, "wordwise/test_pass.html", context=contexts)
+        if current_defi in status.memorise.all():
+            status.memorise.remove(current_defi)
+        status.not_memorise.add(current_defi)
         return render(request, "wordwise/test_fail.html", context=contexts)
 
 
@@ -365,7 +390,7 @@ class QuickTestMode(View):
         form = TestForm(definition=random_definition_list, current=current_defi.id)
         return render(
             request,
-            "wordwise/test_mode.html",
+            "wordwise/quick_test_mode.html",
             {"defi": defi, "current_deck": request.session.get("current_deck"), "form": form},
         )
 
@@ -382,10 +407,18 @@ class QuickTestMode(View):
             "correct_defi": current_defi,
             "current_deck": current_deck,
         }
+        status = MemoriseStatus.objects.get(user=request.user.id, deck__isnull=True)
         if not has_next:
             request.session.pop("random_seed")
         if answer == correct_defi:
+            # add to memorise word but check is in not memorise first
+            if current_defi in status.not_memorise.all():
+                status.not_memorise.remove(current_defi)
+            status.memorise.add(current_defi)
             return render(request, "wordwise/test_pass.html", context=contexts)
+        if current_defi in status.memorise.all():
+            status.memorise.remove(current_defi)
+        status.not_memorise.add(current_defi)
         return render(request, "wordwise/test_fail.html", context=contexts)
 
 

@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 
-from wordwise.models import UserData
+from wordwise.models import Definition, MemoriseStatus, UserData
 
 User = get_user_model()
 
@@ -21,6 +21,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
             context["fav_list"] = UserData.objects.get(user=self.object).favorite.all()
         except UserData.DoesNotExist:
             UserData.objects.create(user=self.object)
+        memorise_status = MemoriseStatus.objects.filter(user=self.object)
+        memorised_definitions = Definition.objects.filter(memorise__in=memorise_status)
+        not_memorised_definitions = Definition.objects.filter(not_memorise__in=memorise_status)
+        context["memorised"] = memorised_definitions
+        context["not_memorised"] = not_memorised_definitions
         return context
 
 

@@ -10,6 +10,7 @@ urlpatterns = [
     path("flashcard_deck/<pk>", views.DeckFlashcardMode.as_view(), name="flashcard_deck"),
     path("fill", views.FillInTheBlank.as_view(), name="fill_in"),
     path("fill/<int:pk>", views.FillInTheBlankDeck.as_view(), name="fill_in_deck"),
+    path("sup_fill", views.FillInTheBlankDeck.as_view(), name="sup_fill_in_deck"),
     path("deck_index", views.DeckIndexView.as_view(), name="deck_index"),
     path("delete_deck/<int:pk>", views.delete_deck, name="delete_deck"),
     path(

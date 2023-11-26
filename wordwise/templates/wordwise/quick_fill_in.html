@@ -36,7 +36,7 @@
           {% endif %}
           <div class="flex mt-4">
             <button class="btn btn-success btn-sm"
-                    hx-post="{% url "wordwise:sup_fill_in_deck" %}"
+                    hx-post="{% url "wordwise:fill_in" %}"
                     hx-target="#result"
                     hx-swap="innerHTML"
                     onclick="disableSubmitButton(this)">Submit</button>

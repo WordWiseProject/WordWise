@@ -1,0 +1,107 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WordWise</title>
+    <link rel="stylesheet" href="{% static 'css/flashcard.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css"
+          rel="stylesheet"
+          type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+          rel='stylesheet' />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.7"
+            integrity="sha384-EAzY246d6BpbWR7sQ8+WEm40J8c3dHFsqC58IgPlh4kMbRRI6P6WA+LA/qGAyAu8"
+            crossorigin="anonymous"></script>
+    <style>
+      /* Remove bullet points from radio buttons */
+      .grid input[type="radio"] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        display: inline-block;
+        vertical-align: middle;
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+      }
+
+      .grid input[type="radio"]::before {
+        content: "";
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background-color: white;
+        border: 2px solid #718096;
+        border-radius: 50%;
+        margin-right: 0.5em;
+        transition: background 0.3s;
+      }
+
+      .grid input[type="radio"]:checked::before {
+        background-color: #4299e1;
+        border-color: #4299e1;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "base.html" %}
+    <div class="card w-56 bg-base-100 shadow-xl mx-auto max-w-2xl mt-5 text-center">
+      <div class="card-body items-center text-center">
+        <h2 class="card-title">{{ defi.object_list.0.word.vocab.capitalize }}</h2>
+      </div>
+    </div>
+    {#    {{ defi.object_list.0.definition }}#}
+    <div class="mx-auto w-7/12 mt-8">
+      <div class="card-front bg-base-100 shadow-md rounded-lg relative">
+        <div class="card-body">
+          <form hx-post="{% url "wordwise:quick_test_deck" %}"
+                hx-target="#result"
+                hx-swap="innerHTML"
+                onsubmit="disableSubmitButton()">
+            {% csrf_token %}
+            <div class="grid grid-cols-2 gap-4">
+              {% for one_form in form.definition %}<label class="btn lowercase">{{ one_form }}</label>{% endfor %}
+            </div>
+            {{ form.current }}
+            <input type="hidden" name="has_next" value="{{ defi.has_next }}" />
+            {% if defi.has_next %}
+              <input type="hidden"
+                     name="next_page_number"
+                     value="{{ defi.next_page_number }}" />
+            {% else %}
+              <input type="hidden" name="next_page_number" value="0" />
+            {% endif %}
+            <button id="submitBtn"
+                    class="btn btn-active btn-secondary mt-2 flex justify-center"
+                    type="submit">Submit</button>
+          </form>
+          <div id="result"></div>
+        </div>
+      </div>
+      <div class="flex justify-left text-center mt-3">
+        {% if current_deck != 0 %}
+          <a href='{% url "wordwise:deck_detail" current_deck %}'>
+            <button class="btn btn-warning text-xl">
+              <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
+            </button>
+          </a>
+        {% else %}
+          <a href='{% url "wordwise:index" %}'>
+            <button class="btn btn-warning text-xl">
+              <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
+            </button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+  <script>
+    // Function to disable the submit button
+    function disableSubmitButton() {
+      document.getElementById("submitBtn").disabled = true;
+    }
+  </script>
+</html>
