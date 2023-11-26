@@ -174,7 +174,44 @@
           </div>
         </div>
       {% endif %}
-    </div>
+      {% if user == deck.user %}
+      </div>
+      <div class="bg-white p-2 rounded-lg mt-6 mx-5 w-48">
+        <p class="text-left text-xl font-semibold text-center">Can't Remember</p>
+      </div>
+      <div class="flex justify-center items-center mt-5">
+        <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
+          <div class="table-container max-h-96 overflow-y-auto rounded-lg">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="p-3 text-sm font-semibold tracking-wide text-center">Number</th>
+                  <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
+                  <th class="p-3 text-sm font-semibold tracking-wide text-center">Part of speech</th>
+                  <th class="p-3 text-sm font-semibold tracking-wide text-left">Definition</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                {% for word in not_memorised %}
+                  <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                      <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
+                    </td>
+                    <td>
+                      <p class="text-l text-center">{{ word.part_of_speech }}</p>
+                    </td>
+                    <td>
+                      <p class="text-l text-left">{{ word.definition }}</p>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         modalToggle = document.getElementById('my_modal_4');
