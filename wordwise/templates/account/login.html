@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,9 +15,9 @@
     {% block content %}
       {% load socialaccount %}
 
-      <a class="flex btn btn-accent flex-justify-center item-center"
-         href="{% provider_login_url 'google' %}">Log in with Google</a>
+      <div class="flex justify-center h-screen mt-3">
+        <a class="btn btn-accent" href="{% provider_login_url 'google' %}">Log in with Google</a>
+      </div>
     {% endblock content %}
-    <p>ㅤ</p>
   </body>
 </html>
