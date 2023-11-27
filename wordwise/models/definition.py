@@ -22,7 +22,7 @@ class Definition(models.Model):
     """
 
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
-    definition = models.CharField(max_length=255)
+    definition = models.CharField(max_length=755)
     part_of_speech = models.CharField(max_length=255, null=True)
     type_of = models.ManyToManyField(TypeOf)
     collection = models.ManyToManyField(WordDeck)
