@@ -335,3 +335,5 @@ wordwise/media/
 
 .idea
 *.drawio
+
+wordwise/templates/wordwise/place_holder.html

@@ -54,52 +54,70 @@
       </div>
     </div>
     {#    {{ defi.object_list.0.definition }}#}
-    <div class="card w-8/12 bg-base-100 shadow-xl mx-auto mt-4">
-      <div class="card-body">
-        <form hx-post="{% url "wordwise:submit_test_deck" %}"
-              hx-target="#result"
-              hx-swap="innerHTML"
-              onsubmit="disableSubmitButton()">
-          {% csrf_token %}
-          <div class="grid grid-cols-2 gap-4">
-            {% for one_form in form.definition %}<label class="btn lowercase">{{ one_form }}</label>{% endfor %}
+    <div class="mx-auto w-7/12 mt-8">
+      <div class="card-front bg-base-100 shadow-md rounded-lg relative">
+        <div class="card-body">
+          {% if user_name %}
+            <form hx-post="{% url "wordwise:test_profile_awswer" %}"
+                  hx-target="#result"
+                  hx-swap="innerHTML"
+                  onsubmit="disableSubmitButton()">
+            {% else %}
+              <form hx-post="{% url "wordwise:submit_test_deck" %}"
+                    hx-target="#result"
+                    hx-swap="innerHTML"
+                    onsubmit="disableSubmitButton()">
+              {% endif %}
+              {% csrf_token %}
+              <div class="grid grid-cols-2 gap-4">
+                {% for one_form in form.definition %}<label class="btn lowercase">{{ one_form }}</label>{% endfor %}
+              </div>
+              {{ form.current }}
+              <input type="hidden" name="has_next" value="{{ defi.has_next }}" />
+              {% if defi.has_next %}
+                <input type="hidden"
+                       name="next_page_number"
+                       value="{{ defi.next_page_number }}" />
+              {% else %}
+                <input type="hidden" name="next_page_number" value="0" />
+              {% endif %}
+              <button id="submitBtn"
+                      class="btn btn-active btn-secondary mt-2 flex justify-center"
+                      type="submit">Submit</button>
+            </form>
+            <p class="mt-2 text-center">{{ defi.number }} / {{ defi.paginator.num_pages }}</p>
+            <div id="result"></div>
           </div>
-          {{ form.current }}
-          <input type="hidden" name="has_next" value="{{ defi.has_next }}" />
-          {% if defi.has_next %}
-            <input type="hidden"
-                   name="next_page_number"
-                   value="{{ defi.next_page_number }}" />
+        </div>
+        <div class="flex justify-left text-center mt-3">
+          {% if current_deck != 0 %}
+            <a href='{% url "wordwise:deck_detail" current_deck %}'>
+              <button class="btn btn-warning text-xl">
+                <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
+              </button>
+            </a>
           {% else %}
-            <input type="hidden" name="next_page_number" value="0" />
+            {% if user_name %}
+              <a href='{% url "users:detail" user_name %}'>
+                <button class="btn btn-active mt-2 text-xl">
+                  <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
+                </button>
+              </a>
+            {% else %}
+              <a href='{% url "wordwise:index" %}'>
+                <button class="btn btn-warning text-xl">
+                  <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
+                </button>
+              </a>
+            {% endif %}
           {% endif %}
-          <button id="submitBtn"
-                  class="btn btn-active btn-secondary mt-2 flex justify-center"
-                  type="submit">Submit</button>
-        </form>
-        <div id="result"></div>
+        </div>
       </div>
-    </div>
-    <div class="flex text-center ml-60 mt-2">
-      {% if current_deck != 0 %}
-        <a href='{% url "wordwise:deck_detail" current_deck %}'>
-          <button class="btn btn-warning text-xl">
-            <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
-          </button>
-        </a>
-      {% else %}
-        <a href='{% url "wordwise:index" %}'>
-          <button class="btn btn-warning text-xl">
-            <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
-          </button>
-        </a>
-      {% endif %}
-    </div>
-  </body>
-  <script>
-    // Function to disable the submit button
-    function disableSubmitButton() {
-      document.getElementById("submitBtn").disabled = true;
-    }
-  </script>
-</html>
+    </body>
+    <script>
+      // Function to disable the submit button
+      function disableSubmitButton() {
+        document.getElementById("submitBtn").disabled = true;
+      }
+    </script>
+  </html>

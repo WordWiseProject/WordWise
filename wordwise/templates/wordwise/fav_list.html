@@ -1,0 +1,18 @@
+{% if status == "fail" %}
+  <p class="mt-2 text-center">Word Does Not Exist</p>
+{% else %}
+  <br />
+  <form method="post" action="{% url "wordwise:add_word_to_deck" deck_id %}">
+    {% csrf_token %}
+    {% for one_form in form.definition %}
+      <tr>
+        <td>
+          <p>ㅤ</p>
+        </td>
+        <td>{{ one_form }}</td>
+      </tr>
+    {% endfor %}
+    <br />
+    <button type="Submit" class="btn btn-error mt-4">Add</button>
+  </form>
+{% endif %}

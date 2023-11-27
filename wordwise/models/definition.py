@@ -28,4 +28,4 @@ class Definition(models.Model):
     collection = models.ManyToManyField(WordDeck)
 
     def __str__(self):
-        return self.definition
+        return self.definition.split(";")[0]
