@@ -7,7 +7,7 @@ from wordwise.views import get_word
 
 
 class APITest(TestCase):
-    @patch("wordwise.views.requests.get")
+    @patch("wordwise.views.api_view.requests.get")
     def setUp(self, mock_api):
         """Set up for testing"""
         # Create a mock response object to simulate the behavior of requests.get
