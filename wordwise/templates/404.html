@@ -1,6 +1,8 @@
 {% load static %}
 
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,16 +20,27 @@
             crossorigin="anonymous"></script>
   </head>
   {% block title %}
-    Page not found
+    {% include "base.html" %}
   {% endblock title %}
   {% block content %}
-    {% include "base.html" %}
-    <h1>Page not found</h1>
     <p>
       {% if exception %}
-        {{ exception }}
+        <div class="mx-auto max-w-2xl mt-8">
+          <div class="card-front bg-base-100 shadow-md rounded-lg pt-36 pb-12 relative">
+            <h2 class="text-2xl font-semibold my-auto text-center absolute top-10 w-full px-3">
+              {{ exception }}
+              <br />
+              404
+            </h2>
+          </div>
+        </div>
       {% else %}
-        This is not the page you were looking for.
+        <div class="mx-auto max-w-2xl mt-8">
+          <div class="card-front bg-base-100 shadow-md rounded-lg pt-36 pb-12 relative">
+            <h2 class="text-2xl font-semibold my-auto text-center absolute top-10 w-full px-3">
+              This is not the page you were looking for.
+            </h2>
+          </div>
+        </div>
       {% endif %}
-    </p>
-  {% endblock content %}
+    {% endblock content %}

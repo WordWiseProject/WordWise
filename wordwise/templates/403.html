@@ -18,16 +18,29 @@
             crossorigin="anonymous"></script>
   </head>
   {% block title %}
-    Forbidden (403)
+    {% include "base.html" %}
   {% endblock title %}
   {% block content %}
-    {% include "base.html" %}
-    <h1>Forbidden (403)</h1>
-    <p>
-      {% if exception %}
-        {{ exception }}
-      {% else %}
-        You're not allowed to access this page.
-      {% endif %}
-    </p>
+    <div class="mx-auto max-w-2xl mt-8">
+      <div class="card-front bg-base-100 shadow-md rounded-lg pt-36 pb-12 relative">
+        <h2 class="text-2xl font-semibold my-auto text-center absolute top-10 w-full px-3">
+          Forbidden
+          <br />
+          403
+          <br />
+          {% if exception %}
+            {{ exception }}
+          </h2>
+        </div>
+      </div>
+    {% else %}
+      <div class="mx-auto max-w-2xl mt-8">
+        <div class="card-front bg-base-100 shadow-md rounded-lg pt-36 pb-12 relative">
+          <h2 class="text-2xl font-semibold my-auto text-center absolute top-10 w-full px-3">
+            You're not allowed to access this page.
+          </h2>
+        </div>
+      </div>
+    {% endif %}
   {% endblock content %}
+</html>
