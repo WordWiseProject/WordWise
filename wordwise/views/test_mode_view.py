@@ -174,6 +174,9 @@ class TestModeProfile(View):
                 .exclude(id__in=memorised_definitions.values_list("id", flat=True))
                 .distinct()
             )
+        if len(word_list) == 0:
+            return redirect("users:detail", username=user_name)
+
         random.seed(request.session.get("random_seed"))
         random_definition_list = list(Definition.objects.all().order_by("?")[:3])
         random.shuffle(word_list)

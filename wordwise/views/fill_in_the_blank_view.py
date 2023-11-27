@@ -165,7 +165,7 @@ class FillInBlankProfile(View):
             )
 
         if len(word_list) == 0:
-            return redirect("users:detail", user_name=user_name)
+            return redirect("users:detail", username=user_name)
         random.seed(request.session.get("random_seed"))
         random.shuffle(word_list)
         p = Paginator(word_list, 1)
