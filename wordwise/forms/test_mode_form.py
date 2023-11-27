@@ -1,6 +1,7 @@
 import random
 
 from django import forms
+from django.template.defaultfilters import truncatechars
 
 random_gen_test_form = random.Random()
 
@@ -11,7 +12,7 @@ class TestForm(forms.Form):
         current_defi = int(kwargs.pop("current"))
         random_gen_test_form.shuffle(definition_list)
         super().__init__(*args, **kwargs)
-        choices = [(defi.id, defi.definition) for defi in definition_list]
+        choices = [(defi.id, truncatechars(defi.definition, 130)) for defi in definition_list]
         self.fields["definition"] = forms.ChoiceField(
             choices=choices, widget=forms.RadioSelect(), label=" ", label_suffix=""
         )
