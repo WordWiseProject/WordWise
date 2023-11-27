@@ -256,13 +256,20 @@ class DeckDetailView(View):
         if deck.private and deck.user != request.user:
             return redirect("wordwise:deck_index")
 
-        try:
-            status = MemoriseStatus.objects.get(user=request.user, deck=deck)
-        except MemoriseStatus.DoesNotExist:
-            status = MemoriseStatus.objects.create(user=request.user, deck=deck)
-        memorise_status = MemoriseStatus.objects.get(user=request.user.id, deck__id=pk)
-        memorised_definitions = memorise_status.memorise.all()
-        not_memorised_definitions = memorise_status.not_memorise.all()
+        if request.user.is_authenticated:
+            try:
+                status = MemoriseStatus.objects.get(user=request.user, deck=deck)
+            except MemoriseStatus.DoesNotExist:
+                status = MemoriseStatus.objects.create(user=request.user, deck=deck)
+            memorise_status = MemoriseStatus.objects.get(user=request.user.id, deck__id=pk)
+            memorised_definitions = memorise_status.memorise.all()
+            not_memorised_definitions = memorise_status.not_memorise.all()
+        else:
+            status = None
+            memorise_status = None
+            memorised_definitions = None
+            not_memorised_definitions = None
+
         return render(
             request,
             template_name=template_name,
