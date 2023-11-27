@@ -341,6 +341,15 @@ class AddWordToDeck(View):
         return redirect("wordwise:deck_detail", pk=pk)
 
 
+def check_test_ano(request, contexts, answer, correct_defi):
+    if not contexts["has_next"]:
+        request.session.pop("random_seed")
+    if answer == correct_defi:
+        # add to memorise word but check is in not memorise first
+        return render(request, "wordwise/test_pass.html", context=contexts)
+    return render(request, "wordwise/test_fail.html", context=contexts)
+
+
 class DeckTestMode(View):
     def get(self, request, pk):
         if not request.session.get("random_seed", False):
@@ -375,7 +384,11 @@ class DeckTestMode(View):
             "correct_defi": current_defi,
             "current_deck": current_deck,
         }
-        status = MemoriseStatus.objects.get(user=request.user.id, deck__id=int(current_deck))
+
+        if not request.user.is_authenticated:
+            return check_test_ano(request, contexts, answer, correct_defi)
+
+        status = MemoriseStatus.objects.get(user=request.user.id, deck__isnull=True)
         if not has_next:
             request.session.pop("random_seed")
         if answer == correct_defi:
@@ -425,7 +438,12 @@ class QuickTestMode(View):
             "correct_defi": current_defi,
             "current_deck": current_deck,
         }
+        print(request.user.is_authenticated)
+
+        if not request.user.is_authenticated:
+            return check_test_ano(request, contexts, answer, correct_defi)
         status = MemoriseStatus.objects.get(user=request.user.id, deck__isnull=True)
+
         if not has_next:
             request.session.pop("random_seed")
         if answer == correct_defi:
