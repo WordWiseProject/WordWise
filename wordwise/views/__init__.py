@@ -16,7 +16,12 @@ from .favorite_view import (
     GetRandomFavorite,
     GetSearchFavorite,
 )
-from .fill_in_the_blank_view import FillInTheBlank, FillInTheBlankDeck, FillInTheBlankDeckNotMemorise
+from .fill_in_the_blank_view import (
+    FillInBlankProfile,
+    FillInTheBlank,
+    FillInTheBlankDeck,
+    FillInTheBlankDeckNotMemorise,
+)
 from .flash_card_view import DeckFlashcardMode, FlashCardProfile, NotRememberFlashcardMode, QuickFlashcardMode
 from .index_view import Home
 from .test_mode_view import DeckNotMemoriseTestMode, DeckTestMode, QuickTestMode

@@ -35,11 +35,19 @@
             <input type="hidden" name="next_page_number" value=0 />
           {% endif %}
           <div class="flex mt-4">
-            <button class="btn btn-success btn-sm"
-                    hx-post="{% url "wordwise:sup_fill_in_deck" %}"
-                    hx-target="#result"
-                    hx-swap="innerHTML"
-                    onclick="disableSubmitButton(this)">Submit</button>
+            {% if user_name %}
+              <button class="btn btn-success btn-sm"
+                      hx-post="{% url "wordwise:fill_in_profile_awswer" %}"
+                      hx-target="#result"
+                      hx-swap="innerHTML"
+                      onclick="disableSubmitButton(this)">Submit</button>
+            {% else %}
+              <button class="btn btn-success btn-sm"
+                      hx-post="{% url "wordwise:sup_fill_in_deck" %}"
+                      hx-target="#result"
+                      hx-swap="innerHTML"
+                      onclick="disableSubmitButton(this)">Submit</button>
+            {% endif %}
             <button type="button"
                     class="btn btn-outline btn-error flex justify-center items-center btn-sm ml-2"
                     onclick="my_modal_3.showModal()">Hint</button>
@@ -65,11 +73,19 @@
             </button>
           </a>
         {% else %}
-          <a href='{% url "wordwise:index" %}'>
-            <button class="btn btn-warning text-xl">
-              <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
-            </button>
-          </a>
+          {% if user_name %}
+            <a href='{% url "users:detail" user_name %}'>
+              <button class="btn btn-active mt-2 text-xl">
+                <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
+              </button>
+            </a>
+          {% else %}
+            <a href='{% url "wordwise:index" %}'>
+              <button class="btn btn-warning text-xl">
+                <i class="bx bx-left-arrow-circle bx-flip-vertical"></i>
+              </button>
+            </a>
+          {% endif %}
         {% endif %}
       </div>
     </div>

@@ -68,7 +68,7 @@
                       <p class="text-l text-center">{{ word.part_of_speech }}</p>
                     </td>
                     <td>
-                      <p class="text-l text-left">{{ word.definition }} {{ word.id }}</p>
+                      <p class="text-l text-left">{{ word.definition }}</p>
                     </td>
                     <td>
                       {% if object == request.user %}
@@ -86,6 +86,8 @@
       </div>
       <a class="btn btn-success ml-44 mt-2"
          href="{% url "wordwise:flash_card_profile" object.username True %}">Flash card</a>
+      <a class="btn btn-error mx-2"
+         href="{% url "wordwise:fill_in_profile" object.username True %}">Fill In The Blank</a>
       {% if object == request.user %}
         <div class="bg-white p-2 rounded-lg mt-6 mx-auto w-36">
           <p class="text-left text-xl font-semibold text-center">Remember</p>
@@ -155,6 +157,8 @@
         </div>
         <a class="btn btn-success ml-44 mt-2"
            href="{% url "wordwise:flash_card_profile" object.username False %}">Flash card</a>
+        <a class="btn btn-error mx-2"
+           href="{% url "wordwise:fill_in_profile" object.username False %}">Fill In The Blank</a>
       {% endif %}
     {% endblock content %}
     <p>ㅤ</p>

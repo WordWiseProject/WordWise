@@ -42,4 +42,6 @@ urlpatterns = [
         name="flashcard_not_remember_deck",
     ),
     path("flash_card_profile/<str:user_name>/<str:fav>", views.FlashCardProfile.as_view(), name="flash_card_profile"),
+    path("fill_in_profile/<str:user_name>/<str:fav>", views.FillInBlankProfile.as_view(), name="fill_in_profile"),
+    path("fill_in_profile_awswer", views.FillInBlankProfile.as_view(), name="fill_in_profile_awswer"),
 ]
