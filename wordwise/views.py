@@ -187,7 +187,7 @@ def check_fill_in_the_blank_answer(request, quick: bool):
 
     if answer.lower() == current_defi.word.vocab.lower():
         if current_defi in status.not_memorise.all():
-            status.not_memorise.remvoe(current_defi)
+            status.not_memorise.remove(current_defi)
         status.memorise.add(current_defi)
         return render(request, "wordwise/fill_pass.html", context=contexts)
     if current_defi in status.memorise.all():
@@ -222,6 +222,31 @@ class FillInTheBlankDeck(View):
         if request.session.get("current_deck") != pk:
             request.session["current_deck"] = pk
         word_list = list(Definition.objects.filter(collection__id=pk).exclude(example__isnull=True))
+        if len(word_list) == 0:
+            return redirect("wordwise:deck_detail", pk=pk)
+        random.seed(request.session.get("random_seed"))
+        random.shuffle(word_list)
+        p = Paginator(word_list, 1)
+        page = request.GET.get("page")
+        defi = p.get_page(page)
+        return render(
+            request,
+            "wordwise/fill_in_blank.html",
+            {"defi": defi, "form": FillInTheBlankForm, "current_deck": request.session.get("current_deck")},
+        )
+
+    def post(self, request):
+        return check_fill_in_the_blank_answer(request, quick=False)
+
+
+class FillInTheBlankDeckNotMemorise(View):
+    def get(self, request, pk):
+        if not request.session.get("random_seed", False):
+            request.session["random_seed"] = random.randint(1, 10000)
+        if request.session.get("current_deck") != pk:
+            request.session["current_deck"] = pk
+        # word_list = list(Definition.objects.filter(collection__id=pk).exclude(example__isnull=True))
+        word_list = list(MemoriseStatus.objects.get(user=request.user, deck=pk).not_memorise.all())
         if len(word_list) == 0:
             return redirect("wordwise:deck_detail", pk=pk)
         random.seed(request.session.get("random_seed"))

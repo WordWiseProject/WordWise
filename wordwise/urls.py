@@ -35,6 +35,7 @@ urlpatterns = [
     path("lock_deck/<int:pk>", views.PrivateDeck.as_view(), name="lock_deck"),
     path("unlock_deck/<int:pk>", views.UnPrivateDeck.as_view(), name="unlock_deck"),
     path("test_deck_nomem/<int:pk>", views.DeckNotMemoriseTestMode.as_view(), name="test_deck_not_memorise"),
+    path("fill_deck_nomem/<int:pk>", views.FillInTheBlankDeckNotMemorise.as_view(), name="fill_deck_not_memorise"),
     path(
         "flashcard_not_remember_deck/<int:pk>",
         views.NotRememberFlashcardMode.as_view(),
