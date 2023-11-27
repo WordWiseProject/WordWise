@@ -75,6 +75,7 @@ class Home(View):
 
 class QuickFlashcardMode(View):
     def get(self, request, pk):
+        pk = pk.lower()
         if not request.session.get("random_seed", False):
             request.session["random_seed"] = random.randint(1, 10000)
         try:
@@ -95,6 +96,9 @@ class QuickFlashcardMode(View):
         defi_list = list(
             Definition.objects.filter(type_of__type_of=pk).filter(word__vocab__in=random_word_list).distinct("word")
         )
+
+        if not defi_list:
+            return redirect("wordwise:index")
 
         if request.user.is_authenticated:
             fav_list = UserData.objects.get(user=request.user.id).favorite.all()
