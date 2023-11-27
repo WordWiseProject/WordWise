@@ -388,6 +388,39 @@ def check_test_ano(request, contexts, answer, correct_defi):
     return render(request, "wordwise/test_fail.html", context=contexts)
 
 
+def check_test_mode(request, quick):
+    answer = request.POST.get("definition")
+    correct_defi = request.POST.get("current")
+    next_page = int(request.POST.get("next_page_number"))
+    has_next = bool(strtobool(request.POST.get("has_next")))
+    current_deck = request.session.get("current_deck")
+    current_defi = Definition.objects.get(id=correct_defi)
+    contexts = {
+        "next_page": next_page,
+        "has_next": has_next,
+        "correct_defi": current_defi,
+        "current_deck": current_deck,
+    }
+    if not request.user.is_authenticated:
+        return check_test_ano(request, contexts, answer, correct_defi)
+    if quick:
+        status = MemoriseStatus.objects.get(user=request.user.id, deck__id=int(current_deck))
+    else:
+        status = MemoriseStatus.objects.get(user=request.user.id, deck__isnull=True)
+
+    if not has_next:
+        request.session.pop("random_seed")
+    if answer == correct_defi:
+        if current_defi in status.not_memorise.all():
+            status.not_memorise.remove(current_defi)
+        status.memorise.add(current_defi)
+        return render(request, "wordwise/test_pass.html", context=contexts)
+    if current_defi in status.memorise.all():
+        status.memorise.remove(current_defi)
+    status.not_memorise.add(current_defi)
+    return render(request, "wordwise/test_fail.html", context=contexts)
+
+
 class DeckTestMode(View):
     def get(self, request, pk):
         if not request.session.get("random_seed", False):
@@ -410,34 +443,7 @@ class DeckTestMode(View):
         return render(request, "wordwise/test_mode.html", {"defi": defi, "current_deck": pk, "form": form})
 
     def post(self, request):
-        answer = request.POST.get("definition")
-        correct_defi = request.POST.get("current")
-        next_page = int(request.POST.get("next_page_number"))
-        has_next = bool(strtobool(request.POST.get("has_next")))
-        current_deck = request.session.get("current_deck")
-        current_defi = Definition.objects.get(id=correct_defi)
-        contexts = {
-            "next_page": next_page,
-            "has_next": has_next,
-            "correct_defi": current_defi,
-            "current_deck": current_deck,
-        }
-
-        if not request.user.is_authenticated:
-            return check_test_ano(request, contexts, answer, correct_defi)
-
-        status = MemoriseStatus.objects.get(user=request.user.id, deck__id=int(current_deck))
-        if not has_next:
-            request.session.pop("random_seed")
-        if answer == correct_defi:
-            if current_defi in status.not_memorise.all():
-                status.not_memorise.remove(current_defi)
-            status.memorise.add(current_defi)
-            return render(request, "wordwise/test_pass.html", context=contexts)
-        if current_defi in status.memorise.all():
-            status.memorise.remove(current_defi)
-        status.not_memorise.add(current_defi)
-        return render(request, "wordwise/test_fail.html", context=contexts)
+        return check_test_mode(request, quick=False)
 
 
 class QuickTestMode(View):
@@ -464,36 +470,7 @@ class QuickTestMode(View):
         )
 
     def post(self, request):
-        answer = request.POST.get("definition")
-        correct_defi = request.POST.get("current")
-        next_page = int(request.POST.get("next_page_number"))
-        has_next = bool(strtobool(request.POST.get("has_next")))
-        current_deck = request.session.get("current_deck")
-        current_defi = Definition.objects.get(id=correct_defi)
-        contexts = {
-            "next_page": next_page,
-            "has_next": has_next,
-            "correct_defi": current_defi,
-            "current_deck": current_deck,
-        }
-        print(request.user.is_authenticated)
-
-        if not request.user.is_authenticated:
-            return check_test_ano(request, contexts, answer, correct_defi)
-        status = MemoriseStatus.objects.get(user=request.user.id, deck__isnull=True)
-
-        if not has_next:
-            request.session.pop("random_seed")
-        if answer == correct_defi:
-            # add to memorise word but check is in not memorise first
-            if current_defi in status.not_memorise.all():
-                status.not_memorise.remove(current_defi)
-            status.memorise.add(current_defi)
-            return render(request, "wordwise/test_pass.html", context=contexts)
-        if current_defi in status.memorise.all():
-            status.memorise.remove(current_defi)
-        status.not_memorise.add(current_defi)
-        return render(request, "wordwise/test_fail.html", context=contexts)
+        return check_test_mode(request, quick=True)
 
 
 class AddToFavorite(View):
