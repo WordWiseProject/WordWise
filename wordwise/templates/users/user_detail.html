@@ -84,6 +84,8 @@
           </div>
         </div>
       </div>
+      <a class="btn btn-success ml-4 mt-2"
+         href="{% url "wordwise:flash_card_profile" object.username True %}">Flash card</a>
       {% if object == request.user %}
         <div class="bg-white p-2 rounded-lg mt-6 mx-auto w-36">
           <p class="text-left text-xl font-semibold text-center">Remember</p>
@@ -151,6 +153,8 @@
             </div>
           </div>
         </div>
+        <a class="btn btn-success ml-4 mt-2"
+           href="{% url "wordwise:flash_card_profile" object.username False %}">Flash card</a>
       {% endif %}
     {% endblock content %}
     <p>ㅤ</p>

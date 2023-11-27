@@ -41,4 +41,5 @@ urlpatterns = [
         views.NotRememberFlashcardMode.as_view(),
         name="flashcard_not_remember_deck",
     ),
+    path("flash_card_profile/<str:user_name>/<str:fav>", views.FlashCardProfile.as_view(), name="flash_card_profile"),
 ]
