@@ -105,7 +105,8 @@
                       <a href="{% url "wordwise:deck_detail" other_collection.id %}">{{ other_collection.description }}</a>
                     </td>
                     <td>
-                      <a class="link link-accent">{{ other_collection.user }}</a>
+                      <a class="link link-accent"
+                         href="{% url 'users:detail' other_collection.user.username %}">{{ other_collection.user }}</a>
                     </td>
                   </tr>
                 {% endif %}
