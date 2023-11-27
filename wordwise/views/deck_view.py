@@ -68,9 +68,17 @@ class DeckDetailView(View):
                 status = MemoriseStatus.objects.get(user=request.user, deck=deck)
             except MemoriseStatus.DoesNotExist:
                 status = MemoriseStatus.objects.create(user=request.user, deck=deck)
+            word_list = deck.definition_set.all()
             memorise_status = MemoriseStatus.objects.get(user=request.user.id, deck__id=pk)
             memorised_definitions = memorise_status.memorise.all()
             not_memorised_definitions = memorise_status.not_memorise.all()
+
+            for defi in memorised_definitions:
+                if defi not in word_list:
+                    memorise_status.memorise.remove(defi)
+            for defi in not_memorised_definitions:
+                if defi not in word_list:
+                    memorise_status.not_memorise.remove(defi)
         else:
             status = None
             memorise_status = None

@@ -24,4 +24,4 @@ from .fill_in_the_blank_view import (
 )
 from .flash_card_view import DeckFlashcardMode, FlashCardProfile, NotRememberFlashcardMode, QuickFlashcardMode
 from .index_view import Home
-from .test_mode_view import DeckNotMemoriseTestMode, DeckTestMode, QuickTestMode
+from .test_mode_view import DeckNotMemoriseTestMode, DeckTestMode, QuickTestMode, TestModeProfile

@@ -88,6 +88,8 @@
          href="{% url "wordwise:flash_card_profile" object.username True %}">Flash card</a>
       <a class="btn btn-error mx-2"
          href="{% url "wordwise:fill_in_profile" object.username True %}">Fill In The Blank</a>
+      <a class="btn btn-warning"
+         href="{% url "wordwise:test_profile" object.username True %}">Test Mode</a>
       {% if object == request.user %}
         <div class="bg-white p-2 rounded-lg mt-6 mx-auto w-36">
           <p class="text-left text-xl font-semibold text-center">Remember</p>
@@ -159,6 +161,8 @@
            href="{% url "wordwise:flash_card_profile" object.username False %}">Flash card</a>
         <a class="btn btn-error mx-2"
            href="{% url "wordwise:fill_in_profile" object.username False %}">Fill In The Blank</a>
+        <a class="btn btn-warning"
+           href="{% url "wordwise:test_profile" object.username False %}">Test Mode</a>
       {% endif %}
     {% endblock content %}
     <p>ㅤ</p>

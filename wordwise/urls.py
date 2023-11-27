@@ -44,4 +44,6 @@ urlpatterns = [
     path("flash_card_profile/<str:user_name>/<str:fav>", views.FlashCardProfile.as_view(), name="flash_card_profile"),
     path("fill_in_profile/<str:user_name>/<str:fav>", views.FillInBlankProfile.as_view(), name="fill_in_profile"),
     path("fill_in_profile_awswer", views.FillInBlankProfile.as_view(), name="fill_in_profile_awswer"),
+    path("test_profile/<str:user_name>/<str:fav>", views.TestModeProfile.as_view(), name="test_profile"),
+    path("test_profile_awswer", views.TestModeProfile.as_view(), name="test_profile_awswer"),
 ]
