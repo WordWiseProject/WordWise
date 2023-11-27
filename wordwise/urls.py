@@ -34,6 +34,7 @@ urlpatterns = [
     path("search_fav/<int:pk>", views.GetSearchFavorite.as_view(), name="search_fav"),
     path("lock_deck/<int:pk>", views.PrivateDeck.as_view(), name="lock_deck"),
     path("unlock_deck/<int:pk>", views.UnPrivateDeck.as_view(), name="unlock_deck"),
+    path("test_deck_nomem/<int:pk>", views.DeckNotMemoriseTestMode.as_view(), name="test_deck_not_memorise"),
     path(
         "flashcard_not_remember_deck/<int:pk>",
         views.NotRememberFlashcardMode.as_view(),
