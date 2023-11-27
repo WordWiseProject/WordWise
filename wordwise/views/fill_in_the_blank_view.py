@@ -99,7 +99,9 @@ class FillInTheBlankDeckNotMemorise(View):
         if request.session.get("current_deck") != pk:
             request.session["current_deck"] = pk
         # word_list = list(Definition.objects.filter(collection__id=pk).exclude(example__isnull=True))
-        word_list = list(MemoriseStatus.objects.get(user=request.user, deck=pk).not_memorise.all())
+        word_list = list(
+            MemoriseStatus.objects.get(user=request.user, deck=pk).not_memorise.all().exclude(example__isnull=True)
+        )
         if len(word_list) == 0:
             return redirect("wordwise:deck_detail", pk=pk)
         random.seed(request.session.get("random_seed"))
