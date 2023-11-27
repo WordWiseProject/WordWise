@@ -269,6 +269,7 @@ class DeckDetailView(View):
             memorise_status = None
             memorised_definitions = None
             not_memorised_definitions = None
+        print(memorised_definitions, not_memorised_definitions)
 
         return render(
             request,
@@ -388,7 +389,7 @@ class DeckTestMode(View):
         if not request.user.is_authenticated:
             return check_test_ano(request, contexts, answer, correct_defi)
 
-        status = MemoriseStatus.objects.get(user=request.user.id, deck__isnull=True)
+        status = MemoriseStatus.objects.get(user=request.user.id, deck__id=int(current_deck))
         if not has_next:
             request.session.pop("random_seed")
         if answer == correct_defi:
