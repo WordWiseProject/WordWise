@@ -132,6 +132,30 @@ class DeckFlashcardMode(View):
         return render(request, "wordwise/flashcard.html", {"defi": defi, "pk": pk, "fav_list": fav_list})
 
 
+class NotRememberFlashcardMode(View):
+    def get(self, request, pk):
+        if not request.session.get("random_seed", False):
+            request.session["random_seed"] = random.randint(1, 10000)
+
+        memorise_status = MemoriseStatus.objects.get(user=request.user.id, deck__id=pk)
+        word_list = list(memorise_status.not_memorise.all())
+
+        if len(word_list) == 0:
+            return redirect("wordwise:deck_detail", pk=pk)
+        random.seed(request.session.get("random_seed"))
+        random.shuffle(word_list)
+
+        if request.user.is_authenticated:
+            fav_list = UserData.objects.get(user=request.user.id).favorite.all()
+        else:
+            fav_list = None
+
+        p = Paginator(word_list, 1)
+        page = request.GET.get("page")
+        defi = p.get_page(page)
+        return render(request, "wordwise/flashcard.html", {"defi": defi, "pk": pk, "fav_list": fav_list})
+
+
 def check_fill_in_the_blank_unauthorized(request, answer, current_defi, contexts):
     if answer.lower() == current_defi.word.vocab.lower():
         return render(request, "wordwise/fill_pass.html", context=contexts)

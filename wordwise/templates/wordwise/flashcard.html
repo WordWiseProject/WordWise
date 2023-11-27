@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="flex justify-left text-center">
-        {% if pk.isdigit %}
+        {% if pk %}
           <a href='{% url "wordwise:deck_detail" pk %}'>
             <button class="btn btn-active mt-2 text-xl"><i class='bx bx-left-arrow-circle bx-flip-vertical' ></i></button>
           </a>

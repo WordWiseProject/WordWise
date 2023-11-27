@@ -212,6 +212,8 @@
         </div>
       </div>
     </div>
+    <a class="btn btn-success"
+       href="{% url "wordwise:flashcard_not_remember_deck" deck.id %}">Flash card</a>
   {% endif %}
   <script>
     document.addEventListener('DOMContentLoaded', function() {
