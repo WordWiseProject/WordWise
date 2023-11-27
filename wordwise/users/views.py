@@ -23,7 +23,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
             UserData.objects.create(user=self.object)
         memorise_status = MemoriseStatus.objects.filter(user=self.object)
         memorised_definitions = Definition.objects.filter(memorise__in=memorise_status).distinct()
-        not_memorised_definitions = Definition.objects.filter(not_memorise__in=memorise_status).distinct()
+        not_memorised_definitions = (
+            Definition.objects.filter(not_memorise__in=memorise_status)
+            .exclude(id__in=memorised_definitions.values_list("id", flat=True))
+            .distinct()
+        )
         context["memorised"] = memorised_definitions
         context["not_memorised"] = not_memorised_definitions
         return context
