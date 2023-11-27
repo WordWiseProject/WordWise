@@ -15,7 +15,7 @@ class Example(models.Model):
     :type example_of: Definition
     """
 
-    example = models.CharField(max_length=255)
+    example = models.CharField(max_length=755)
     example_of = models.ForeignKey(Definition, on_delete=models.CASCADE)
 
     def censor(self) -> str:
