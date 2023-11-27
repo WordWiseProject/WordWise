@@ -128,6 +128,12 @@ class DeckFlashcardMode(View):
         return render(request, "wordwise/flashcard.html", {"defi": defi, "pk": pk, "fav_list": fav_list})
 
 
+def check_fill_in_the_blank_unauthorized(request, answer, current_defi, contexts):
+    if answer.lower() == current_defi.word.vocab.lower():
+        return render(request, "wordwise/fill_pass.html", context=contexts)
+    return render(request, "wordwise/fill_fail.html", context=contexts)
+
+
 def check_fill_in_the_blank_answer(request, quick: bool):
     answer = request.POST.get("answer")
     defi = request.POST.get("defi")
@@ -139,6 +145,9 @@ def check_fill_in_the_blank_answer(request, quick: bool):
 
     contexts = {"next_page": next_page, "has_next": has_next, "test2": vocab, "current_deck": current_deck}
     current_defi = Definition.objects.filter(definition=defi).first()
+
+    if not request.user.is_authenticated:
+        return check_fill_in_the_blank_unauthorized(request, answer, current_defi, contexts)
 
     if quick:
         status = MemoriseStatus.objects.get(user=request.user.id, deck__isnull=True)
