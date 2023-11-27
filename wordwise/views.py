@@ -508,7 +508,6 @@ class DeleteFromFavoriteProfile(View):
         if definition in user_data.favorite.all():
             user_data.favorite.remove(definition)
             print("remove")
-            pass
         else:
             print("added", definition)
         print(user_data.favorite.all())
