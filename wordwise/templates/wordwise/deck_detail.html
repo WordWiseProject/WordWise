@@ -23,14 +23,26 @@
         </a>
       </div>
       {% if user == deck.user %}
-        <div class="bg-white p-2 rounded-lg mt-5 mx-5 w-24 h-12 flex justify-center items-center">
-          <div class="form-control w-20">
+        <div class="bg-white rounded-lg mt-5 mx-5 w-24 h-12 flex justify-center items-center">
+          <div class="form-control flex justify-between">
             <label class="cursor-pointer label">
-              <i id="lockIcon" class="bx bxs-lock-alt"></i>
-              <input id="toggleCheckbox"
-                     type="checkbox"
-                     class="toggle toggle-info"
-                     checked />
+              {% if deck.private %}
+                <input id="toggleCheckbox"
+                       hx-get="{% url 'wordwise:unlock_deck' deck.id %}"
+                       hx-target="this"
+                       hx-swap="outerHTML"
+                       type="checkbox"
+                       class="toggle toggle-info"
+                       checked />
+              {% else %}
+                <input id="toggleCheckbox"
+                       hx-get="{% url 'wordwise:lock_deck' deck.id %}"
+                       hx-target="this"
+                       hx-swap="outerHTML"
+                       type="checkbox"
+                       class="toggle toggle-info" />
+              {% endif %}
+              <i class="bx bxs-lock-alt ml-1"></i>
             </label>
           </div>
         </div>
@@ -64,8 +76,21 @@
                   </td>
                   <td>
                     {% if user == deck.user %}
-                      <a href='{% url "wordwise:delete_word" deck.id word.id %}'
-                         class="link link-accent">delete</a>
+                      <!-- The button to open modal -->
+                      <label for="my_modal_7" class="link link-error">delete</label>
+                      <!-- Put this part before </body> tag -->
+                      <input type="checkbox" id="my_modal_7" class="modal-toggle" />
+                      <div class="modal" role="dialog">
+                        <div class="modal-box">
+                          <h3 class="text-lg font-bold">Confirm Deletion</h3>
+                          <p class="py-4">Are you sure you want to delete this deck?</p>
+                          (Press outside this box to cancel)
+                          <br />
+                          <a href='{% url "wordwise:delete_word" deck.id word.id %}'
+                             class="btn btn-error mt-3">delete</a>
+                        </div>
+                        <label class="modal-backdrop" for="my_modal_7">Close</label>
+                      </div>
                     {% endif %}
                   </td>
                 </tr>
@@ -85,8 +110,43 @@
       </div>
       <div>
         {% if user == deck.user %}
-          <a class="btn btn-success mx-2" href="#">Favorite</a>
-          <label for="my_modal_4" class="btn">add</label>
+          <!-- Put this part before </body> tag -->
+          <button class="btn btn-success" onclick="my_modal_2.showModal()">favorite</button>
+          <dialog id="my_modal_2" class="modal">
+            <div class="modal-box w-11/12 max-w-5xl">
+              <h3 class="font-bold text-lg mb-2">Search</h3>
+              <div class="flex justify-center">
+                <div hx-get="{% url "wordwise:ran_fav" deck.id %}"
+                     hx-target="#fav_list"
+                     hx-swap="innerHTML"
+                     class="btn btn-warning">Favorite list</div>
+                <form class="flex">
+                  <div class="flex justify-center items-center ml-6">
+                    <form class="flex">
+                      {% csrf_token %}
+                      <div class="flex items-center justify-center">
+                        <input type="text"
+                               name="word"
+                               placeholder="Type here"
+                               class="input input-bordered input-info w-96 max-w-xs" />
+                        <button class="btn btn-circle text-xl ml-3 justify-center"
+                                hx-post="{% url "wordwise:search_fav" deck.id %}"
+                                hx-target="#fav_list"
+                                hx-swap="innerHTML">
+                          <i class="bx bx-search"></i>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </form>
+              </div>
+              <div id="fav_list"></div>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
+          <label for="my_modal_4" class="btn btn-error">add</label>
           <input type="checkbox" id="my_modal_4" class="modal-toggle" />
           <div class="modal flex items-center justify-center min-h-screen">
             <div class="modal-box w-11/12 max-w-5xl">
@@ -111,36 +171,101 @@
               </div>
               <div id="definition_list"></div>
             </div>
-          </div>
+          {% endif %}
         </div>
-      {% endif %}
+      </div>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        modalToggle = document.getElementById('my_modal_4');
-        var closeButton = document.getElementById('closeButton');
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="bg-white p-2 rounded-lg mt-6 mx-5 w-48">
+      <p class="text-left text-xl font-semibold text-center">Have Remembered</p>
+    </div>
+    <div class="flex justify-center items-center mt-5">
+      <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
+        <div class="table-container max-h-96 overflow-y-auto rounded-lg">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Number</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Part of speech</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-left">Definition</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              {% for word in memorised %}
+                <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
+                  </td>
+                  <td>
+                    <p class="text-l text-center">{{ word.part_of_speech }}</p>
+                  </td>
+                  <td>
+                    <p class="text-l text-left">{{ word.definition }}</p>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% if request.user.is_authenticated %}
+    <div class="bg-white p-2 rounded-lg mt-6 mx-5 w-48">
+      <p class="text-left text-xl font-semibold text-center">Have Not Remembered</p>
+    </div>
+    <div class="flex justify-center items-center mt-5">
+      <div class="overflow-x-24 card w-full mx-5 bg-base-100 shadow-xl">
+        <div class="table-container max-h-96 overflow-y-auto rounded-lg">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Number</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Word</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-center">Part of speech</th>
+                <th class="p-3 text-sm font-semibold tracking-wide text-left">Definition</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              {% for word in not_memorised %}
+                <tr class="{% cycle 'bg-base-200' 'bg-base-300' %}">
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <p class="text-xl font-semibold text-center">{{ word.word.vocab.capitalize }}</p>
+                  </td>
+                  <td>
+                    <p class="text-l text-center">{{ word.part_of_speech }}</p>
+                  </td>
+                  <td>
+                    <p class="text-l text-left">{{ word.definition }}</p>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <a class="btn btn-success ml-4 mt-2"
+       href="{% url "wordwise:flashcard_not_remember_deck" deck.id %}">Flash card</a>
+    <a class="btn btn-error mx-2"
+       href="{% url "wordwise:fill_deck_not_memorise" deck.id %}">Fill in the blank</a>
+    <a class="btn btn-warning"
+       href="{% url "wordwise:test_deck_not_memorise" deck.id %}">Test Mode</a>
+  {% endif %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      modalToggle = document.getElementById('my_modal_4');
+      var closeButton = document.getElementById('closeButton');
 
-        closeButton.addEventListener('click', function() {
-          modalToggle.checked = false; // Uncheck the checkbox to close the modal
-        });
+      closeButton.addEventListener('click', function() {
+        modalToggle.checked = false; // Uncheck the checkbox to close the modal
       });
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var toggleCheckbox = document.getElementById('toggleCheckbox');
-        var lockIcon = document.getElementById('lockIcon');
-
-        toggleCheckbox.addEventListener('change', function() {
-          // Check if the toggle is checked
-          if (toggleCheckbox.checked) {
-            // Change to open lock icon
-            lockIcon.className = 'bx bxs-lock-open-alt';
-          } else {
-            // Change to closed lock icon
-            lockIcon.className = 'bx bxs-lock-alt';
-          }
-        });
-      });
-    </script>
-    <p>ㅤ</p>
-  </body>
+    });
+  </script>
+  <p>ㅤ</p>
+</body>
 </html>

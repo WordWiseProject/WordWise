@@ -9,9 +9,15 @@
       </div>
     {% else %}
       <div class="mt-2">
-        <a href="{% url "wordwise:deck_detail" current_deck %}">
-          <button class="btn btn-outline btn-primary btn-sm">Go Back</button>
-        </a>
+        {% if user_name %}
+          <a href="{% url "users:detail" user_name %}">
+            <button class="btn btn-outline btn-primary btn-sm">Go Back</button>
+          </a>
+        {% else %}
+          <a href="{% url "wordwise:deck_detail" current_deck %}">
+            <button class="btn btn-outline btn-primary btn-sm">Go Back</button>
+          </a>
+        {% endif %}
       </div>
     {% endif %}
   </div>

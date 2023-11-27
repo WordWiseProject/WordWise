@@ -1,0 +1,6 @@
+<input id="toggleCheckbox"
+       hx-get="{% url "wordwise:lock_deck" deck_id %}"
+       hx-target="this"
+       hx-swap="outerHTML"
+       type="checkbox"
+       class="toggle toggle-info" />

@@ -32,19 +32,19 @@
           <ul tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-                <a class="tooltip tooltip-bottom" data-tip="Home"
+                <a class="tooltip tooltip-right" data-tip="Home"
                  href="{% url "wordwise:index" %}"><i class='bx bxs-home text-2xl '></i></a>
             </li>
             <li>
-              <a class="tooltip tooltip-bottom" data-tip="Deck"
+              <a class="tooltip tooltip-right" data-tip="Deck"
                  href="{% url "wordwise:deck_index" %}"><i class='bx bxs-collection text-2xl' ></i></a>
             </li>
             <li>
-              <a class="tooltip tooltip-bottom" data-tip="Test"
-                 href="#"><i class='bx bxs-edit-alt text-2xl'></i></a>
+              <a class="tooltip tooltip-right" data-tip="Test"
+                 href="{% url "wordwise:quick_test_deck" %}"><i class='bx bxs-edit-alt text-2xl'></i></a>
             </li>
             <li>
-              <a class="tooltip tooltip-bottom" data-tip="Fill in the blank"
+              <a class="tooltip tooltip-right" data-tip="Fill in the blank"
                  href="{% url "wordwise:fill_in" %}"><i class='bx bxs-keyboard text-2xl'></i></a>
             </li>
           </ul>
@@ -71,8 +71,8 @@
         </ul>
       </div>
       <div class="navbar-end">
-        {% if user.is_authenticated %}
-          <a class="btn btn-accent" href="{% url 'users:detail' user.username %}">{{ user.username }}</a>
+        {% if request.user.is_authenticated %}
+          <a class="btn btn-accent" href="{% url 'users:detail' request.user.username %}">{{ request.user.username }}</a>
         {% else %}
           <a class="btn btn-accent" href="{% provider_login_url 'google' %}">Log in</a>
         {% endif %}

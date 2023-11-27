@@ -30,6 +30,17 @@
               <!-- Current Index-->
             </div>
               <div class="text-center">
+              {% if user.is_authenticated %}
+                {% if defi.object_list.0 in fav_list %}
+                  <button hx-get="{% url "wordwise:delete_to_fav" defi.object_list.0.id %}"
+                     hx-target="this"
+                     hx-swap="outerHTML"><i class="bx bxs-heart text-2xl" style="color:#ff8f8f"></i></button>
+                {% else %}
+                  <button hx-get="{% url "wordwise:add_to_fav" defi.object_list.0.id %}"
+                     hx-target="this"
+                     hx-swap="outerHTML"><i class="bx bx-heart text-2xl" style="color:#ff8f8f"></i></button>
+                {% endif %}
+              {% endif %}
                 <p class="mt-2">{{ defi.number }} / {{ defi.paginator.num_pages }}</p>
               </div>
             <div class="button-container">
@@ -62,14 +73,19 @@
         </div>
       </div>
       <div class="flex justify-left text-center">
-        {% if pk.isdigit %}
+        {% if pk %}
           <a href='{% url "wordwise:deck_detail" pk %}'>
             <button class="btn btn-active mt-2 text-xl"><i class='bx bx-left-arrow-circle bx-flip-vertical' ></i></button>
           </a>
         {% else %}
+          {% if user_name %}
+              <a href='{% url "users:detail" user_name %}'>
+            <button class="btn btn-active mt-2 text-xl"><i class='bx bx-left-arrow-circle bx-flip-vertical' ></i></button>
+            {% else %}
           <a href='{% url "wordwise:index" %}'>
             <button class="btn btn-active mt-2 text-xl"><i class='bx bx-left-arrow-circle bx-flip-vertical' ></i></button>
           </a>
+            {% endif %}
         {% endif %}
       </div>
     </div>
