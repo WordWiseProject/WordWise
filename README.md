@@ -1,54 +1,80 @@
 # WordWise
 
-Behold My Awesome Project!
+***Discover the World, One Word at a Time.***
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
-[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 License: MIT
 
-## Settings
+## What is WordWise
 
-Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
+"WordWise" is a web app that aids in memorizing English words and meanings
+through flashcards. Users can generate random words or create own flashcards.
+Designed for all ages, the app supports traditional flashcard use or
+interactive games.
 
-## Basic Commands
+## Installation
 
-### Setting Up Your Users
+1. Clone the repository.
+    ```sh
+   git clone https://github.com/WordWiseProject/WordWise.git
+   ```
+2. Change directory to the project directory.
+    ```sh
+   cd WordWise
+   ```
 
-- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+3. Create virtual environment.
+    ```sh
+   python -m venv venv
+   ```
 
-- To create a **superuser account**, use this command:
+4. Activate virtual environment.
+    * MacOS/Linux:
+   ```sh
+   . venv/bin/activate
+   ```
+   * Windows:
+   ```sh
+   . venv\Scripts\activate.bat
+   ```
 
-      $ python manage.py createsuperuser
+5. Install the required packages.
+    ```sh
+   pip install -r requirements/local.txt
+   ```
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+6. Create a file named `.env` using sample.env and edit the value inside.
+    ```sh
+   cp sample.env .env
+   ```
 
-### Type checks
+   List of environment variables:
 
-Running type checks with mypy:
+   |     Variable      |                                                   Example                                                   |
+   |:-----------------:|:-----------------------------------------------------------------------------------------------------------:|
+   |  `DATABASE_URL`   |                              postgres://postgres:2882@127.0.0.1:5432/wordwise                               |
+   | `X_RAPIDAPI_KEY`  | WORDSAPI key, you can have it easily by going to this [site](https://rapidapi.com/dpventures/api/wordsapi). |
+   | `X_RAPIDAPI_HOST` |                                          wordsapiv1.p.rapidapi.com                                          |
+   |     `SITE_ID`     |                                                      3                                                      |
 
-    $ mypy wordwise
+7. Migrate database
+    ```sh
+   python manage.py migrate
+   ```
+   **(Optional)** Create an admin account in the application.
+   ```sh
+   python manage.py createsuperuser
+   ```
 
-### Test coverage
-
-To run the tests, check your test coverage, and generate an HTML coverage report:
-
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
-
-#### Running tests with pytest
-
-    $ pytest
-
-### Live reloading and Sass CSS compilation
-
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/developing-locally.html#sass-compilation-live-reloading).
+8. Run Server
+    ```sh
+   python manage.py runserver
+   ```
 
 ## Deployment
 
-The following details how to deploy this application.
+This project demo has been deployed via Heroku at [Wordwise](https://wordwise-project-c6b7ee2f234f.herokuapp.com).
 
-### Heroku
-
-See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-on-heroku.html).
+# Project Documents
+[Wiki Home with all Documents](https://github.com/WordWiseProject/WordWise/wiki)
