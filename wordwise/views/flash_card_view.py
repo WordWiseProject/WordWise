@@ -26,7 +26,7 @@ class QuickFlashcardMode(View):
         random.seed(request.session.get("random_seed"))
 
         try:
-            random_word_list = random.sample(word_list, 50)
+            random_word_list = random.sample(word_list, 15)
         except ValueError:
             random_word_list = random.sample(get_list_word_from_type_of(pk), len(word_list))
         for word in random_word_list:

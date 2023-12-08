@@ -21,7 +21,9 @@ class DeckIndexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["others"] = WordDeck.objects.filter(~Q(user=self.request.user.id))  # other's collection
+        context["others"] = WordDeck.objects.filter(~Q(user=self.request.user.id)).order_by(
+            "-id"
+        )  # other's collection
         context["form"] = CollectionForm()
         return context
 
